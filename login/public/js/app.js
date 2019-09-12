@@ -2092,6 +2092,11 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this.application_portals = res;
       });
+      var vm = this;
+      setTimeout(function () {
+        vm.success = false;
+        vm.delSuccess = false;
+      }, 2500);
     },
     findApplicationPortal: function findApplicationPortal(id) {
       var _this2 = this;
@@ -2529,6 +2534,11 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.loadApplicationPortals();
       });
+      var vm = this;
+      setTimeout(function () {
+        vm.success = false;
+        vm.delSuccess = false;
+      }, 2500);
     },
     loadApplicationPortals: function loadApplicationPortals() {
       var _this2 = this;
@@ -2851,6 +2861,11 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this.users = res;
       });
+      var vm = this;
+      setTimeout(function () {
+        vm.success = false;
+        vm.delSuccess = false;
+      }, 2500);
     },
     getRoles: function getRoles() {
       var _this2 = this;
@@ -52945,8 +52960,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/e-school/login/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/e-school/login/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -29,7 +29,7 @@
     }
 
     window.deleteCookie = name => {
-        document.cookie = name + "=;";
+        document.cookie = name + "=;domain={{env('APP_DOMAIN')}};";
     }
 
     </script>
