@@ -16,11 +16,9 @@
                 <br>
 
                 <div class="links">
-                    <a href="#">Users</a>
-                    <a href="#">Roles</a>
-                    <a href="#">Cloud</a>
-                    <a href="#">Profile</a>
-                    <a href="#">Setting</a>
+                    <a href="/users">Users Management</a>
+                    <a href="/clouds">Cloud APPS</a>
+                    <a href="/setting">Setting</a>
                     <a href="javascript:void(0)" @click="doLogout()">Logout</a>
                 </div>
             </div>
@@ -34,17 +32,21 @@
             return {
                 username:'',
                 loaded:false,
-                token:''
+                IS_URL:'',
+                token:'',
+                users:{}
             }
         },
 
         created(){
             var token = window.localStorage.getItem('eschool_token_app')
+            this.IS_URL = process.env.MIX_IS_URL
             if(token === undefined || token === null)
             {
                 window.location = "/login"
             }
             this.loadData()
+            this.loadUsers()
         },
 
         methods: {
@@ -60,6 +62,18 @@
                 .then(res => {
                     this.username = res.success.name
                     this.loaded = true
+                })
+            },
+            loadUsers(){
+                var token = window.localStorage.getItem('eschool_token_app')
+                fetch('api/user',{
+                    headers:{
+                        'Authorization':'Bearer '+token
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    this.users = res
                 })
             },
             doLogout(){

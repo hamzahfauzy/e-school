@@ -80,6 +80,7 @@
 
 		created(){
             var token = window.localStorage.getItem('eschool_token_app')
+			console.log(process.env.MIX_IS_URL)
             if(!(token === undefined || token === null))
             {
                 window.location = "/"

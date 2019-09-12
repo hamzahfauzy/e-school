@@ -15,3 +15,5 @@
 Route::get('/','MainController@index')->name('index');
 Route::get('login','MainController@login')->name('login');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/users', 'UserController@index')->name('users');
+Route::get('/roles', 'RoleController@index')->name('roles');

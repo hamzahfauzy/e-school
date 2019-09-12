@@ -80,4 +80,50 @@ class UserController extends Controller
         // $user = Auth::user(); 
         return response()->json(['data' => 1], $this->successStatus); 
     }
+
+    public function index(){
+        $users = User::get();
+        foreach($users as $user){
+            $user->roles;
+        }
+        return response()->json($users, $this->successStatus);
+    }
+
+    public function update(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'name' => 'required', 
+            'email' => 'required|email', 
+            'password' => 'required', 
+            'c_password' => 'required|same:password', 
+        ]);
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+        $input = $request->all(); 
+        $input['password'] = bcrypt($input['password']); 
+        $user = User::find($request->id);
+        $user->update($input);
+        return response()->json(['success'=>1], $this->successStatus);
+    }
+
+    public function single($id){
+        $user = User::find($id);
+        $user->roles;
+        return response()->json($user,$this->successStatus);
+    }
+
+    public function delete(Request $request){ 
+        $user = User::find($request->id);
+        if(empty($user)){
+            return response()->json(['error'=>1],401);
+        }
+        $user->delete();
+        return response()->json(['success'=>1],$this->successStatus);
+    }
+
+    public function addRole(Request $request){
+        $user = User::find($request->user_id);
+        $user->roles()->attach($request->role_id);
+        return response()->json(['success'=>1],$this->successStatus);
+    }
 }

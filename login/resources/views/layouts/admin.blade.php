@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>e-School - @yield('title')</title>
+  <script type="text/javascript">window.Laravel = {csrfToken:'{{csrf_token()}}'}</script>
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  <script src="{{ asset('js/app.js') }}" defer></script>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{{asset('template/vendors/ti-icons/css/themify-icons.css')}}">
+  <link rel="stylesheet" href="{{asset('template/vendors/base/vendor.bundle.base.css')}}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{{asset('template/css/style.css')}}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{{asset('template/images/favicon.png')}}" />
+</head>
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    @include('layouts.navbar')
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar -->
+        @include('layouts.sidebar')
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          @yield('content')
+        </div>
+        <!-- partial:partials/_footer.html -->
+        @include('layouts.footer')
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="{{asset('template/vendors/base/vendor.bundle.base.js')}}" async></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="{{asset('template/vendors/chart.js/Chart.min.js')}}" async></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="{{asset('template/js/off-canvas.js')}}" async></script>
+  <script src="{{asset('template/js/hoverable-collapse.js')}}" async></script>
+  <script src="{{asset('template/js/template.js')}}" async></script>
+  <script src="{{asset('template/js/todolist.js')}}" async></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{{asset('template/js/dashboard.js')}}" async></script>
+  <!-- End custom js for this page-->
+
+</body>
+
+</html>
