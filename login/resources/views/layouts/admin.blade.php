@@ -8,7 +8,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>e-School - @yield('title')</title>
   <script type="text/javascript">
-    window.Laravel = {csrfToken:'{{csrf_token()}}',get:'oke'}
+    window.Laravel = {csrfToken:'{{csrf_token()}}'}
     window.setCookie = (cname, cvalue) => {
         document.cookie = cname + "=" + cvalue + ";";
     }
@@ -30,7 +30,21 @@
     }
 
     window.deleteCookie = name => {
-        document.cookie = name + "=;";
+        document.cookie = name + "=;domain={{env('APP_DOMAIN')}};";
+    }
+
+    window.doLogout = () => {
+      var token = window.getCookie('eschool_token_app')
+      fetch('api/logout', {
+        method:'post',
+        headers: {
+          'Authorization': 'Bearer '+token
+        }
+      })
+      .then(res => {
+          window.deleteCookie('eschool_token_app')
+          window.location = "{{env('MIX_ES_URL')}}/login"
+      })
     }
   </script>
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">

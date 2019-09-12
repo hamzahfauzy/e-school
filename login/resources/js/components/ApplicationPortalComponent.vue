@@ -145,6 +145,12 @@
                 .then(res => {
                     this.application_portals = res
                 })
+
+                var vm = this
+                setTimeout(()=>{
+                    vm.success = false
+                    vm.delSuccess = false
+                },2500)
             },
             findApplicationPortal(id){
                 fetch('api/application_portal/'+id, {

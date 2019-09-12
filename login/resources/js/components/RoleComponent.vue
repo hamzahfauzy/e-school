@@ -160,6 +160,12 @@
                     this.roles = res
                     this.loadApplicationPortals()
                 })
+
+                var vm = this
+                setTimeout(()=>{
+                    vm.success = false
+                    vm.delSuccess = false
+                },2500)
             },
             loadApplicationPortals(){
                 fetch('api/application_portal', {

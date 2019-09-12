@@ -209,6 +209,12 @@
                 .then(res => {
                     this.users = res
                 })
+
+                var vm = this
+                setTimeout(()=>{
+                    vm.success = false
+                    vm.delSuccess = false
+                },2500)
             },
             getRoles(){
                 fetch('api/role', {
