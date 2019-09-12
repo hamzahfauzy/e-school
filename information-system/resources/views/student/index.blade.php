@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Class Room')
+@section('title','Siswa')
 @section('content')
     <div id="app">
         <student-component></student-component>

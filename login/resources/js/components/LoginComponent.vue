@@ -70,6 +70,7 @@
 					password:''
 				},
 				token:'',
+				headers:'',
 				alertEmail:false,
 				alertPassword:false,
 				loginSuccess:false,
@@ -80,6 +81,10 @@
 
 		created(){
 			this.token = window.getCookie('eschool_token_app')
+			this.headers = {
+				'Authorization': 'Bearer '+this.token,
+				'Content-Type':'application/json'
+			}
             if(!(this.token === undefined || this.token === null || this.token === ""))
             {
                 window.location = "/"
@@ -105,9 +110,7 @@
 				fetch('api/login',{
 					method:'post',
 					body: JSON.stringify(this.authDetail),
-					headers: {
-						'content-type':'application/json'
-					}
+					headers: this.headers
 				})
 				.then(res => res.json())
 				.then(data => {

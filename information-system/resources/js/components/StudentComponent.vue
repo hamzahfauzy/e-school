@@ -11,6 +11,7 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <p class="alert alert-success" v-if="deleteStatus">delete student success</p>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -25,13 +26,13 @@
                             <tbody>
                                 <tr v-for="(student,index) in students" :key="student.id">
                                     <td>{{index+1}}</td>
-                                    <td>{{student.name}}</td>
                                     <td>{{student.NISN}}</td>
+                                    <td>{{student.name}}</td>
                                     <td>{{student.name}}</td>
                                     <td>{{student.gender}}</td>
                                     <td>
-                                        <a href="" class="badge badge-primary">edit</a>
-                                        <a href="" class="badge badge-danger">delete</a>
+                                        <a href="#editStudent" data-toggle="modal" class="badge badge-primary" @click="findStudent(student.id)">edit</a>
+                                        <a href="#" @click="deleteStudent(student.id)" class="badge badge-danger">delete</a>
                                     </td>
                                 </tr>
                                 <tr  v-if="!students.length" >
@@ -65,7 +66,22 @@
                         </div>
                         <div class="form-group">
                             <label>Jenis Kelamin</label>
-                            <input type="text" class="form-control" v-model="data.gender">
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                <input type="radio" v-model="data.gender" value="Laki-Laki" class="form-check-input">
+                                    Laki - Laki
+                                <i class="input-helper"></i>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                <input type="radio" v-model="data.gender" value="Perempuan" class="form-check-input">
+                                    Perempuan
+                                <i class="input-helper"></i>
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Alamat</label>
@@ -80,6 +96,57 @@
             </div>
         </div>
 
+        <div class="modal fade" id="editStudent">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Siswa</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p v-if="status" class="alert alert-success">edit siswa sukses</p>
+                        <div class="form-group">
+                            <label>NISN</label>
+                            <input type="text" class="form-control" v-model="data.NISN">
+                        </div>
+                        <div class="form-group">
+                            <label>Nama</label>
+                            <input type="text" class="form-control" v-model="data.name">
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Kelamin</label>
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                <input type="radio" v-model="data.gender" value="Laki-Laki" class="form-check-input">
+                                    Laki - Laki
+                                <i class="input-helper"></i>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                <input type="radio" v-model="data.gender" value="Perempuan" class="form-check-input">
+                                    Perempuan
+                                <i class="input-helper"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat</label>
+                            <textarea v-model="data.address" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"  @click="data = {}">Close</button>
+                        <button type="button" class="btn btn-primary" @click="updateStudent()">Edit Siswa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </template>
 
@@ -91,7 +158,8 @@ export default {
             data:{},
             token:'',
             headers:'',
-            status:false
+            status:false,
+            deleteStatus:false
         }
     },
     created(){
@@ -115,6 +183,15 @@ export default {
                 this.students = res
             })
         },
+        findStudent(id){
+            fetch('api/student/'+id,{
+                headers:this.headers,
+            })
+            .then(res => res.json())
+            .then(res=>{
+                this.data = res
+            })
+        },
         addStudent(){
             fetch('api/student/create',{
                 method:'post',
@@ -136,7 +213,20 @@ export default {
             })
             .then(res=>res.json())
             .then(res=>{
-                
+                this.status = true
+                this.loadStudents()
+            })
+        },
+        deleteStudent(student_id){
+            fetch('api/student/delete',{
+                method:'delete',
+                headers:this.headers,
+                body:JSON.stringify({id:student_id})
+            })
+            .then(res=>res.json())
+            .then(res=>{
+                this.deleteStatus = true
+                this.loadStudents()
             })
         }
     }

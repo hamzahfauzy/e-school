@@ -176,6 +176,7 @@
                     c_password:'',
                 },
                 token:'',
+                headers:'',
                 data:{
                     name:'',
                     email:'',
@@ -191,6 +192,10 @@
 
         created(){
             this.token = window.getCookie('eschool_token_app')
+            this.headers = {
+                'Authorization': 'Bearer '+this.token,
+                'Content-Type':'application/json'
+            }
             if(this.token === undefined || this.token === null || this.token === '')
             {
                 window.location = "/login"
@@ -201,9 +206,7 @@
         methods: {
             loadUsers(){
                 fetch('api/user', {
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers:this.headers,
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -212,9 +215,7 @@
             },
             getRoles(){
                 fetch('api/role', {
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers:this.headers,
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -223,9 +224,7 @@
             },
             findUser(id){
                 fetch('api/user/'+id, {
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers:this.headers,
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -238,10 +237,7 @@
             addUser(){
                 fetch('api/user/create',{
                     method:'post',
-                    headers:{
-                        'Authorization': 'Bearer '+this.token,
-                        'content-type':'application/json'
-                    },
+                    headers:this.headers,
                     body:JSON.stringify(this.data)
                 }).then(res=>res.json()).then(res=>{
                     if(res.error){
@@ -262,10 +258,7 @@
                 this.user_role.user_id = user_id
                 fetch('api/user/addRole',{
                     method:'post',
-                    headers:{
-                        'Authorization': 'Bearer '+this.token,
-                        'content-type':'application/json'
-                    },
+                    headers:this.headers,
                     body:JSON.stringify(this.user_role)
                 }).then(res=>res.json()).then(res=>{
                     if(res.error){
@@ -279,10 +272,7 @@
             updateUser(){
                 fetch('api/user/update',{
                     method:'post',
-                    headers:{
-                        'Authorization': 'Bearer '+this.token,
-                        'content-type':'application/json'
-                    },
+                    headers:this.headers,
                     body:JSON.stringify(this.user)
                 }).then(res=>res.json()).then(res=>{
                     if(res.error){
@@ -297,10 +287,7 @@
                 if(confirm("Are you sure ?")){
                     fetch('api/user/delete',{
                         method:'delete',
-                        headers:{
-                            'Authorization': 'Bearer '+this.token,
-                            'content-type':'application/json'
-                        },
+                        headers:this.headers,
                         body:JSON.stringify({'id':id})
                     }).then(res=>res.json()).then(res=>{
                         if(res.error){
@@ -318,10 +305,7 @@
                     this.user_role.role_id = role_id
                     fetch('api/user/deleteRole',{
                         method:'delete',
-                        headers:{
-                            'Authorization': 'Bearer '+this.token,
-                            'content-type':'application/json'
-                        },
+                        headers:this.headers,
                         body:JSON.stringify(this.user_role)
                     }).then(res=>res.json()).then(res=>{
                         if(res.error){

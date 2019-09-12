@@ -14,6 +14,7 @@ Route::get('/','HomeController@index');
 Route::get('/class_rooms','HomeController@class_rooms');
 Route::get('/employees','HomeController@employees');
 Route::get('/majors','HomeController@majors');
-Route::get('/schedules','HomeController@schedules');
+Route::get('/studies','HomeController@studies');
 Route::get('/students','HomeController@students');
 Route::get('/users','HomeController@users');
+Route::get('/schedules','HomeController@schedules');

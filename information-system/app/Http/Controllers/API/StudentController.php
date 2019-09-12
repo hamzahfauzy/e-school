@@ -12,13 +12,13 @@ class StudentController extends Controller
     public $success = 200;
 
     public function index(){
-        $class_rooms = Student::get();
-        return response()->json($class_rooms,$this->success);
+        $students = Student::get();
+        return response()->json($students,$this->success);
     }
 
     public function single($id){
-        $class_room = Student::find($id);
-        return response()->json($class_room,$this->success);
+        $student = Student::find($id);
+        return response()->json($student,$this->success);
     }
 
     public function create(Request $request){
@@ -33,7 +33,7 @@ class StudentController extends Controller
             return response()->json(['errors'=>$validator->errors()],422);
         }
         $input = $request->only('NISN','name','address','gender');
-        $class_room = Student::create($input);
+        $student = Student::create($input);
         return response()->json(['success'=>1],$this->success);
     }
 
@@ -49,14 +49,14 @@ class StudentController extends Controller
             return response()->json(['errors'=>$validator->errors()],401);
         }
         $input = $request->only('NISN','name','address','gender');
-        $class_room = Student::find($request->id);
-        $class_room->update($input);
+        $student = Student::find($request->id);
+        $student->update($input);
         return response()->json(['success'=>1],$this->success);
     }
 
     public function delete(Request $request){
-        $class_room = Student::find($request->id);
-        $class_room->delete();
+        $student = Student::find($request->id);
+        $student->delete();
         return response()->json(['success'=>1],$this->success);
     }
 }

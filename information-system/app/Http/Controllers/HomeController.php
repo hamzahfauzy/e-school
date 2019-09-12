@@ -17,4 +17,20 @@ class HomeController extends Controller
     public function students(){
         return view('student.index');
     }
+
+    public function employees(){
+        return view('employee.index');
+    }
+
+    public function majors(){
+        return view('major.index');
+    }
+
+    public function studies(){
+        return view('study.index');
+    }
+
+    public function schedules(){
+        return view('schedule.index');
+    }
 }

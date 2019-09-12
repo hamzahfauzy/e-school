@@ -122,11 +122,16 @@
                 },
                 errors:{},
                 success:false,
-                delSuccess:false
+                delSuccess:false,
+                headers:''
             } 
         },
         created(){
             this.token = window.getCookie('eschool_token_app')
+            this.headers = {
+                'Authorization': 'Bearer '+this.token,
+                'Content-Type':'application/json'
+            }
             if(this.token === undefined || this.token === null || this.token === '')
             {
                 window.location = "/login"
@@ -137,9 +142,7 @@
         methods: {
             loadApplicationPortals(){
                 fetch('api/application_portal', {
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers:this.headers,
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -148,9 +151,7 @@
             },
             findApplicationPortal(id){
                 fetch('api/application_portal/'+id, {
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers:this.headers,
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -160,10 +161,7 @@
             addApplicationPortal(){
                 fetch('api/application_portal/create',{
                     method:'post',
-                    headers:{
-                        'Authorization': 'Bearer '+this.token,
-                        'content-type':'application/json'
-                    },
+                    headers:this.headers,
                     body:JSON.stringify(this.data)
                 }).then(res=>res.json()).then(res=>{
                     if(res.error){
@@ -181,10 +179,7 @@
             updateApplicationPortal(){
                 fetch('api/application_portal/update',{
                     method:'post',
-                    headers:{
-                        'Authorization': 'Bearer '+this.token,
-                        'content-type':'application/json'
-                    },
+                    headers:this.headers,
                     body:JSON.stringify(this.application_portal)
                 }).then(res=>res.json()).then(res=>{
                     if(res.error){
@@ -202,10 +197,7 @@
                 if(confirm("Are you sure ?")){
                     fetch('api/application_portal/delete',{
                         method:'delete',
-                        headers:{
-                            'Authorization': 'Bearer '+this.token,
-                            'content-type':'application/json'
-                        },
+                        headers:this.headers,
                         body:JSON.stringify({'id':id})
                     }).then(res=>res.json()).then(res=>{
                         if(res.error){

@@ -130,10 +130,11 @@
                 loaded:false,
                 roles:{},
                 role:{},
-                token:'',
                 data:{},
                 application_portals:{},
                 errors:{},
+                token:'',
+                headers:'',
                 success:false,
                 delSuccess:false
             } 
@@ -141,6 +142,10 @@
 
         created(){
             this.token = window.getCookie('eschool_token_app')
+            this.headers = {
+                'Authorization': 'Bearer '+this.token,
+                'Content-Type':'application/json'
+            }
             if(this.token === undefined || this.token === null || this.token === '')
             {
                 window.location = "/login"
@@ -151,9 +156,7 @@
         methods: {
             loadRoles(){
                 fetch('api/role', {
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers:this.headers,
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -163,9 +166,7 @@
             },
             loadApplicationPortals(){
                 fetch('api/application_portal', {
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers:this.headers,
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -174,9 +175,7 @@
             },
             findRole(id){
                 fetch('api/role/'+id, {
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers:this.headers,
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -186,10 +185,7 @@
             addRole(){
                 fetch('api/role/create',{
                     method:'post',
-                    headers:{
-                        'Authorization': 'Bearer '+this.token,
-                        'content-type':'application/json'
-                    },
+                    headers:this.headers,
                     body:JSON.stringify(this.data)
                 }).then(res=>res.json()).then(res=>{
                     if(res.error){
@@ -207,10 +203,7 @@
             updateRole(){
                 fetch('api/role/update',{
                     method:'post',
-                    headers:{
-                        'Authorization': 'Bearer '+this.token,
-                        'content-type':'application/json'
-                    },
+                    headers:this.headers,
                     body:JSON.stringify(this.role)
                 }).then(res=>res.json()).then(res=>{
                     if(res.error){
@@ -228,10 +221,7 @@
                 if(confirm("Are you sure ?")){
                     fetch('api/role/delete',{
                         method:'delete',
-                        headers:{
-                            'Authorization': 'Bearer '+this.token,
-                            'content-type':'application/json'
-                        },
+                        headers:this.headers,
                         body:JSON.stringify({'id':id})
                     }).then(res=>res.json()).then(res=>{
                         if(res.error){

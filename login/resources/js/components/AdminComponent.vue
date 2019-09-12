@@ -35,12 +35,17 @@
                 IS_URL:'',
                 token:'',
                 users:{},
-                details:{}
+                details:{},
+                headers:''
             }
         },
 
         created(){
             this.token = window.getCookie('eschool_token_app')
+            this.headers = {
+                'Authorization': 'Bearer '+this.token,
+                'Content-Type':'application/json'
+            }
             if(this.token === undefined || this.token === null || this.token === '')
             {
                 window.location = "/login"
@@ -48,15 +53,11 @@
             this.loadData()
             this.loadUsers()
         },
-
         methods: {
             loadData(){
-                
                 fetch('api/details', {
                     method:'post',
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers: this.headers
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -66,11 +67,8 @@
                 })
             },
             loadUsers(){
-                
                 fetch('api/user',{
-                    headers:{
-                        'Authorization':'Bearer '+this.token
-                    }
+                    headers:this.headers
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -78,12 +76,9 @@
                 })
             },
             doLogout(){
-                
                 fetch('api/logout', {
                     method:'post',
-                    headers: {
-                        'Authorization': 'Bearer '+this.token
-                    }
+                    headers: this.headers
                 })
                 .then(res => {
                     window.deleteCookie('eschool_token_app')

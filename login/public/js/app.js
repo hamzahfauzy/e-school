@@ -1874,11 +1874,16 @@ __webpack_require__.r(__webpack_exports__);
       IS_URL: '',
       token: '',
       users: {},
-      details: {}
+      details: {},
+      headers: ''
     };
   },
   created: function created() {
     this.token = window.getCookie('eschool_token_app');
+    this.headers = {
+      'Authorization': 'Bearer ' + this.token,
+      'Content-Type': 'application/json'
+    };
 
     if (this.token === undefined || this.token === null || this.token === '') {
       window.location = "/login";
@@ -1893,9 +1898,7 @@ __webpack_require__.r(__webpack_exports__);
 
       fetch('api/details', {
         method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -1908,9 +1911,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       fetch('api/user', {
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -1920,9 +1921,7 @@ __webpack_require__.r(__webpack_exports__);
     doLogout: function doLogout() {
       fetch('api/logout', {
         method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         window.deleteCookie('eschool_token_app');
         window.location = "/login";
@@ -2065,11 +2064,16 @@ __webpack_require__.r(__webpack_exports__);
       },
       errors: {},
       success: false,
-      delSuccess: false
+      delSuccess: false,
+      headers: ''
     };
   },
   created: function created() {
     this.token = window.getCookie('eschool_token_app');
+    this.headers = {
+      'Authorization': 'Bearer ' + this.token,
+      'Content-Type': 'application/json'
+    };
 
     if (this.token === undefined || this.token === null || this.token === '') {
       window.location = "/login";
@@ -2082,9 +2086,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       fetch('api/application_portal', {
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -2095,9 +2097,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       fetch('api/application_portal/' + id, {
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -2109,10 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
 
       fetch('api/application_portal/create', {
         method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + this.token,
-          'content-type': 'application/json'
-        },
+        headers: this.headers,
         body: JSON.stringify(this.data)
       }).then(function (res) {
         return res.json();
@@ -2135,10 +2132,7 @@ __webpack_require__.r(__webpack_exports__);
 
       fetch('api/application_portal/update', {
         method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + this.token,
-          'content-type': 'application/json'
-        },
+        headers: this.headers,
         body: JSON.stringify(this.application_portal)
       }).then(function (res) {
         return res.json();
@@ -2161,10 +2155,7 @@ __webpack_require__.r(__webpack_exports__);
       if (confirm("Are you sure ?")) {
         fetch('api/application_portal/delete', {
           method: 'delete',
-          headers: {
-            'Authorization': 'Bearer ' + this.token,
-            'content-type': 'application/json'
-          },
+          headers: this.headers,
           body: JSON.stringify({
             'id': id
           })
@@ -2302,6 +2293,7 @@ __webpack_require__.r(__webpack_exports__);
         password: ''
       },
       token: '',
+      headers: '',
       alertEmail: false,
       alertPassword: false,
       loginSuccess: false,
@@ -2311,6 +2303,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.token = window.getCookie('eschool_token_app');
+    this.headers = {
+      'Authorization': 'Bearer ' + this.token,
+      'Content-Type': 'application/json'
+    };
 
     if (!(this.token === undefined || this.token === null || this.token === "")) {
       window.location = "/";
@@ -2336,9 +2332,7 @@ __webpack_require__.r(__webpack_exports__);
       fetch('api/login', {
         method: 'post',
         body: JSON.stringify(this.authDetail),
-        headers: {
-          'content-type': 'application/json'
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (data) {
@@ -2500,16 +2494,21 @@ __webpack_require__.r(__webpack_exports__);
       loaded: false,
       roles: {},
       role: {},
-      token: '',
       data: {},
       application_portals: {},
       errors: {},
+      token: '',
+      headers: '',
       success: false,
       delSuccess: false
     };
   },
   created: function created() {
     this.token = window.getCookie('eschool_token_app');
+    this.headers = {
+      'Authorization': 'Bearer ' + this.token,
+      'Content-Type': 'application/json'
+    };
 
     if (this.token === undefined || this.token === null || this.token === '') {
       window.location = "/login";
@@ -2522,9 +2521,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       fetch('api/role', {
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -2537,9 +2534,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       fetch('api/application_portal', {
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -2550,9 +2545,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       fetch('api/role/' + id, {
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -2564,10 +2557,7 @@ __webpack_require__.r(__webpack_exports__);
 
       fetch('api/role/create', {
         method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + this.token,
-          'content-type': 'application/json'
-        },
+        headers: this.headers,
         body: JSON.stringify(this.data)
       }).then(function (res) {
         return res.json();
@@ -2590,10 +2580,7 @@ __webpack_require__.r(__webpack_exports__);
 
       fetch('api/role/update', {
         method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + this.token,
-          'content-type': 'application/json'
-        },
+        headers: this.headers,
         body: JSON.stringify(this.role)
       }).then(function (res) {
         return res.json();
@@ -2616,10 +2603,7 @@ __webpack_require__.r(__webpack_exports__);
       if (confirm("Are you sure ?")) {
         fetch('api/role/delete', {
           method: 'delete',
-          headers: {
-            'Authorization': 'Bearer ' + this.token,
-            'content-type': 'application/json'
-          },
+          headers: this.headers,
           body: JSON.stringify({
             'id': id
           })
@@ -2830,6 +2814,7 @@ __webpack_require__.r(__webpack_exports__);
         c_password: ''
       },
       token: '',
+      headers: '',
       data: {
         name: '',
         email: '',
@@ -2844,6 +2829,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.token = window.getCookie('eschool_token_app');
+    this.headers = {
+      'Authorization': 'Bearer ' + this.token,
+      'Content-Type': 'application/json'
+    };
 
     if (this.token === undefined || this.token === null || this.token === '') {
       window.location = "/login";
@@ -2856,9 +2845,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       fetch('api/user', {
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -2869,9 +2856,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       fetch('api/role', {
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -2882,9 +2867,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       fetch('api/user/' + id, {
-        headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
+        headers: this.headers
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -2900,10 +2883,7 @@ __webpack_require__.r(__webpack_exports__);
 
       fetch('api/user/create', {
         method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + this.token,
-          'content-type': 'application/json'
-        },
+        headers: this.headers,
         body: JSON.stringify(this.data)
       }).then(function (res) {
         return res.json();
@@ -2929,10 +2909,7 @@ __webpack_require__.r(__webpack_exports__);
       this.user_role.user_id = user_id;
       fetch('api/user/addRole', {
         method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + this.token,
-          'content-type': 'application/json'
-        },
+        headers: this.headers,
         body: JSON.stringify(this.user_role)
       }).then(function (res) {
         return res.json();
@@ -2951,10 +2928,7 @@ __webpack_require__.r(__webpack_exports__);
 
       fetch('api/user/update', {
         method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + this.token,
-          'content-type': 'application/json'
-        },
+        headers: this.headers,
         body: JSON.stringify(this.user)
       }).then(function (res) {
         return res.json();
@@ -2974,10 +2948,7 @@ __webpack_require__.r(__webpack_exports__);
       if (confirm("Are you sure ?")) {
         fetch('api/user/delete', {
           method: 'delete',
-          headers: {
-            'Authorization': 'Bearer ' + this.token,
-            'content-type': 'application/json'
-          },
+          headers: this.headers,
           body: JSON.stringify({
             'id': id
           })
@@ -3002,10 +2973,7 @@ __webpack_require__.r(__webpack_exports__);
         this.user_role.role_id = role_id;
         fetch('api/user/deleteRole', {
           method: 'delete',
-          headers: {
-            'Authorization': 'Bearer ' + this.token,
-            'content-type': 'application/json'
-          },
+          headers: this.headers,
           body: JSON.stringify(this.user_role)
         }).then(function (res) {
           return res.json();
