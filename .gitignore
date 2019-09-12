@@ -1,2 +1,3 @@
 login/vendor
 login/node_modules
+login/.env
