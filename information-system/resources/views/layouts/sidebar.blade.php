@@ -37,9 +37,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/users">
+            <a class="nav-link" href="/studies">
               <i class="ti-layout-list-post menu-icon"></i>
-              <span class="menu-title">Users Management</span>
+              <span class="menu-title">Studies Management</span>
             </a>
           </li>
         </ul>

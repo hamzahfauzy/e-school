@@ -23,29 +23,35 @@ class StudentController extends Controller
 
     public function create(Request $request){
         $validator = Validator::make($request->all(),[
-            'name'      =>  'required'
+            'NISN'      =>  'required',
+            'name'      =>  'required',
+            'address'   =>  'required',
+            'gender'    =>  'required',
         ]);
 
         if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()],401);
+            return response()->json(['errors'=>$validator->errors()],422);
         }
-        $input = $request->only('name','major_id','employee_id');
+        $input = $request->only('NISN','name','address','gender');
         $class_room = Student::create($input);
-        return repsonse()->json(['success'=>1],$this->success);
+        return response()->json(['success'=>1],$this->success);
     }
 
     public function update(Request $request){
         $validator = Validator::make($request->all(),[
-            'name'      =>  'required'
+            'NISN'      =>  'required',
+            'name'      =>  'required',
+            'address'      =>  'required',
+            'gender'      =>  'required',
         ]);
 
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors()],401);
         }
-        $input = $request->only('name','major_id','employee_id');
+        $input = $request->only('NISN','name','address','gender');
         $class_room = Student::find($request->id);
         $class_room->update($input);
-        return repsonse()->json(['success'=>1],$this->success);
+        return response()->json(['success'=>1],$this->success);
     }
 
     public function delete(Request $request){

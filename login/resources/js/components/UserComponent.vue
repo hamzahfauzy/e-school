@@ -190,8 +190,8 @@
         },
 
         created(){
-            this.token = window.localStorage.getItem('eschool_token_app')
-            if(this.token === undefined || this.token === null)
+            this.token = window.getCookie('eschool_token_app')
+            if(this.token === undefined || this.token === null || this.token === '')
             {
                 window.location = "/login"
             }

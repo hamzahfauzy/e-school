@@ -8,10 +8,6 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Information System - @yield('title')</title>
   <script type="text/javascript">window.Laravel = {csrfToken:'{{csrf_token()}}'}
-  
-    window.setCookie = (cname, cvalue) => {
-        document.cookie = cname + "=" + cvalue + ";";
-    }
 
     window.getCookie = (cname) => {
         var name = cname + "=";
@@ -30,7 +26,7 @@
     }
 
     window.deleteCookie = name => {
-        document.cookie = name + "=;";
+        document.cookie = name + "=;domain=.{{env('APP_DOMAIN')}}";
     }
 
   </script>

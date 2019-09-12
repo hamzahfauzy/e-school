@@ -9,7 +9,7 @@
     <script type="text/javascript">
     window.Laravel = {csrfToken:'{{csrf_token()}}'}
     window.setCookie = (cname, cvalue) => {
-        document.cookie = cname + "=" + cvalue + ";domain=.localhost;";
+        document.cookie = cname + "=" + cvalue + ";domain={{env('APP_DOMAIN')}};";
     }
 
     window.getCookie = (cname) => {
