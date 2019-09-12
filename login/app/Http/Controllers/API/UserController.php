@@ -66,19 +66,17 @@ class UserController extends Controller
      */ 
     public function details() 
     { 
-        $user = Auth::user(); 
-        return response()->json(['success' => $user], $this->successStatus); 
+        $user = Auth::user();
+        $user->roles;
+        foreach($user->roles as $role){
+            $role->application_portal;
+        }
+        return response()->json($user, $this->successStatus); 
     }
 
     public function test()
     {
         return 1;
-    }
-
-    public function userInfo() 
-    { 
-        // $user = Auth::user(); 
-        return response()->json(['data' => 1], $this->successStatus); 
     }
 
     public function index(){
@@ -124,6 +122,12 @@ class UserController extends Controller
     public function addRole(Request $request){
         $user = User::find($request->user_id);
         $user->roles()->attach($request->role_id);
+        return response()->json(['success'=>1],$this->successStatus);
+    }
+
+    public function deleteRole(Request $request){
+        $user = User::find($request->user_id);
+        $user->roles()->detach($request->role_id);
         return response()->json(['success'=>1],$this->successStatus);
     }
 }

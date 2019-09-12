@@ -79,9 +79,8 @@
 		},
 
 		created(){
-            var token = window.localStorage.getItem('eschool_token_app')
-			console.log(process.env.MIX_IS_URL)
-            if(!(token === undefined || token === null))
+			this.token = window.getCookie('eschool_token_app')
+            if(!(this.token === undefined || this.token === null || this.token === ""))
             {
                 window.location = "/"
             }
@@ -117,7 +116,7 @@
 						this.loginSuccess = true
 						this.authDetail.email = ""
 						this.authDetail.password = ""
-						window.localStorage.setItem('eschool_token_app',data.success.token)
+						window.setCookie('eschool_token_app',data.success.token)
 						window.location="/"
 					}
 

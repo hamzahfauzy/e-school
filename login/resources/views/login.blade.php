@@ -6,7 +6,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>E-School Login Service</title>
-    <script type="text/javascript">window.Laravel = {csrfToken:'{{csrf_token()}}'}</script>
+    <script type="text/javascript">
+    window.Laravel = {csrfToken:'{{csrf_token()}}'}
+    window.setCookie = (cname, cvalue) => {
+        document.cookie = cname + "=" + cvalue + ";domain=.localhost;";
+    }
+
+    window.getCookie = (cname) => {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+        }
+        return "";
+    }
+
+    window.deleteCookie = name => {
+        document.cookie = name + "=;";
+    }
+
+    </script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <link rel="icon" type="image/png" href="{{asset('template/images/icons/favicon.ico')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('template/vendor/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('template/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
@@ -42,8 +69,6 @@
     <div id="app">
         <login-component></login-component>
     </div>
-
-    <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{asset('template/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
     <script src="{{asset('template/vendor/bootstrap/js/popper.js')}}"></script>
     <script src="{{asset('template/vendor/bootstrap/js/bootstrap.min.js')}}"></script>

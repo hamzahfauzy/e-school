@@ -16,9 +16,9 @@
                 <br>
 
                 <div class="links">
-                    <a href="/users">Users Management</a>
-                    <a href="/clouds">Cloud APPS</a>
-                    <a href="/setting">Setting</a>
+                    <a v-for="role in details.roles" :key="role.id" :href="role.application_portal.app_url">
+                        {{role.application_portal.app_name}}
+                    </a>
                     <a href="javascript:void(0)" @click="doLogout()">Logout</a>
                 </div>
             </div>
@@ -34,14 +34,14 @@
                 loaded:false,
                 IS_URL:'',
                 token:'',
-                users:{}
+                users:{},
+                details:{}
             }
         },
 
         created(){
-            var token = window.localStorage.getItem('eschool_token_app')
-            this.IS_URL = process.env.MIX_IS_URL
-            if(token === undefined || token === null)
+            this.token = window.getCookie('eschool_token_app')
+            if(this.token === undefined || this.token === null || this.token === '')
             {
                 window.location = "/login"
             }
@@ -51,24 +51,25 @@
 
         methods: {
             loadData(){
-                var token = window.localStorage.getItem('eschool_token_app')
+                
                 fetch('api/details', {
                     method:'post',
                     headers: {
-                        'Authorization': 'Bearer '+token
+                        'Authorization': 'Bearer '+this.token
                     }
                 })
                 .then(res => res.json())
                 .then(res => {
-                    this.username = res.success.name
+                    this.username = res.name
                     this.loaded = true
+                    this.details = res
                 })
             },
             loadUsers(){
-                var token = window.localStorage.getItem('eschool_token_app')
+                
                 fetch('api/user',{
                     headers:{
-                        'Authorization':'Bearer '+token
+                        'Authorization':'Bearer '+this.token
                     }
                 })
                 .then(res => res.json())
@@ -77,15 +78,15 @@
                 })
             },
             doLogout(){
-                var token = window.localStorage.getItem('eschool_token_app')
+                
                 fetch('api/logout', {
                     method:'post',
                     headers: {
-                        'Authorization': 'Bearer '+token
+                        'Authorization': 'Bearer '+this.token
                     }
                 })
                 .then(res => {
-                    window.localStorage.removeItem('eschool_token_app')
+                    window.deleteCookie('eschool_token_app')
                     window.location = "/login"
                 })
             }

@@ -7,7 +7,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>e-School - @yield('title')</title>
-  <script type="text/javascript">window.Laravel = {csrfToken:'{{csrf_token()}}'}</script>
+  <script type="text/javascript">
+    window.Laravel = {csrfToken:'{{csrf_token()}}',get:'oke'}
+    window.setCookie = (cname, cvalue) => {
+        document.cookie = cname + "=" + cvalue + ";";
+    }
+
+    window.getCookie = (cname) => {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+        }
+        return "";
+    }
+
+    window.deleteCookie = name => {
+        document.cookie = name + "=;";
+    }
+  </script>
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <script src="{{ asset('js/app.js') }}" defer></script>
   <!-- plugins:css -->
@@ -45,19 +70,19 @@
   <!-- container-scroller -->
 
   <!-- plugins:js -->
-  <script src="{{asset('template/vendors/base/vendor.bundle.base.js')}}" async></script>
+  <script src="{{asset('template/vendors/base/vendor.bundle.base.js')}}"></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
-  <script src="{{asset('template/vendors/chart.js/Chart.min.js')}}" async></script>
+  <script src="{{asset('template/vendors/chart.js/Chart.min.js')}}"></script>
   <!-- End plugin js for this page-->
   <!-- inject:js -->
-  <script src="{{asset('template/js/off-canvas.js')}}" async></script>
-  <script src="{{asset('template/js/hoverable-collapse.js')}}" async></script>
-  <script src="{{asset('template/js/template.js')}}" async></script>
-  <script src="{{asset('template/js/todolist.js')}}" async></script>
+  <script src="{{asset('template/js/off-canvas.js')}}"></script>
+  <script src="{{asset('template/js/hoverable-collapse.js')}}"></script>
+  <script src="{{asset('template/js/template.js')}}"></script>
+  <script src="{{asset('template/js/todolist.js')}}"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
-  <script src="{{asset('template/js/dashboard.js')}}" async></script>
+  <script src="{{asset('template/js/dashboard.js')}}"></script>
   <!-- End custom js for this page-->
 
 </body>

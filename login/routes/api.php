@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth:api'], function(){
         Route::post('update','API\UserController@update');
         Route::delete('delete','API\UserController@delete');
         Route::post('addRole','API\UserController@addRole');
+        Route::delete('deleteRole','API\UserController@deleteRole');
     });
 
     Route::prefix('role')->group(function(){
@@ -34,5 +35,13 @@ Route::group(['middleware' => 'auth:api'], function(){
         Route::post('create','API\RoleController@create');
         Route::post('update','API\RoleController@update');
         Route::delete('delete','API\RoleController@delete');
+    });
+
+    Route::prefix('application_portal')->group(function(){
+        Route::get('', 'API\ApplicationPortalController@index');
+        Route::get('{ID}','API\ApplicationPortalController@single');
+        Route::post('create','API\ApplicationPortalController@create');
+        Route::post('update','API\ApplicationPortalController@update');
+        Route::delete('delete','API\ApplicationPortalController@delete');
     });
 });

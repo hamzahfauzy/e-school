@@ -12,11 +12,17 @@ class RoleController extends Controller
     public $successStatus = 200;
 
     public function index(){
-        return response()->json(Role::get(),$this->successStatus);
+        $roles = Role::get();
+        foreach($roles as $role){
+            $role->application_portal;
+        }
+        return response()->json($roles,$this->successStatus);
     }
 
     public function single($id){
-        return response()->json(Role::find($id),$this->successStatus);
+        $role=Role::find($id);
+        $role->application_portal;
+        return response()->json($role,$this->successStatus);
     }
 
     public function create(Request $request){
@@ -40,8 +46,8 @@ class RoleController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors()], 401);            
         }
-        $input = $request->all(); 
-        $role = Role::find($id);
+        $input = $request->only('name','description','app_id');
+        $role = Role::find($request->id);
         $role->update($input);
         return response()->json(['success'=>1], $this->successStatus);
     }

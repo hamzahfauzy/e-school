@@ -20,6 +20,7 @@
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th>Application Portal</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -28,6 +29,8 @@
                                     <td>{{index+1}}</td>
                                     <td>{{role.name}}</td>
                                     <td>{{role.description}}</td>
+                                    <td v-if="role.application_portal">{{role.application_portal.app_name}}</td>
+                                    <td v-else>Tidak ada Portal</td>
                                     <td>
                                         <a href="#editRole" @click="findRole(role.id)" data-toggle="modal" class="badge badge-primary">edit</a>
                                         <a href="#deleteRole" @click="deleteRole(role.id)" class="badge badge-danger">delete</a>
@@ -54,12 +57,22 @@
                     </div>
                     <div class="modal-body">
                             <p class="alert alert-success" v-if="success">add role success</p>
+                        <div class="form-group">
                             <label>Name</label>
                             <p class="alert alert-warning" v-if="errors.name">{{errors.name[0]}}</p>
                             <input type="text" class="form-control" v-model="data.name">
+                        </div>
+                        <div class="form-group">
                             <label>Description</label>
-                            <p class="alert alert-warning" v-if="errors.email">{{errors.email[0]}}</p>
+                            <p class="alert alert-warning" v-if="errors.description">{{errors.description[0]}}</p>
                             <textarea cols="30" rows="10" class="form-control" v-model="data.description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Application Portal</label>
+                            <select class="form-control" v-model="data.app_id">
+                                <option v-for="app in application_portals" :key="app.id" :value="app.id">{{app.app_name}}</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -79,17 +92,27 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                            <p class="alert alert-success" v-if="success">add role success</p>
+                            <p class="alert alert-success" v-if="success">edit role success</p>
+                        <div class="form-group">
                             <label>Name</label>
                             <p class="alert alert-warning" v-if="errors.name">{{errors.name[0]}}</p>
                             <input type="text" class="form-control" v-model="role.name">
+                        </div>
+                        <div class="form-group">
                             <label>Description</label>
                             <p class="alert alert-warning" v-if="errors.description">{{errors.description[0]}}</p>
                             <textarea cols="30" rows="10" class="form-control" v-model="role.description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Application Portal</label>
+                            <select class="form-control" v-model="role.app_id">
+                                <option v-for="app in application_portals" :key="app.id" :value="app.id">{{app.app_name}}</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="editRole(role.id)">edit</button>
+                        <button type="button" class="btn btn-primary" @click="updateRole()">edit</button>
                     </div>
                 </div>
             </div>
@@ -106,16 +129,10 @@
             return {
                 loaded:false,
                 roles:{},
-                role:{
-                    id:'',
-                    name:'',
-                    description:'',
-                },
+                role:{},
                 token:'',
-                data:{
-                    name:'',
-                    description:'',
-                },
+                data:{},
+                application_portals:{},
                 errors:{},
                 success:false,
                 delSuccess:false
@@ -123,8 +140,8 @@
         },
 
         created(){
-            var token = window.localStorage.getItem('eschool_token_app')
-            if(token === undefined || token === null)
+            this.token = window.getCookie('eschool_token_app')
+            if(this.token === undefined || this.token === null || this.token === '')
             {
                 window.location = "/login"
             }
@@ -133,37 +150,44 @@
 
         methods: {
             loadRoles(){
-                var token = window.localStorage.getItem('eschool_token_app')
                 fetch('api/role', {
                     headers: {
-                        'Authorization': 'Bearer '+token
+                        'Authorization': 'Bearer '+this.token
                     }
                 })
                 .then(res => res.json())
                 .then(res => {
                     this.roles = res
+                    this.loadApplicationPortals()
                 })
             },
-            findRole(id){
-                var token = window.localStorage.getItem('eschool_token_app')
-                fetch('api/role/'+id, {
+            loadApplicationPortals(){
+                fetch('api/application_portal', {
                     headers: {
-                        'Authorization': 'Bearer '+token
+                        'Authorization': 'Bearer '+this.token
                     }
                 })
                 .then(res => res.json())
                 .then(res => {
-                    this.role.id = res.id
-                    this.role.name = res.name
-                    this.role.description = res.description
+                    this.application_portals = res
+                })
+            },
+            findRole(id){
+                fetch('api/role/'+id, {
+                    headers: {
+                        'Authorization': 'Bearer '+this.token
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    this.role = res
                 })
             },
             addRole(){
-                var token = window.localStorage.getItem('eschool_token_app')
                 fetch('api/role/create',{
                     method:'post',
                     headers:{
-                        'Authorization': 'Bearer '+token,
+                        'Authorization': 'Bearer '+this.token,
                         'content-type':'application/json'
                     },
                     body:JSON.stringify(this.data)
@@ -177,18 +201,14 @@
                             description:'',
                         }
                         this.loadRoles()
-                        setTimeout(function(){
-                                this.success = false
-                            },2000)
                     }
                 })
             },
             updateRole(){
-                var token = window.localStorage.getItem('eschool_token_app')
                 fetch('api/role/update',{
                     method:'post',
                     headers:{
-                        'Authorization': 'Bearer '+token,
+                        'Authorization': 'Bearer '+this.token,
                         'content-type':'application/json'
                     },
                     body:JSON.stringify(this.role)
@@ -201,19 +221,15 @@
                     }else{
                         this.success = true
                         this.loadRoles()
-                        setTimeout(function(){
-                                this.success = false
-                            },2000)
                     }
                 })
             },
             deleteRole(id){
                 if(confirm("Are you sure ?")){
-                    var token = window.localStorage.getItem('eschool_token_app')
                     fetch('api/role/delete',{
                         method:'delete',
                         headers:{
-                            'Authorization': 'Bearer '+token,
+                            'Authorization': 'Bearer '+this.token,
                             'content-type':'application/json'
                         },
                         body:JSON.stringify({'id':id})
@@ -226,9 +242,6 @@
                         }else{
                             this.delSuccess = true
                             this.loadRoles()
-                            setTimeout(function(){
-                                this.delSuccess = false
-                            },2000)
                         }
                     })   
                 }

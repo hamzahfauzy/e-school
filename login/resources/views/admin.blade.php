@@ -6,7 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>e-School - Landing Page</title>
-  <script type="text/javascript">window.Laravel = {csrfToken:'{{csrf_token()}}'}</script>
+  <script type="text/javascript">
+  window.Laravel = {csrfToken:'{{csrf_token()}}'}
+  window.setCookie = (cname, cvalue) => {
+        document.cookie = cname + "=" + cvalue + ";";
+    }
+
+    window.getCookie = (cname) => {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+        }
+        return "";
+    }
+
+    window.deleteCookie = name => {
+        document.cookie = name + "=;";
+    }
+  </script>
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <script src="{{ asset('js/app.js') }}" defer></script>
   <style>

@@ -12,7 +12,7 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="delSuccess">delete user success</p>
+                        <p class="alert alert-success" v-if="delSuccess">delete success</p>
                         
                         <table class="table table-striped">
                             <thead>
@@ -33,7 +33,7 @@
                                         <a href="#addRole" @click="findUser(user.id)" data-toggle="modal" class="badge badge-success">Add Role</a>
                                     </td>
                                     <td v-if="user.roles.length">
-                                        <a href="" class="badge badge-info" v-for="role in user.roles" :key="role.id">{{role.name}}</a>
+                                        <a href="#" class="badge badge-info" v-for="role in user.roles" :key="role.id">{{role.name}}</a>
                                         <a href="#addRole" @click="findUser(user.id)" data-toggle="modal" class="badge badge-success">Add Role</a>
                                     </td>
                                     <td>
@@ -62,19 +62,26 @@
                     </div>
                     <div class="modal-body">
                             <p class="alert alert-success" v-if="success">add user success</p>
+                        <div class="form-group">
                             <label>Name</label>
                             <p class="alert alert-warning" v-if="errors.name">{{errors.name[0]}}</p>
                             <input type="text" class="form-control" v-model="data.name">
+                        </div>
+                        <div class="form-group">
                             <label>Email</label>
                             <p class="alert alert-warning" v-if="errors.email">{{errors.email[0]}}</p>
                             <input type="text" class="form-control" v-model="data.email">
+                        </div>
+                        <div class="form-group">
                             <label>Password</label>
                             <p class="alert alert-warning" v-if="errors.password">{{errors.password[0]}}</p>
                             <input type="password" class="form-control" v-model="data.password">
+                        </div>
+                        <div class="form-group">
                             <label>Password Confirmation</label>
                             <p class="alert alert-warning" v-if="errors.c_password">{{errors.c_password[0]}}</p>
                             <input type="password" class="form-control" v-model="data.c_password">
-                        
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -95,23 +102,30 @@
                     </div>
                     <div class="modal-body">
                             <p class="alert alert-success" v-if="success">edit user success</p>
+                        <div class="form-group">
                             <label>Name</label>
                             <p class="alert alert-warning" v-if="errors.name">{{errors.name[0]}}</p>
                             <input type="text" class="form-control" v-model="user.name">
+                        </div>
+                        <div class="form-group">
                             <label>Email</label>
                             <p class="alert alert-warning" v-if="errors.email">{{errors.email[0]}}</p>
                             <input type="text" class="form-control" v-model="user.email">
+                        </div>
+                        <div class="form-group">
                             <label>Password</label>
                             <p class="alert alert-warning" v-if="errors.password">{{errors.password[0]}}</p>
                             <input type="password" class="form-control" v-model="user.password">
+                        </div>
+                        <div class="form-group">
                             <label>Password Confirmation</label>
                             <p class="alert alert-warning" v-if="errors.c_password">{{errors.c_password[0]}}</p>
                             <input type="password" class="form-control" v-model="user.c_password">
-                        
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
-                        <button type="button" class="btn btn-primary" @click="updateUser(user.id)">edit</button>
+                        <button type="button" class="btn btn-primary" @click="updateUser()">edit</button>
                     </div>
                 </div>
             </div>
@@ -128,10 +142,12 @@
                     </div>
                     <div class="modal-body">
                             <p class="alert alert-success" v-if="success">add role {{user.name}}</p>
+                        <div class="form-group">
                             <label>Role</label>
-                            <select v-model="user_role.role_id">
-                                <option v-for="role in roles" :key="role.id">{{role.id}}</option>
+                            <select v-model="user_role.role_id" class="form-control">
+                                <option v-for="role in roles" :key="role.id" :value="role.id">{{role.name}}</option>
                             </select>
+                        </div>
                         
                     </div>
                     <div class="modal-footer">
@@ -166,10 +182,7 @@
                     password:'',
                     c_password:'',
                 },
-                user_role:{
-                    user_id:'',
-                    role_id:'',
-                },
+                user_role:{},
                 errors:{},
                 success:false,
                 delSuccess:false
@@ -177,8 +190,8 @@
         },
 
         created(){
-            var token = window.localStorage.getItem('eschool_token_app')
-            if(token === undefined || token === null)
+            this.token = window.localStorage.getItem('eschool_token_app')
+            if(this.token === undefined || this.token === null)
             {
                 window.location = "/login"
             }
@@ -187,10 +200,9 @@
 
         methods: {
             loadUsers(){
-                var token = window.localStorage.getItem('eschool_token_app')
                 fetch('api/user', {
                     headers: {
-                        'Authorization': 'Bearer '+token
+                        'Authorization': 'Bearer '+this.token
                     }
                 })
                 .then(res => res.json())
@@ -199,10 +211,9 @@
                 })
             },
             getRoles(){
-                var token = window.localStorage.getItem('eschool_token_app')
                 fetch('api/role', {
                     headers: {
-                        'Authorization': 'Bearer '+token
+                        'Authorization': 'Bearer '+this.token
                     }
                 })
                 .then(res => res.json())
@@ -211,10 +222,9 @@
                 })
             },
             findUser(id){
-                var token = window.localStorage.getItem('eschool_token_app')
                 fetch('api/user/'+id, {
                     headers: {
-                        'Authorization': 'Bearer '+token
+                        'Authorization': 'Bearer '+this.token
                     }
                 })
                 .then(res => res.json())
@@ -226,11 +236,10 @@
                 })
             },
             addUser(){
-                var token = window.localStorage.getItem('eschool_token_app')
                 fetch('api/user/create',{
                     method:'post',
                     headers:{
-                        'Authorization': 'Bearer '+token,
+                        'Authorization': 'Bearer '+this.token,
                         'content-type':'application/json'
                     },
                     body:JSON.stringify(this.data)
@@ -246,19 +255,15 @@
                             c_password:'',
                         }
                         this.loadUsers()
-                        setTimeout(function(){
-                                this.success = false
-                            },2000)
                     }
                 })
             },
             addRole(user_id){
-                var token = window.localStorage.getItem('eschool_token_app')
                 this.user_role.user_id = user_id
                 fetch('api/user/addRole',{
                     method:'post',
                     headers:{
-                        'Authorization': 'Bearer '+token,
+                        'Authorization': 'Bearer '+this.token,
                         'content-type':'application/json'
                     },
                     body:JSON.stringify(this.user_role)
@@ -268,60 +273,64 @@
                     }else{
                         this.success = true
                         this.loadUsers()
-                        setTimeout(function(){
-                                this.success = false
-                            },2000)
                     }
                 })
             },
             updateUser(){
-                var token = window.localStorage.getItem('eschool_token_app')
                 fetch('api/user/update',{
                     method:'post',
                     headers:{
-                        'Authorization': 'Bearer '+token,
+                        'Authorization': 'Bearer '+this.token,
                         'content-type':'application/json'
                     },
                     body:JSON.stringify(this.user)
                 }).then(res=>res.json()).then(res=>{
                     if(res.error){
                         this.errors = res.error
-                        setTimeout(function(){
-                                this.errors = {}
-                            },2000)
                     }else{
                         this.success = true
                         this.loadUsers()
-                        setTimeout(function(){
-                                this.success = false
-                            },2000)
                     }
                 })
             },
             deleteUser(id){
                 if(confirm("Are you sure ?")){
-                    var token = window.localStorage.getItem('eschool_token_app')
                     fetch('api/user/delete',{
                         method:'delete',
                         headers:{
-                            'Authorization': 'Bearer '+token,
+                            'Authorization': 'Bearer '+this.token,
                             'content-type':'application/json'
                         },
                         body:JSON.stringify({'id':id})
                     }).then(res=>res.json()).then(res=>{
                         if(res.error){
                             this.errors = res.error
-                            setTimeout(function(){
-                                this.errors = {}
-                            },2000)
                         }else{
                             this.delSuccess = true
                             this.loadUsers()
-                            setTimeout(function(){
-                                this.delSuccess = false
-                            },2000)
                         }
                     })   
+                }
+            },
+            deleteRole(user_id,role_id){
+                if(confirm('Are you sure ?')){
+                    this.user_role.user_id = user_id
+                    this.user_role.role_id = role_id
+                    fetch('api/user/deleteRole',{
+                        method:'delete',
+                        headers:{
+                            'Authorization': 'Bearer '+this.token,
+                            'content-type':'application/json'
+                        },
+                        body:JSON.stringify(this.user_role)
+                    }).then(res=>res.json()).then(res=>{
+                        if(res.error){
+                            this.errors = res.error
+                        }else{
+                            this.delSuccess = true
+                            this.loadUsers()
+                        }
+                    })
                 }
             }
         }
