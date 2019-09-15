@@ -2,8 +2,8 @@
     <div>
         <div class="row">
             <div class="col-4 grid-margin stretch-card">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addApplicationPortal">
-                add application portal
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addApplicationPortal" v-if="es_env=='local'">
+                <i class="ti ti-plus"></i> Add Application Portal
                 </button>
             </div>
         </div>
@@ -12,29 +12,33 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="delSuccess">delete application portal success</p>
+                        <p class="alert alert-success" v-if="delSuccess">Delete Application Portal Success</p>
                         
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>App Name</th>
                                     <th>App Url</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(application_portal,index) in application_portals" :key="application_portal.id">
                                     <td>{{index+1}}</td>
-                                    <td>{{application_portal.app_name}}</td>
+                                    <td>
+                                    {{application_portal.app_name}}
+                                    <p></p>
+                                    <span class="badge badge-secondary">App ID : {{application_portal.id}}</span>
+                                    </td>
                                     <td>{{application_portal.app_url}}</td>
                                     <td>
-                                        <a href="#editApplicationPortal" @click="findApplicationPortal(application_portal.id)" data-toggle="modal" class="badge badge-primary">edit</a>
-                                        <a href="#deleteApplicationPortal" @click="deleteApplicationPortal(application_portal.id)" class="badge badge-danger">delete</a>
+                                        <a v-if="es_env=='local'" href="#editApplicationPortal" @click="findApplicationPortal(application_portal.id)" data-toggle="modal" class="badge badge-primary"><i class="ti ti-pencil"></i> Edit</a>
+                                        <a v-if="es_env=='local'" href="#deleteApplicationPortal" @click="deleteApplicationPortal(application_portal.id)" class="badge badge-danger"><i class="ti ti-trash"></i> Delete</a>
                                     </td>
                                 </tr>
                                 <tr v-if="!application_portals.length">
-                                    <td colspan="4">Tidak ada data</td>
+                                    <td colspan="4"><i>Data is empty!</i></td>
                                 </tr>   
                             </tbody>
                         </table>
@@ -47,13 +51,13 @@
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">add application portal</h5>
+                        <h5 class="modal-title">Add Application Portal</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                            <p class="alert alert-success" v-if="success">add application portal success</p>
+                            <p class="alert alert-success" v-if="success">Add Application Portal Success</p>
                             <div class="form-group">
                                 <label>App Name</label>
                                 <p class="alert alert-warning" v-if="errors.app_name">{{errors.app_name[0]}}</p>
@@ -67,7 +71,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="addApplicationPortal()">add</button>
+                        <button type="button" class="btn btn-primary" @click="addApplicationPortal()"><i class="ti ti-save"></i> Save</button>
                     </div>
                 </div>
             </div>
@@ -77,13 +81,13 @@
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">edit application portal {{application_portal.app_name}}</h5>
+                        <h5 class="modal-title">Edit Application Portal {{application_portal.app_name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                            <p class="alert alert-success" v-if="success">edit application portal success</p>
+                            <p class="alert alert-success" v-if="success">Edit Application Portal Success</p>
                         <div class="form-group">
                             <label>App Name</label>
                             <p class="alert alert-warning" v-if="errors.app_name">{{errors.app_name[0]}}</p>
@@ -97,7 +101,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="updateApplicationPortal(application_portal.id)">edit</button>
+                        <button type="button" class="btn btn-primary" @click="updateApplicationPortal(application_portal.id)"><i class="ti ti-save"></i> Save</button>
                     </div>
                 </div>
             </div>
@@ -123,6 +127,7 @@
                 errors:{},
                 success:false,
                 delSuccess:false,
+                es_env:'',
                 headers:''
             } 
         },
@@ -136,6 +141,7 @@
             {
                 window.location = "/login"
             }
+            this.es_env = process.env.MIX_ES_ENV
             this.loadApplicationPortals();
         },
 

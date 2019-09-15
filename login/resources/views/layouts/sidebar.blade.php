@@ -24,6 +24,14 @@
               <span class="menu-title">Application Portal</span>
             </a>
           </li>
+          @if(env('CLOUD_APP_ID',0))
+          <li class="nav-item">
+            <a class="nav-link" href="/cloud_setting">
+              <i class="ti-cloud menu-icon"></i>
+              <span class="menu-title">Cloud Setting</span>
+            </a>
+          </li>
+          @endif
           <li class="nav-item">
             <a class="nav-link" href="javascript:doLogout()">
               <i class="ti-power-off menu-icon"></i>

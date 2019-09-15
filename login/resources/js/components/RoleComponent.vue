@@ -2,8 +2,8 @@
     <div>
         <div class="row">
             <div class="col-4 grid-margin stretch-card">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addRole">
-                add role
+                <button v-if="es_env=='local'" type="button" class="btn btn-success" data-toggle="modal" data-target="#addRole">
+                <i class="ti ti-plus"></i> Add Role
                 </button>
             </div>
         </div>
@@ -12,16 +12,16 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="delSuccess">delete role success</p>
+                        <p class="alert alert-success" v-if="delSuccess">Delete Role Success</p>
                         
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Application Portal</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,12 +32,12 @@
                                     <td v-if="role.application_portal">{{role.application_portal.app_name}}</td>
                                     <td v-else>Tidak ada Portal</td>
                                     <td>
-                                        <a href="#editRole" @click="findRole(role.id)" data-toggle="modal" class="badge badge-primary">edit</a>
-                                        <a href="#deleteRole" @click="deleteRole(role.id)" class="badge badge-danger">delete</a>
+                                        <a v-if="es_env=='local'" href="#editRole" @click="findRole(role.id)" data-toggle="modal" class="badge badge-primary"><i class="ti ti-pencil"></i> Edit</a>
+                                        <a v-if="es_env=='local'" href="#deleteRole" @click="deleteRole(role.id)" class="badge badge-danger"><i class="ti ti-trash"></i>Delete </a>
                                     </td>
                                 </tr>
                                 <tr v-if="!roles.length">
-                                    <td colspan="4">Tidak ada data</td>
+                                    <td colspan="4"><i>Data is empty!</i></td>
                                 </tr>   
                             </tbody>
                         </table>
@@ -50,13 +50,13 @@
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">add role</h5>
+                        <h5 class="modal-title">Add Role</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                            <p class="alert alert-success" v-if="success">add role success</p>
+                            <p class="alert alert-success" v-if="success">Add Role Success</p>
                         <div class="form-group">
                             <label>Name</label>
                             <p class="alert alert-warning" v-if="errors.name">{{errors.name[0]}}</p>
@@ -76,7 +76,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="addRole()">add</button>
+                        <button type="button" class="btn btn-primary" @click="addRole()"><i class="ti ti-save"></i> Save</button>
                     </div>
                 </div>
             </div>
@@ -86,13 +86,13 @@
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">edit role {{role.name}}</h5>
+                        <h5 class="modal-title">Edit Role {{role.name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                            <p class="alert alert-success" v-if="success">edit role success</p>
+                            <p class="alert alert-success" v-if="success">Edit Role Success</p>
                         <div class="form-group">
                             <label>Name</label>
                             <p class="alert alert-warning" v-if="errors.name">{{errors.name[0]}}</p>
@@ -112,7 +112,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="updateRole()">edit</button>
+                        <button type="button" class="btn btn-primary" @click="updateRole()"><i class="ti ti-save"></i> Save</button>
                     </div>
                 </div>
             </div>
@@ -136,6 +136,7 @@
                 token:'',
                 headers:'',
                 success:false,
+                es_env:'',
                 delSuccess:false
             } 
         },
@@ -150,6 +151,7 @@
             {
                 window.location = "/login"
             }
+            this.es_env = process.env.MIX_ES_ENV
             this.loadRoles();
         },
 

@@ -26,7 +26,7 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>File Name</th>
+                                    <th>Name</th>
                                     <th>Size</th>
                                 </tr>
                             </thead>
@@ -47,7 +47,7 @@
                                         <a href="javascript:void(0)" class="text-primary"><i class="ti ti-share"></i> Share</a> &nbsp;
                                         <a href="javascript:void(0)" @click="deleteFile(file.id)" class="text-danger"><i class="ti ti-trash"></i> Delete</a>
                                     </td>
-                                    <td>{{(file.size/1024).toLocaleString(undefined,{ minimumFractionDigits: 1 })}} kb</td>
+                                    <td>{{(file.size/1024).toLocaleString(undefined,{ maximumFractionDigits: 1 })}} kb</td>
                                 </tr>
                                 <tr v-if="!files.length && !folders.length">
                                     <td colspan="3">Tidak ada data</td>

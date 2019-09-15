@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::middleware('allowed')->group(function(){
+	Route::get('/', function () {
+	    return view('index');
+	});
 
-Route::get('files','FileController@index');
-Route::get('files/{folder}','FileController@index');
+	Route::get('files','FileController@index');
+	Route::get('files/{folder}','FileController@index');
+});

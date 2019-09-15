@@ -2051,6 +2051,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2065,6 +2069,7 @@ __webpack_require__.r(__webpack_exports__);
       errors: {},
       success: false,
       delSuccess: false,
+      es_env: '',
       headers: ''
     };
   },
@@ -2079,6 +2084,7 @@ __webpack_require__.r(__webpack_exports__);
       window.location = "/login";
     }
 
+    this.es_env = "local";
     this.loadApplicationPortals();
   },
   methods: {
@@ -2472,6 +2478,7 @@ __webpack_require__.r(__webpack_exports__);
       token: '',
       headers: '',
       success: false,
+      es_env: '',
       delSuccess: false
     };
   },
@@ -2486,6 +2493,7 @@ __webpack_require__.r(__webpack_exports__);
       window.location = "/login";
     }
 
+    this.es_env = "local";
     this.loadRoles();
   },
   methods: {
@@ -2614,7 +2622,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -38355,7 +38362,27 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._m(0),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
+        _vm.es_env == "local"
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: {
+                  type: "button",
+                  "data-toggle": "modal",
+                  "data-target": "#addApplicationPortal"
+                }
+              },
+              [
+                _c("i", { staticClass: "ti ti-plus" }),
+                _vm._v(" Add Application Portal\n            ")
+              ]
+            )
+          : _vm._e()
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-12 grid-margin stretch-card" }, [
@@ -38363,12 +38390,12 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.delSuccess
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete application portal success")
+                  _vm._v("Delete Application Portal Success")
                 ])
               : _vm._e(),
             _vm._v(" "),
             _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
+              _vm._m(0),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -38380,55 +38407,72 @@ var render = function() {
                     return _c("tr", { key: application_portal.id }, [
                       _c("td", [_vm._v(_vm._s(index + 1))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(application_portal.app_name))]),
+                      _c("td", [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(application_portal.app_name) +
+                            "\n                                "
+                        ),
+                        _c("p"),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "badge badge-secondary" }, [
+                          _vm._v("App ID : " + _vm._s(application_portal.id))
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(application_portal.app_url))]),
                       _vm._v(" "),
                       _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-primary",
-                            attrs: {
-                              href: "#editApplicationPortal",
-                              "data-toggle": "modal"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.findApplicationPortal(
-                                  application_portal.id
-                                )
-                              }
-                            }
-                          },
-                          [_vm._v("edit")]
-                        ),
+                        _vm.es_env == "local"
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "badge badge-primary",
+                                attrs: {
+                                  href: "#editApplicationPortal",
+                                  "data-toggle": "modal"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.findApplicationPortal(
+                                      application_portal.id
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "ti ti-pencil" }),
+                                _vm._v(" Edit")
+                              ]
+                            )
+                          : _vm._e(),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#deleteApplicationPortal" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteApplicationPortal(
-                                  application_portal.id
-                                )
-                              }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
+                        _vm.es_env == "local"
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "badge badge-danger",
+                                attrs: { href: "#deleteApplicationPortal" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteApplicationPortal(
+                                      application_portal.id
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "ti ti-trash" }),
+                                _vm._v(" Delete")
+                              ]
+                            )
+                          : _vm._e()
                       ])
                     ])
                   }),
                   _vm._v(" "),
                   !_vm.application_portals.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "4" } }, [
-                          _vm._v("Tidak ada data")
-                        ])
-                      ])
+                    ? _c("tr", [_vm._m(1)])
                     : _vm._e()
                 ],
                 2
@@ -38450,7 +38494,7 @@ var render = function() {
             _c("div", { staticClass: "modal-body" }, [
               _vm.success
                 ? _c("p", { staticClass: "alert alert-success" }, [
-                    _vm._v("add application portal success")
+                    _vm._v("Add Application Portal Success")
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -38540,7 +38584,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("add")]
+                [_c("i", { staticClass: "ti ti-save" }), _vm._v(" Save")]
               )
             ])
           ])
@@ -38557,7 +38601,7 @@ var render = function() {
             _c("div", { staticClass: "modal-header" }, [
               _c("h5", { staticClass: "modal-title" }, [
                 _vm._v(
-                  "edit application portal " +
+                  "Edit Application Portal " +
                     _vm._s(_vm.application_portal.app_name)
                 )
               ]),
@@ -38568,7 +38612,7 @@ var render = function() {
             _c("div", { staticClass: "modal-body" }, [
               _vm.success
                 ? _c("p", { staticClass: "alert alert-success" }, [
-                    _vm._v("edit application portal success")
+                    _vm._v("Edit Application Portal Success")
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -38668,7 +38712,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("edit")]
+                [_c("i", { staticClass: "ti ti-save" }), _vm._v(" Save")]
               )
             ])
           ])
@@ -38682,20 +38726,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addApplicationPortal"
-            }
-          },
-          [_vm._v("\n            add application portal\n            ")]
-        )
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("App Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("App Url")]),
+        _vm._v(" "),
+        _c("th")
       ])
     ])
   },
@@ -38703,16 +38742,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("No")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("App Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("App Url")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
-      ])
+    return _c("td", { attrs: { colspan: "4" } }, [
+      _c("i", [_vm._v("Data is empty!")])
     ])
   },
   function() {
@@ -38721,7 +38752,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c("h5", { staticClass: "modal-title" }, [
-        _vm._v("add application portal")
+        _vm._v("Add Application Portal")
       ]),
       _vm._v(" "),
       _c(
@@ -39043,7 +39074,27 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._m(0),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
+        _vm.es_env == "local"
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: {
+                  type: "button",
+                  "data-toggle": "modal",
+                  "data-target": "#addRole"
+                }
+              },
+              [
+                _c("i", { staticClass: "ti ti-plus" }),
+                _vm._v(" Add Role\n            ")
+              ]
+            )
+          : _vm._e()
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-12 grid-margin stretch-card" }, [
@@ -39051,12 +39102,12 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.delSuccess
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete role success")
+                  _vm._v("Delete Role Success")
                 ])
               : _vm._e(),
             _vm._v(" "),
             _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
+              _vm._m(0),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -39076,47 +39127,51 @@ var render = function() {
                         : _c("td", [_vm._v("Tidak ada Portal")]),
                       _vm._v(" "),
                       _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-primary",
-                            attrs: {
-                              href: "#editRole",
-                              "data-toggle": "modal"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.findRole(role.id)
-                              }
-                            }
-                          },
-                          [_vm._v("edit")]
-                        ),
+                        _vm.es_env == "local"
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "badge badge-primary",
+                                attrs: {
+                                  href: "#editRole",
+                                  "data-toggle": "modal"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.findRole(role.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "ti ti-pencil" }),
+                                _vm._v(" Edit")
+                              ]
+                            )
+                          : _vm._e(),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#deleteRole" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteRole(role.id)
-                              }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
+                        _vm.es_env == "local"
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "badge badge-danger",
+                                attrs: { href: "#deleteRole" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteRole(role.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "ti ti-trash" }),
+                                _vm._v("Delete ")
+                              ]
+                            )
+                          : _vm._e()
                       ])
                     ])
                   }),
                   _vm._v(" "),
-                  !_vm.roles.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "4" } }, [
-                          _vm._v("Tidak ada data")
-                        ])
-                      ])
-                    : _vm._e()
+                  !_vm.roles.length ? _c("tr", [_vm._m(1)]) : _vm._e()
                 ],
                 2
               )
@@ -39134,7 +39189,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.success
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("add role success")
+                  _vm._v("Add Role Success")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -39270,7 +39325,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("add")]
+              [_c("i", { staticClass: "ti ti-save" }), _vm._v(" Save")]
             )
           ])
         ])
@@ -39282,7 +39337,7 @@ var render = function() {
         _c("div", { staticClass: "modal-content" }, [
           _c("div", { staticClass: "modal-header" }, [
             _c("h5", { staticClass: "modal-title" }, [
-              _vm._v("edit role " + _vm._s(_vm.role.name))
+              _vm._v("Edit Role " + _vm._s(_vm.role.name))
             ]),
             _vm._v(" "),
             _vm._m(3)
@@ -39291,7 +39346,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.success
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("edit role success")
+                  _vm._v("Edit Role Success")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -39427,7 +39482,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("edit")]
+              [_c("i", { staticClass: "ti ti-save" }), _vm._v(" Save")]
             )
           ])
         ])
@@ -39440,30 +39495,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addRole"
-            }
-          },
-          [_vm._v("\n            add role\n            ")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("No")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
@@ -39471,7 +39505,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Application Portal")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
+        _c("th")
       ])
     ])
   },
@@ -39479,8 +39513,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "4" } }, [
+      _c("i", [_vm._v("Data is empty!")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("add role")]),
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Add Role")]),
       _vm._v(" "),
       _c(
         "button",
@@ -39544,7 +39586,7 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.delSuccess
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete success")
+                  _vm._v("Delete Success")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -39562,63 +39604,62 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(user.email))]),
                       _vm._v(" "),
-                      !user.roles.length
-                        ? _c("td", [
-                            _c(
-                              "a",
-                              {
-                                staticClass: "badge badge-success",
-                                attrs: {
-                                  href: "#addRole",
-                                  "data-toggle": "modal"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.findUser(user.id)
-                                  }
-                                }
-                              },
-                              [_vm._v("Add Role")]
-                            )
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      user.roles.length
-                        ? _c(
-                            "td",
-                            [
+                      _c("td", [
+                        user.roles.length
+                          ? _c(
+                              "div",
                               _vm._l(user.roles, function(role) {
-                                return _c(
-                                  "a",
-                                  {
-                                    key: role.id,
-                                    staticClass: "badge badge-info",
-                                    attrs: { href: "#" }
-                                  },
-                                  [_vm._v(_vm._s(role.name))]
-                                )
+                                return _c("span", { key: role.id }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "badge badge-info",
+                                      attrs: { href: "#" }
+                                    },
+                                    [_vm._v(_vm._s(role.name))]
+                                  ),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "badge badge-danger",
+                                      attrs: { href: "javascript:void(0)" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.deleteRole(
+                                            user.id,
+                                            role.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "ti ti-trash" })]
+                                  ),
+                                  _vm._v("  ")
+                                ])
                               }),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "badge badge-success",
-                                  attrs: {
-                                    href: "#addRole",
-                                    "data-toggle": "modal"
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.findUser(user.id)
-                                    }
-                                  }
-                                },
-                                [_vm._v("Add Role")]
-                              )
-                            ],
-                            2
-                          )
-                        : _vm._e(),
+                              0
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("p"),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "badge badge-success",
+                            attrs: { href: "#addRole", "data-toggle": "modal" },
+                            on: {
+                              click: function($event) {
+                                return _vm.findUser(user.id)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "ti ti-plus" }),
+                            _vm._v(" Add Role")
+                          ]
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("td", [
                         _c(
@@ -39635,7 +39676,10 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("edit")]
+                          [
+                            _c("i", { staticClass: "ti ti-pencil" }),
+                            _vm._v(" Edit")
+                          ]
                         ),
                         _vm._v(" "),
                         _c(
@@ -39649,19 +39693,16 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("delete")]
+                          [
+                            _c("i", { staticClass: "ti ti-trash" }),
+                            _vm._v(" Delete")
+                          ]
                         )
                       ])
                     ])
                   }),
                   _vm._v(" "),
-                  !_vm.users.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "4" } }, [
-                          _vm._v("Tidak ada data")
-                        ])
-                      ])
-                    : _vm._e()
+                  !_vm.users.length ? _c("tr", [_vm._m(2)]) : _vm._e()
                 ],
                 2
               )
@@ -39674,12 +39715,12 @@ var render = function() {
     _c("div", { staticClass: "modal fade", attrs: { id: "addUser" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(2),
+          _vm._m(3),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _vm.success
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("add user success")
+                  _vm._v("Add User Success")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -39833,7 +39874,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("add")]
+              [_c("i", { staticClass: "ti ti-save" }), _vm._v(" Save")]
             )
           ])
         ])
@@ -39845,16 +39886,16 @@ var render = function() {
         _c("div", { staticClass: "modal-content" }, [
           _c("div", { staticClass: "modal-header" }, [
             _c("h5", { staticClass: "modal-title" }, [
-              _vm._v("edit user " + _vm._s(_vm.user.name))
+              _vm._v("Edit User " + _vm._s(_vm.user.name))
             ]),
             _vm._v(" "),
-            _vm._m(3)
+            _vm._m(4)
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _vm.success
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("edit user success")
+                  _vm._v("Edit User success")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -40008,7 +40049,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("edit")]
+              [_c("i", { staticClass: "ti ti-save" }), _vm._v(" Save")]
             )
           ])
         ])
@@ -40020,16 +40061,16 @@ var render = function() {
         _c("div", { staticClass: "modal-content" }, [
           _c("div", { staticClass: "modal-header" }, [
             _c("h5", { staticClass: "modal-title" }, [
-              _vm._v("add role " + _vm._s(_vm.user.name))
+              _vm._v("Tambah Role " + _vm._s(_vm.user.name))
             ]),
             _vm._v(" "),
-            _vm._m(4)
+            _vm._m(5)
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _vm.success
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("add role " + _vm._s(_vm.user.name))
+                  _vm._v("Tambah Role " + _vm._s(_vm.user.name))
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -40126,7 +40167,10 @@ var staticRenderFns = [
               "data-target": "#addUser"
             }
           },
-          [_vm._v("\n            add user\n            ")]
+          [
+            _c("i", { staticClass: "ti ti-plus" }),
+            _vm._v(" Add User\n            ")
+          ]
         )
       ])
     ])
@@ -40137,7 +40181,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("No")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
@@ -40145,7 +40189,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Roles")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
+        _c("th")
       ])
     ])
   },
@@ -40153,8 +40197,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "6" } }, [
+      _c("i", [_vm._v("Data is empty!")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("add user")]),
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Add User")]),
       _vm._v(" "),
       _c(
         "button",
@@ -52354,36 +52406,16 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+var Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
 Vue.component('login-component', __webpack_require__(/*! ./components/LoginComponent.vue */ "./resources/js/components/LoginComponent.vue")["default"]);
 Vue.component('admin-component', __webpack_require__(/*! ./components/AdminComponent.vue */ "./resources/js/components/AdminComponent.vue")["default"]);
 Vue.component('user-component', __webpack_require__(/*! ./components/UserComponent.vue */ "./resources/js/components/UserComponent.vue")["default"]);
 Vue.component('role-component', __webpack_require__(/*! ./components/RoleComponent.vue */ "./resources/js/components/RoleComponent.vue")["default"]);
 Vue.component('application-portal-component', __webpack_require__(/*! ./components/ApplicationPortalComponent.vue */ "./resources/js/components/ApplicationPortalComponent.vue")["default"]);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-var app = new Vue({
+vue = new Vue({
   el: '#app'
 });
 
@@ -52810,8 +52842,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/e-school/login/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/e-school/login/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

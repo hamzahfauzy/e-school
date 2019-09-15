@@ -12,12 +12,14 @@
 */
 
 // Auth::routes();
-Route::get('/','MainController@index')->name('index');
-Route::get('dashboard',function(){
-    return view('dashboard');
-});
 Route::get('login','MainController@login')->name('login');
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/users', 'UserController@index')->name('users');
-Route::get('/roles', 'RoleController@index')->name('roles');
-Route::get('/application_portals', 'ApplicationPortalController@index')->name('application_portals');
+Route::middleware('allowed')->group(function(){
+	Route::get('/','MainController@index')->name('index');
+	Route::get('dashboard',function(){
+	    return view('dashboard');
+	});
+	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/users', 'UserController@index')->name('users');
+	Route::get('/roles', 'RoleController@index')->name('roles');
+	Route::get('/application_portals', 'ApplicationPortalController@index')->name('application_portals');
+});

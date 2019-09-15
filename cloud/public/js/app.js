@@ -20672,7 +20672,7 @@ var render = function() {
                         _vm._v(
                           _vm._s(
                             (file.size / 1024).toLocaleString(undefined, {
-                              minimumFractionDigits: 1
+                              maximumFractionDigits: 1
                             })
                           ) + " kb"
                         )
@@ -20861,7 +20861,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("File Name")]),
+        _c("th", [_vm._v("Name")]),
         _vm._v(" "),
         _c("th", [_vm._v("Size")])
       ])

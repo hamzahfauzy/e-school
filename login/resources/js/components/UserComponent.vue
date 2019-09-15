@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-4 grid-margin stretch-card">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUser">
-                add user
+                <i class="ti ti-plus"></i> Add User
                 </button>
             </div>
         </div>
@@ -12,16 +12,15 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="delSuccess">delete success</p>
-                        
+                        <p class="alert alert-success" v-if="delSuccess">Delete Success</p>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Roles</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,20 +28,20 @@
                                     <td>{{index+1}}</td>
                                     <td>{{user.name}}</td>
                                     <td>{{user.email}}</td>
-                                    <td v-if="!user.roles.length">
-                                        <a href="#addRole" @click="findUser(user.id)" data-toggle="modal" class="badge badge-success">Add Role</a>
-                                    </td>
-                                    <td v-if="user.roles.length">
-                                        <a href="#" class="badge badge-info" v-for="role in user.roles" :key="role.id">{{role.name}}</a>
-                                        <a href="#addRole" @click="findUser(user.id)" data-toggle="modal" class="badge badge-success">Add Role</a>
+                                    <td>
+                                        <div v-if="user.roles.length">
+                                        <span v-for="role in user.roles" :key="role.id"><a href="#" class="badge badge-info">{{role.name}}</a><a href="javascript:void(0)" @click="deleteRole(user.id,role.id)" class="badge badge-danger"><i class="ti ti-trash"></i></a> &nbsp;</span>
+                                        </div>
+                                        <p></p>
+                                        <a href="#addRole" @click="findUser(user.id)" data-toggle="modal" class="badge badge-success"><i class="ti ti-plus"></i> Add Role</a>
                                     </td>
                                     <td>
-                                        <a href="#editUser" @click="findUser(user.id)" data-toggle="modal" class="badge badge-primary">edit</a>
-                                        <a href="#deleteUser" @click="deleteUser(user.id)" class="badge badge-danger">delete</a>
+                                        <a href="#editUser" @click="findUser(user.id)" data-toggle="modal" class="badge badge-primary"><i class="ti ti-pencil"></i> Edit</a>
+                                        <a href="#deleteUser" @click="deleteUser(user.id)" class="badge badge-danger"><i class="ti ti-trash"></i> Delete</a>
                                     </td>
                                 </tr>
                                 <tr v-if="!users.length">
-                                    <td colspan="4">Tidak ada data</td>
+                                    <td colspan="6"><i>Data is empty!</i></td>
                                 </tr>   
                             </tbody>
                         </table>
@@ -55,13 +54,13 @@
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">add user</h5>
+                        <h5 class="modal-title">Add User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                            <p class="alert alert-success" v-if="success">add user success</p>
+                            <p class="alert alert-success" v-if="success">Add User Success</p>
                         <div class="form-group">
                             <label>Name</label>
                             <p class="alert alert-warning" v-if="errors.name">{{errors.name[0]}}</p>
@@ -85,7 +84,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="addUser()">add</button>
+                        <button type="button" class="btn btn-primary" @click="addUser()"><i class="ti ti-save"></i> Save</button>
                     </div>
                 </div>
             </div>
@@ -95,13 +94,13 @@
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">edit user {{user.name}}</h5>
+                        <h5 class="modal-title">Edit User {{user.name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                            <p class="alert alert-success" v-if="success">edit user success</p>
+                            <p class="alert alert-success" v-if="success">Edit User success</p>
                         <div class="form-group">
                             <label>Name</label>
                             <p class="alert alert-warning" v-if="errors.name">{{errors.name[0]}}</p>
@@ -125,7 +124,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
-                        <button type="button" class="btn btn-primary" @click="updateUser()">edit</button>
+                        <button type="button" class="btn btn-primary" @click="updateUser()"><i class="ti ti-save"></i> Save</button>
                     </div>
                 </div>
             </div>
@@ -135,13 +134,13 @@
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">add role {{user.name}}</h5>
+                        <h5 class="modal-title">Tambah Role {{user.name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                            <p class="alert alert-success" v-if="success">add role {{user.name}}</p>
+                            <p class="alert alert-success" v-if="success">Tambah Role {{user.name}}</p>
                         <div class="form-group">
                             <label>Role</label>
                             <select v-model="user_role.role_id" class="form-control">
