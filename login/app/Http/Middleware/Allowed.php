@@ -34,6 +34,20 @@ class Allowed
             setcookie('eschool_token_app', '', time() - 3600, '/', '.'.env('APP_DOMAIN'));
             return redirect(env('MIX_ES_URL')."/login");
         }
+
+        $allowed = false;
+        foreach($content->roles as $role)
+        {
+            if($role->application_portal->id == env('ES_APP_ID'))
+            {
+                $allowed = true;
+                break;
+            }
+        }
+
+        if(!$allowed)
+            return redirect(env('MIX_ES_URL'));
+
         return $next($request);
     }
 }

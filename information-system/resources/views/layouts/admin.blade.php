@@ -28,6 +28,19 @@
     window.deleteCookie = name => {
         document.cookie = name + "=;domain=.{{env('APP_DOMAIN')}}";
     }
+    window.doLogout = () => {
+      var token = window.getCookie('eschool_token_app')
+      fetch('api/logout', {
+        method:'post',
+        headers: {
+          'Authorization': 'Bearer '+token
+        }
+      })
+      .then(res => {
+          window.deleteCookie('eschool_token_app')
+          window.location = "{{env('MIX_ES_URL')}}/login"
+      })
+    }
 
   </script>
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">

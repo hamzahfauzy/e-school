@@ -44,4 +44,9 @@ Route::group(['middleware' => 'auth:api'], function(){
         Route::post('update','API\ApplicationPortalController@update');
         Route::delete('delete','API\ApplicationPortalController@delete');
     });
+
+    Route::prefix('cloud')->group(function(){
+        Route::get('index','API\CloudSettingController@index');
+        Route::post('update','API\CloudSettingController@update');
+    });
 });
