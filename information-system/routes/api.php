@@ -48,6 +48,9 @@ Route::prefix('employee')->group(function(){
     Route::post('create','API\EmployeeController@create');
     Route::post('update','API\EmployeeController@update');
     Route::delete('delete','API\EmployeeController@delete');
+
+    Route::post('addStudy','API\EmployeeController@addStudy');
+    Route::delete('deleteStudy','API\EmployeeController@deleteStudy');
 });
 
 Route::prefix('schedule')->group(function(){
@@ -64,4 +67,7 @@ Route::prefix('class_room')->group(function(){
     Route::post('create','API\ClassRoomController@create');
     Route::post('update','API\ClassRoomController@update');
     Route::delete('delete','API\ClassRoomController@delete');
+
+    Route::post('addStudent','API\ClassRoomController@addStudent');
+    Route::delete('deleteStudent','API\ClassRoomController@deleteStudent');
 });

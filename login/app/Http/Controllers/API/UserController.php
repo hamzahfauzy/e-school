@@ -74,6 +74,16 @@ class UserController extends Controller
         return response()->json($user, $this->successStatus); 
     }
 
+    public function role() 
+    { 
+        $user = Auth::user();
+        $user->roles;
+        foreach($user->roles as $role){
+            $role->application_portal;
+        }
+        return response()->json($user, $this->successStatus); 
+    }
+
     public function test()
     {
         return 1;

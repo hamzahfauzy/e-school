@@ -17,6 +17,7 @@ class ClassRoomController extends Controller
         foreach($class_rooms as $class_room){
             $class_room->major;
             $class_room->employee;
+            $class_room->students;
         }
         return response()->json($class_rooms,$this->success);
     }
@@ -25,6 +26,7 @@ class ClassRoomController extends Controller
         $class_room = Classroom::find($id);
         $class_room->major;
         $class_room->employee;
+        $class_room->students;
         return response()->json($class_room,$this->success);
     }
 
@@ -62,6 +64,18 @@ class ClassRoomController extends Controller
     public function delete(Request $request){
         $class_room = Classroom::find($request->id);
         $class_room->delete();
+        return response()->json(['success'=>1],$this->success);
+    }
+
+    public function addStudent(Request $request){
+        $class_room = Classroom::find($request->id);
+        $class_room->students()->attach($request->student_id);
+        return response()->json(['success'=>1],$this->success);
+    }
+
+    public function deleteStudent(Request $request){
+        $class_room = Classroom::find($request->id);
+        $class_room->students()->detach($request->student_id);
         return response()->json(['success'=>1],$this->success);
     }
 }

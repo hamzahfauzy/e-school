@@ -29,6 +29,7 @@
                                     <td>{{class_room.major.name}}</td>
                                     <td>{{class_room.employee.name}}</td>
                                     <td>
+                                        <a :href="'/class_rooms/'+class_room.name" class="badge badge-success">view</a>
                                         <a href="#editClassRoom" data-toggle="modal" class="badge badge-primary" @click="findClassRoom(class_room.id)">edit</a>
                                         <a href="#" @click="deleteClassRoom(class_room.id)" class="badge badge-danger">delete</a>
                                     </td>
