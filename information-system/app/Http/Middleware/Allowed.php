@@ -27,7 +27,6 @@ class Allowed
             ]
         ]);
         $content = json_decode($response->getBody()->getContents());
-
         if(empty($content) || $content == null)
         {
             unset($_COOKIE['eschool_token_app']);
