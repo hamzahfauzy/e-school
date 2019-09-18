@@ -64,14 +64,16 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function details() 
+    public function details(Request $request) 
     { 
-        $user = Auth::user();
-        $user->roles;
-        foreach($user->roles as $role){
-            $role->application_portal;
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user->roles;
+            foreach($user->roles as $role){
+                $role->application_portal;
+            }
+            return response()->json($user, $this->successStatus); 
         }
-        return response()->json($user, $this->successStatus); 
     }
 
     public function role() 
