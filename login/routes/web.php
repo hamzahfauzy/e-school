@@ -18,7 +18,10 @@ Route::middleware('allowed')->group(function(){
 	Route::get('dashboard','MainController@dashboard');
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/users', 'UserController@index')->name('users');
+
 	Route::get('/roles', 'RoleController@index')->name('roles');
+	Route::get('/roles/{role}/menu', 'RoleController@menu')->name('roles.menu');
+
 	Route::get('/application_portals', 'ApplicationPortalController@index')->name('application_portals');
 	Route::get('/cloud_setting', 'CloudSettingController@index')->name('cloud_setting');
 });

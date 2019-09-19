@@ -32,9 +32,14 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::prefix('role')->group(function(){
         Route::get('', 'API\RoleController@index');
         Route::get('{ID}','API\RoleController@single');
+        Route::get('{ID}/menu','API\RoleController@menu');
+        Route::get('{ID}/menu/find/{menu}','API\RoleController@findMenu');
         Route::post('create','API\RoleController@create');
         Route::post('update','API\RoleController@update');
         Route::delete('delete','API\RoleController@delete');
+        Route::post('{ID}/menu/create','API\RoleController@menuInsert');
+        Route::post('{ID}/menu/update','API\RoleController@menuUpdate');
+        Route::delete('{ID}/menu/delete','API\RoleController@deleteMenu');
     });
 
     Route::prefix('application_portal')->group(function(){

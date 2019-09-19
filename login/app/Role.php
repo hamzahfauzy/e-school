@@ -15,4 +15,9 @@ class Role extends Model
     public function application_portal(){
         return $this->belongsTo(ApplicationPortal::class,'app_id');
     }
+
+    public function menus()
+    {
+    	return $this->hasMany(Menu::class,'role_id','id');
+    }
 }

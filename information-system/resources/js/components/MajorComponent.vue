@@ -12,6 +12,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="alert alert-success" v-if="deleteStatus">delete jurusan success</p>
+                        <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -34,6 +35,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

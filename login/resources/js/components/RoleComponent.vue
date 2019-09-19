@@ -13,7 +13,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="alert alert-success" v-if="delSuccess">Delete Role Success</p>
-                        
+                        <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -27,20 +27,26 @@
                             <tbody>
                                 <tr v-for="(role,index) in roles" :key="role.id">
                                     <td>{{index+1}}</td>
-                                    <td>{{role.name}}</td>
+                                    <td>
+                                    {{role.name}}
+                                    <!-- <p></p>
+                                    <span class="badge badge-secondary">Role ID : {{role.id}}</span> -->
+                                    </td>
                                     <td>{{role.description}}</td>
                                     <td v-if="role.application_portal">{{role.application_portal.app_name}}</td>
                                     <td v-else>Tidak ada Portal</td>
                                     <td>
+                                        <a v-if="es_env=='local'" :href="'/roles/'+role.id+'/menu'" class="badge badge-success"><i class="ti ti-list"></i> Menu</a>
                                         <a v-if="es_env=='local'" href="#editRole" @click="findRole(role.id)" data-toggle="modal" class="badge badge-primary"><i class="ti ti-pencil"></i> Edit</a>
                                         <a v-if="es_env=='local'" href="#deleteRole" @click="deleteRole(role.id)" class="badge badge-danger"><i class="ti ti-trash"></i>Delete </a>
                                     </td>
                                 </tr>
                                 <tr v-if="!roles.length">
-                                    <td colspan="4"><i>Data is empty!</i></td>
+                                    <td colspan="5"><i>Data is empty!</i></td>
                                 </tr>   
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

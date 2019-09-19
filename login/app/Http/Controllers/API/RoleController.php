@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Role;
+use App\{Role,Menu};
 use Validator;
 
 class RoleController extends Controller
@@ -59,5 +59,52 @@ class RoleController extends Controller
         }
         $role->delete();
         return response()->json(['success'=>1],$this->successStatus);
+    }
+
+    public function menu(Role $ID)
+    {
+        return response()->json($ID->menus,$this->successStatus);
+    }
+
+    public function menuInsert($ID, Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'name' => 'required', 
+            'url' => 'required', 
+        ]);
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+        $input = $request->all(); 
+        $input['role_id'] = $ID;
+        $role = Menu::create($input);
+        return response()->json(['success'=>1], $this->successStatus);
+    }
+
+    public function menuUpdate($ID, Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'name' => 'required', 
+            'url' => 'required', 
+        ]);
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+        $input = $request->only('name','url','id');
+        $input['role_id'] = $ID;
+        $menu = Menu::find($request->id);
+        $menu->update($input);
+        return response()->json(['success'=>1], $this->successStatus);
+    }
+
+    public function findMenu($ID, Menu $menu)
+    {
+        return response()->json($menu, $this->successStatus);
+    }
+
+    public function deleteMenu($ID, Request $request)
+    {
+        $menu = Menu::find($request->id);
+        $menu->delete();
+        return response()->json(['success'=>1], $this->successStatus);
     }
 }
