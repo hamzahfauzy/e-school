@@ -19,6 +19,7 @@ class CreateFilesTable extends Migration
             $table->string('name');
             $table->string('url');
             $table->bigInteger('user_id');
+            $table->integer('size');
             $table->timestamps();
         });
     }

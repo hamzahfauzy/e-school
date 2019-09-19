@@ -24,7 +24,14 @@ Route::prefix('folder')->group(function(){
 });
 
 Route::prefix('files')->group(function(){
+	Route::post('all','API\FileController@all');
+	Route::get('{id}','API\FileController@single');
 	Route::post('index/{folder}','API\FileController@index');
 	Route::post('upload','API\FileController@upload');
+	Route::post('share','API\FileController@share');
 	Route::delete('delete','API\FileController@delete');
+});
+
+Route::prefix('share')->group(function(){
+	Route::post('','API\ShareFileController@index');
 });

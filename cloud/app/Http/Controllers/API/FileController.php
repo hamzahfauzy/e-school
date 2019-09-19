@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-use App\{Folder,File};
+use App\{Folder,File,FileShare};
 
 class FileController extends Controller
 {
@@ -20,6 +20,19 @@ class FileController extends Controller
 
     	return response()->json(['folders'=>$folders,'files'=>$files],200);
 
+    }
+
+    function all(Request $request){
+        $files = File::where('user_id',$request->user_id)->orderBy('id','desc')->get();
+        foreach($files as $file)
+    		$file->storage_url = Storage::url($file->url);
+        return response()->json($files,200);
+    }
+
+    function single($id){
+        $file = File::find($id);
+    	$file->storage_url = Storage::url($file->url);
+        return response()->json($file,200);
     }
 
     function upload(Request $request)
@@ -43,6 +56,12 @@ class FileController extends Controller
         }
 
     	return 1;
+    }
+
+    function share(Request $request){
+        $input = $request->only('file_id','user_id');
+        $fs = FileShare::create($input);
+        return response()->json(1,200);
     }
 
     function delete(Request $request)

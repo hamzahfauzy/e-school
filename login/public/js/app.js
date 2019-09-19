@@ -1941,7 +1941,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
+/* WEBPACK VAR INJECTION */(function(process) {//
 //
 //
 //
@@ -2084,7 +2084,7 @@ __webpack_require__.r(__webpack_exports__);
       window.location = "/login";
     }
 
-    this.es_env = "local";
+    this.es_env = process.env.MIX_ES_ENV;
     this.loadApplicationPortals();
   },
   methods: {
@@ -2188,6 +2188,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -2437,7 +2438,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
+/* WEBPACK VAR INJECTION */(function(process) {//
 //
 //
 //
@@ -2589,7 +2590,7 @@ __webpack_require__.r(__webpack_exports__);
       window.location = "/login";
     }
 
-    this.es_env = "local";
+    this.es_env = process.env.MIX_ES_ENV;
     this.loadRoles();
   },
   methods: {
@@ -2706,6 +2707,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -53089,8 +53091,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/e-school/login/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/e-school/login/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

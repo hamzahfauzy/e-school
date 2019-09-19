@@ -31,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(folder,index) in folders" v-bind:key="folder.id">
+                                <tr v-for="folder in folders" v-bind:key="folder.id">
                                     <td>
                                         <a v-bind:href="'/files/'+folder.id">{{folder.name}}</a>
                                         <p></p>
@@ -39,12 +39,12 @@
                                     </td>
                                     <td>-</td>
                                 </tr>
-                                <tr v-for="(file,index) in files" v-bind:key="files.id">
+                                <tr v-for="file in files" :key="file.id">
                                     <td>
                                         <a v-bind:href="cloud_url+file.storage_url" target="_blank">{{file.name}}</a>
                                         <p></p>
                                         <a v-bind:href="cloud_url+file.storage_url" target="_blank" class="text-success"><i class="ti ti-cloud-down"></i> Download</a> &nbsp;
-                                        <a href="javascript:void(0)" class="text-primary"><i class="ti ti-share"></i> Share</a> &nbsp;
+                                        <a href="#share" class="text-primary" data-toggle="modal" @click="findFile(file.id)"><i class="ti ti-share"></i> Share</a> &nbsp;
                                         <a href="javascript:void(0)" @click="deleteFile(file.id)" class="text-danger"><i class="ti ti-trash"></i> Delete</a>
                                     </td>
                                     <td>{{(file.size/1024).toLocaleString(undefined,{ maximumFractionDigits: 1 })}} kb</td>
@@ -107,6 +107,32 @@
             </div>
         </div>
 
+        <div class="modal fade" id="share">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Share File</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p v-if="statusShare" class="alert alert-success">share file sukses</p>
+                        <div class="form-group">
+                            <label>Pilih User</label>
+                            <select v-model="data.user_id" class="form-control">
+                                <option v-for="user in users" :key="user.id" :value="user.id">{{user.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                        <button type="button" class="btn btn-primary" @click="shareFile(file.id)">Share</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -128,7 +154,10 @@ export default {
             user_id:0,
             status:false,
             cloud_url:'',
-            statusUpload:false
+            statusUpload:false,
+            statusShare:false,
+            file:{},
+            users:{},
         }
     },
     async created(){
@@ -143,6 +172,7 @@ export default {
         }
         await this.fetchUserId()
         this.loadFiles()
+        this.loadUsers()
     },
     methods:{
         async fetchUserId(){
@@ -157,7 +187,7 @@ export default {
             return data;
         },
         loadFiles(){
-            fetch('/api/files/index/'+this.folder,{
+            fetch('/api/files/index/'+this.folder_id,{
                 method:'post',
                 headers:this.headers,
                 body:JSON.stringify({user_id:this.user_id})
@@ -229,6 +259,39 @@ export default {
         },
         handleFileUpload(){
             this.fileUploads = this.$refs.file.files;
+        },
+        loadUsers(){
+            fetch(process.env.MIX_ES_URL+"/api/user",{
+                headers:this.headers
+            })
+            .then(res=>res.json())
+            .then(res=>{
+                this.users = res
+            })
+        },
+        findFile(id){
+            fetch('api/files/'+id,{
+                headers:this.headers
+            })
+            .then(res=>res.json())
+            .then(res=>{
+                this.file = res
+            })
+        },
+        shareFile(id){
+            this.data.file_id = id
+            fetch('api/files/share',{
+                method:'post',
+                headers:this.headers,
+                body:JSON.stringify(this.data)
+            })
+            .then(res=>res.json())
+            .then(res=>{
+                this.statusShare = true
+                this.data = {}
+                this.file = {}
+                this.loadFiles()
+            })
         },
         submitUpload(){
             var formData = new FormData();

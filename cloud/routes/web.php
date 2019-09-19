@@ -18,4 +18,6 @@ Route::middleware('allowed')->group(function(){
 
 	Route::get('files','FileController@index');
 	Route::get('files/{folder}','FileController@index');
+
+	Route::get('shared-file','FileController@share');
 });

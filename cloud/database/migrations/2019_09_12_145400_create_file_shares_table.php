@@ -15,9 +15,11 @@ class CreateFileSharesTable extends Migration
     {
         Schema::create('file_shares', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('file_id');
+            $table->bigInteger('file_id')->unsigned();
             $table->bigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
         });
     }
 

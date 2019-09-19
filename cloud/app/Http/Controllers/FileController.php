@@ -12,10 +12,14 @@ class FileController extends Controller
     {
     	$folder = !$folder ? 0 : $folder;
     	$model = Folder::find($folder);
-    	$parent = $model ? $model->parent_id : -1;
+		$parent = $model ? $model->parent_id : -1;
     	return view('file.index',[
     		'folder' => $folder,
     		'parent' => $parent
     	]);
-    }
+	}
+	
+	function share(){
+		return view('file.share');
+	}
 }

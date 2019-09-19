@@ -15,9 +15,7 @@
 Route::get('login','MainController@login')->name('login');
 Route::get('/','MainController@index')->name('index');
 Route::middleware('allowed')->group(function(){
-	Route::get('dashboard',function(){
-	    return view('dashboard');
-	});
+	Route::get('dashboard','MainController@dashboard');
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/users', 'UserController@index')->name('users');
 	Route::get('/roles', 'RoleController@index')->name('roles');
