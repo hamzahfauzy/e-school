@@ -8,7 +8,7 @@ class Schedule extends Model
 {
     protected $guarded = [];
 
-    public function study_teacher(){
-        return $this->belongsTo(Employee::class,'study_teacher_id');
+    function employee_study(){
+        return $this->belongsTo(EmployeeStudy::class,'study_teacher_id');
     }
 }

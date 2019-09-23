@@ -6,22 +6,35 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use App\Schedule;
+use App\EmployeeStudy;
 
 class ScheduleController extends Controller
 {
     public $success = 200;
 
     public function index(){
-        $studies = Schedule::get();
-        return response()->json($studies,$this->success);
+        $schedules = Schedule::get();
+        foreach($schedules as $schedule){
+            $schedule->employee_study->employee;
+            $schedule->employee_study->class_room->major;
+        }
+        return response()->json($schedules,$this->success);
     }
 
     public function single($id){
-        $study = Schedule::find($id);
-        return response()->json($study,$this->success);
+        $schedule = Schedule::find($id);
+        $schedule->employee_study->employee;
+        $schedule->employee_study->class_room->major;
+        return response()->json($schedule,$this->success);
     }
 
     public function create(Request $request){
+        $time = explode('-',$request->time);
+        $es = EmployeeStudy::where('study_id',$request->study_id)->where('employee_id',$request->employee_id)->where('classroom_id',$request->classroom_id)->first();
+        $request['study_teacher_id'] = $es->id;
+        $request['time_start'] = $time[0];
+        $request['time_finish'] = $time[1];
+
         $validator = Validator::make($request->all(),[
             'study_teacher_id'  =>  'required',
             'day'               =>  'required',

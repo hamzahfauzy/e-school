@@ -16,24 +16,26 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>Nama Pegawai</th>
+                                    <th>Kelas ( Jurusan )</th>
                                     <th>Waktu</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(schedule,index) in schedules" :key="schedule.id">
                                     <td>{{index+1}}</td>
-                                    <td>{{schedule.study_teacher_id}}</td>
-                                    <td>{{schedule.day}}</td>
+                                    <td>{{schedule.employee_study.employee.name}}</td>
+                                    <td>{{schedule.employee_study.class_room.name}} ( {{schedule.employee_study.class_room.major.name}} )</td>
+                                    <td>{{schedule.day}} , {{schedule.time_start}} - {{schedule.time_finish}}</td>
                                     <td>
-                                        <a href="#editSchedule" data-toggle="modal" class="badge badge-primary" @click="findSchedule(schedule.id)">edit</a>
+                                        <!-- <a href="#editSchedule" data-toggle="modal" class="badge badge-primary" @click="findSchedule(schedule.id)">edit</a> -->
                                         <a href="#" @click="deleteSchedule(schedule.id)" class="badge badge-danger">delete</a>
                                     </td>
                                 </tr>
                                 <tr  v-if="!schedules.length" >
-                                    <td colspan="4">Tidak ada data</td>
+                                    <td colspan="5">Tidak ada data</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -56,8 +58,34 @@
                         <p v-if="status" class="alert alert-success">tambah jadwal sukses</p>
                         <div class="form-group">
                             <label>Pegawai</label>
-                            <select v-model="data.study_teacher_id" class="form-control">
+                            <select v-model="data.employee_id" @change="findEmployee" class="form-control">
                                 <option v-for="employee in employees" :key="employee.id" :value="employee.id">{{employee.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" v-if="eStatus">
+                            <label>Mata Pelajaran ( Kelas )</label>
+                            <select v-model="data.study_class" class="form-control">
+                                <option v-for="(study,index) in employee.studies" :key="index" :value="{study_id:study.id , classroom_id:employee.class_rooms[index].id}">{{study.name}} ( {{employee.class_rooms[index].name}} )</option>
+                            </select>
+                        </div>
+                        <div class="form-group" v-if="eStatus">
+                            <label>Hari</label>
+                            <select v-model="data.day" class="form-control">
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jum'at">Jum'at</option>
+                                <option value="Sabtu">Sabtu</option>
+                            </select>
+                        </div>
+                        <div class="form-group" v-if="eStatus">
+                            <label>Waktu</label>
+                            <select v-model="data.time" class="form-control">
+                                <option value="7.15-8.00">7.15-8.00</option>
+                                <option value="8.00-8.45">8.00-8.45</option>
+                                <option value="8.45-9.15">8.45-9.15</option>
+                                <option value="9.15-10.00">9.15-10.00</option>
                             </select>
                         </div>
                     </div>
@@ -73,21 +101,49 @@
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Mata Pelajaran</h5>
+                        <h5 class="modal-title">Edit Jadwal</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p v-if="status" class="alert alert-success">edit mata pelajaran sukses</p>
+                        <p v-if="status" class="alert alert-success">edit jadwal sukses</p>
                         <div class="form-group">
-                            <label>Nama</label>
-                            <input type="text" class="form-control" v-model="data.name">
+                            <label>Pegawai</label>
+                            <select v-model="data.employee_id" @change="findEmployee" class="form-control">
+                                <option v-for="employee in employees" :key="employee.id" :value="employee.id">{{employee.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" v-if="eStatus">
+                            <label>Mata Pelajaran ( Kelas )</label>
+                            <select v-model="data.study_class" class="form-control">
+                                <option v-for="(study,index) in employee.studies" :key="index" :value="{study_id:study.id , classroom_id:employee.class_rooms[index].id}">{{study.name}} ( {{employee.class_rooms[index].name}} )</option>
+                            </select>
+                        </div>
+                        <div class="form-group" v-if="eStatus">
+                            <label>Hari</label>
+                            <select v-model="data.day" class="form-control">
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jum'at">Jum'at</option>
+                                <option value="Sabtu">Sabtu</option>
+                            </select>
+                        </div>
+                        <div class="form-group" v-if="eStatus">
+                            <label>Waktu</label>
+                            <select v-model="data.time" class="form-control">
+                                <option value="7.15-8.00">7.15-8.00</option>
+                                <option value="8.00-8.45">8.00-8.45</option>
+                                <option value="8.45-9.15">8.45-9.15</option>
+                                <option value="9.15-10.00">9.15-10.00</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"  @click="data = {}">Close</button>
-                        <button type="button" class="btn btn-primary" @click="updateSchedule()">Edit Mata Pelajaran</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                        <button type="button" class="btn btn-primary" @click="addSchedule()">Tambah Jadwal</button>
                     </div>
                 </div>
             </div>
@@ -106,7 +162,9 @@ export default {
             headers:'',
             status:false,
             deleteStatus:false,
-            employees:{}
+            employees:{},
+            employee:{},
+            eStatus:false,
         }
     },
     created(){
@@ -141,6 +199,8 @@ export default {
             })
         },
         addSchedule(){
+            this.data.study_id = this.data.study_class.study_id
+            this.data.classroom_id = this.data.study_class.classroom_id
             fetch('api/schedule/create',{
                 method:'post',
                 headers:this.headers,
@@ -154,6 +214,8 @@ export default {
             })
         },
         updateSchedule(){
+            this.data.study_id = this.data.study_class.study_id
+            this.data.classroom_id = this.data.study_class.classroom_id
             fetch('api/schedule/update',{
                 method:'post',
                 headers:this.headers,
@@ -184,6 +246,16 @@ export default {
             .then(res=>res.json())
             .then(res=>{
                 this.employees = res
+            })
+        },
+        findEmployee(e){
+            fetch('api/employee/'+e.target.value,{
+                headers:this.headers
+            })
+            .then(res=>res.json())
+            .then(res=>{
+                this.employee = res
+                this.eStatus = true
             })
         }
     }

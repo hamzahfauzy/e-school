@@ -15,4 +15,8 @@ class Employee extends Model
     public function class_rooms(){
         return $this->belongsToMany(Classroom::class,'employee_study');
     }
+
+    public function employee_studies(){
+        return $this->hasMany(EmployeeStudy::class);
+    }
 }

@@ -1963,6 +1963,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2174,6 +2176,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     class_room: {}
@@ -2276,6 +2280,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2635,6 +2641,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     employee: {}
@@ -2750,6 +2758,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -3047,6 +3057,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3056,7 +3124,9 @@ __webpack_require__.r(__webpack_exports__);
       headers: '',
       status: false,
       deleteStatus: false,
-      employees: {}
+      employees: {},
+      employee: {},
+      eStatus: false
     };
   },
   created: function created() {
@@ -3099,6 +3169,8 @@ __webpack_require__.r(__webpack_exports__);
     addSchedule: function addSchedule() {
       var _this3 = this;
 
+      this.data.study_id = this.data.study_class.study_id;
+      this.data.classroom_id = this.data.study_class.classroom_id;
       fetch('api/schedule/create', {
         method: 'post',
         headers: this.headers,
@@ -3115,6 +3187,8 @@ __webpack_require__.r(__webpack_exports__);
     updateSchedule: function updateSchedule() {
       var _this4 = this;
 
+      this.data.study_id = this.data.study_class.study_id;
+      this.data.classroom_id = this.data.study_class.classroom_id;
       fetch('api/schedule/update', {
         method: 'post',
         headers: this.headers,
@@ -3154,6 +3228,18 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this6.employees = res;
       });
+    },
+    findEmployee: function findEmployee(e) {
+      var _this7 = this;
+
+      fetch('api/employee/' + e.target.value, {
+        headers: this.headers
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this7.employee = res;
+        _this7.eStatus = true;
+      });
     }
   }
 });
@@ -3169,6 +3255,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -3430,6 +3518,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -21256,76 +21346,78 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.class_rooms, function(class_room, index) {
-                    return _c("tr", { key: class_room.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(class_room.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(class_room.major.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(class_room.employee.name))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-success",
-                            attrs: { href: "/class_rooms/" + class_room.name }
-                          },
-                          [_vm._v("view")]
-                        ),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.class_rooms, function(class_room, index) {
+                      return _c("tr", { key: class_room.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-primary",
-                            attrs: {
-                              href: "#editClassRoom",
-                              "data-toggle": "modal"
+                        _c("td", [_vm._v(_vm._s(class_room.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(class_room.major.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(class_room.employee.name))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-success",
+                              attrs: { href: "/class_rooms/" + class_room.name }
                             },
-                            on: {
-                              click: function($event) {
-                                return _vm.findClassRoom(class_room.id)
+                            [_vm._v("view")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-primary",
+                              attrs: {
+                                href: "#editClassRoom",
+                                "data-toggle": "modal"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.findClassRoom(class_room.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("edit")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteClassRoom(class_room.id)
+                            },
+                            [_vm._v("edit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-danger",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteClassRoom(class_room.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
-                      ])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  !_vm.class_rooms.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "5" } }, [
-                          _vm._v("Tidak ada data")
+                            },
+                            [_vm._v("delete")]
+                          )
                         ])
                       ])
-                    : _vm._e()
-                ],
-                2
-              )
+                    }),
+                    _vm._v(" "),
+                    !_vm.class_rooms.length
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "5" } }, [
+                            _vm._v("Tidak ada data")
+                          ])
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
@@ -21803,46 +21895,48 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.classRoomStudents, function(student, index) {
-                    return _c("tr", { key: student.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(student.name))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteClassRoomStudent(student.id)
+            _c("div", { staticClass: "table-responsive" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.classRoomStudents, function(student, index) {
+                      return _c("tr", { key: student.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(student.name))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-danger",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteClassRoomStudent(student.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
-                      ])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  !_vm.classRoomStudents.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "5" } }, [
-                          _vm._v("Tidak ada data")
+                            },
+                            [_vm._v("delete")]
+                          )
                         ])
                       ])
-                    : _vm._e()
-                ],
-                2
-              )
+                    }),
+                    _vm._v(" "),
+                    !_vm.classRoomStudents.length
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "5" } }, [
+                            _vm._v("Tidak ada data")
+                          ])
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
@@ -22040,82 +22134,84 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.employees, function(employee, index) {
-                    return _c("tr", { key: employee.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(employee.NIP))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(employee.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(employee.address))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(employee.gender))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(employee.phone_number))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(employee.employee_status))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-success",
-                            attrs: { href: "/employees/" + employee.name }
-                          },
-                          [_vm._v("view")]
-                        ),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.employees, function(employee, index) {
+                      return _c("tr", { key: employee.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-primary",
-                            attrs: {
-                              href: "#editEmployee",
-                              "data-toggle": "modal"
+                        _c("td", [_vm._v(_vm._s(employee.NIP))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(employee.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(employee.address))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(employee.gender))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(employee.phone_number))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(employee.employee_status))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-success",
+                              attrs: { href: "/employees/" + employee.name }
                             },
-                            on: {
-                              click: function($event) {
-                                return _vm.findEmployee(employee.id)
+                            [_vm._v("view")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-primary",
+                              attrs: {
+                                href: "#editEmployee",
+                                "data-toggle": "modal"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.findEmployee(employee.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("edit")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteEmployee(employee.id)
+                            },
+                            [_vm._v("edit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-danger",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteEmployee(employee.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
-                      ])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  !_vm.employees.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "8" } }, [
-                          _vm._v("Tidak ada data")
+                            },
+                            [_vm._v("delete")]
+                          )
                         ])
                       ])
-                    : _vm._e()
-                ],
-                2
-              )
+                    }),
+                    _vm._v(" "),
+                    !_vm.employees.length
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "8" } }, [
+                            _vm._v("Tidak ada data")
+                          ])
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
@@ -22709,53 +22805,55 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.employeeStudies, function(study, index) {
-                    return _c("tr", { key: study.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(study.name))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(_vm.employeeClassRooms[index].name))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteStudy(
-                                  study.id,
-                                  _vm.employeeClassRooms[index].id
-                                )
+            _c("div", { staticClass: "table-responsive" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.employeeStudies, function(study, index) {
+                      return _c("tr", { key: study.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(study.name))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(_vm.employeeClassRooms[index].name))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-danger",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteStudy(
+                                    study.id,
+                                    _vm.employeeClassRooms[index].id
+                                  )
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
-                      ])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  !_vm.employeeStudies.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "8" } }, [
-                          _vm._v("Tidak ada data")
+                            },
+                            [_vm._v("delete")]
+                          )
                         ])
                       ])
-                    : _vm._e()
-                ],
-                2
-              )
+                    }),
+                    _vm._v(" "),
+                    !_vm.employeeStudies.length
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "8" } }, [
+                            _vm._v("Tidak ada data")
+                          ])
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
@@ -23010,63 +23108,65 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.majors, function(major, index) {
-                    return _c("tr", { key: major.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(major.name))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-primary",
-                            attrs: {
-                              href: "#editMajor",
-                              "data-toggle": "modal"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.findMajor(major.id)
-                              }
-                            }
-                          },
-                          [_vm._v("edit")]
-                        ),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.majors, function(major, index) {
+                      return _c("tr", { key: major.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteMajor(major.id)
+                        _c("td", [_vm._v(_vm._s(major.name))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-primary",
+                              attrs: {
+                                href: "#editMajor",
+                                "data-toggle": "modal"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.findMajor(major.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
-                      ])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  !_vm.majors.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "3" } }, [
-                          _vm._v("Tidak ada data")
+                            },
+                            [_vm._v("edit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-danger",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteMajor(major.id)
+                                }
+                              }
+                            },
+                            [_vm._v("delete")]
+                          )
                         ])
                       ])
-                    : _vm._e()
-                ],
-                2
-              )
+                    }),
+                    _vm._v(" "),
+                    !_vm.majors.length
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "3" } }, [
+                            _vm._v("Tidak ada data")
+                          ])
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
@@ -23326,65 +23426,71 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.schedules, function(schedule, index) {
-                    return _c("tr", { key: schedule.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(schedule.study_teacher_id))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(schedule.day))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-primary",
-                            attrs: {
-                              href: "#editSchedule",
-                              "data-toggle": "modal"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.findSchedule(schedule.id)
-                              }
-                            }
-                          },
-                          [_vm._v("edit")]
-                        ),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.schedules, function(schedule, index) {
+                      return _c("tr", { key: schedule.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteSchedule(schedule.id)
+                        _c("td", [
+                          _vm._v(_vm._s(schedule.employee_study.employee.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(schedule.employee_study.class_room.name) +
+                              " ( " +
+                              _vm._s(
+                                schedule.employee_study.class_room.major.name
+                              ) +
+                              " )"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(schedule.day) +
+                              " , " +
+                              _vm._s(schedule.time_start) +
+                              " - " +
+                              _vm._s(schedule.time_finish)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-danger",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteSchedule(schedule.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
-                      ])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  !_vm.schedules.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "4" } }, [
-                          _vm._v("Tidak ada data")
+                            },
+                            [_vm._v("delete")]
+                          )
                         ])
                       ])
-                    : _vm._e()
-                ],
-                2
-              )
+                    }),
+                    _vm._v(" "),
+                    !_vm.schedules.length
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "5" } }, [
+                            _vm._v("Tidak ada data")
+                          ])
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
@@ -23413,29 +23519,32 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.data.study_teacher_id,
-                      expression: "data.study_teacher_id"
+                      value: _vm.data.employee_id,
+                      expression: "data.employee_id"
                     }
                   ],
                   staticClass: "form-control",
                   on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.data,
-                        "study_teacher_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.data,
+                          "employee_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.findEmployee
+                    ]
                   }
                 },
                 _vm._l(_vm.employees, function(employee) {
@@ -23447,7 +23556,192 @@ var render = function() {
                 }),
                 0
               )
-            ])
+            ]),
+            _vm._v(" "),
+            _vm.eStatus
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Mata Pelajaran ( Kelas )")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.study_class,
+                          expression: "data.study_class"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.data,
+                            "study_class",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.employee.studies, function(study, index) {
+                      return _c(
+                        "option",
+                        {
+                          key: index,
+                          domProps: {
+                            value: {
+                              study_id: study.id,
+                              classroom_id: _vm.employee.class_rooms[index].id
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(study.name) +
+                              " ( " +
+                              _vm._s(_vm.employee.class_rooms[index].name) +
+                              " )"
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.eStatus
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Hari")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.day,
+                          expression: "data.day"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.data,
+                            "day",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "Senin" } }, [
+                        _vm._v("Senin")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Selasa" } }, [
+                        _vm._v("Selasa")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Rabu" } }, [
+                        _vm._v("Rabu")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Kamis" } }, [
+                        _vm._v("Kamis")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Jum'at" } }, [
+                        _vm._v("Jum'at")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Sabtu" } }, [
+                        _vm._v("Sabtu")
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.eStatus
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Waktu")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.time,
+                          expression: "data.time"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.data,
+                            "time",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "7.15-8.00" } }, [
+                        _vm._v("7.15-8.00")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "8.00-8.45" } }, [
+                        _vm._v("8.00-8.45")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "8.45-9.15" } }, [
+                        _vm._v("8.45-9.15")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "9.15-10.00" } }, [
+                        _vm._v("9.15-10.00")
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "modal-footer" }, [
@@ -23486,35 +23780,243 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("edit mata pelajaran sukses")
+                  _vm._v("edit jadwal sukses")
                 ])
               : _vm._e(),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Nama")]),
+              _c("label", [_vm._v("Pegawai")]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.data.name,
-                    expression: "data.name"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.data.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.employee_id,
+                      expression: "data.employee_id"
                     }
-                    _vm.$set(_vm.data, "name", $event.target.value)
+                  ],
+                  staticClass: "form-control",
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.data,
+                          "employee_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.findEmployee
+                    ]
                   }
-                }
-              })
-            ])
+                },
+                _vm._l(_vm.employees, function(employee) {
+                  return _c(
+                    "option",
+                    { key: employee.id, domProps: { value: employee.id } },
+                    [_vm._v(_vm._s(employee.name))]
+                  )
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _vm.eStatus
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Mata Pelajaran ( Kelas )")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.study_class,
+                          expression: "data.study_class"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.data,
+                            "study_class",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.employee.studies, function(study, index) {
+                      return _c(
+                        "option",
+                        {
+                          key: index,
+                          domProps: {
+                            value: {
+                              study_id: study.id,
+                              classroom_id: _vm.employee.class_rooms[index].id
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(study.name) +
+                              " ( " +
+                              _vm._s(_vm.employee.class_rooms[index].name) +
+                              " )"
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.eStatus
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Hari")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.day,
+                          expression: "data.day"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.data,
+                            "day",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "Senin" } }, [
+                        _vm._v("Senin")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Selasa" } }, [
+                        _vm._v("Selasa")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Rabu" } }, [
+                        _vm._v("Rabu")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Kamis" } }, [
+                        _vm._v("Kamis")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Jum'at" } }, [
+                        _vm._v("Jum'at")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Sabtu" } }, [
+                        _vm._v("Sabtu")
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.eStatus
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Waktu")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.time,
+                          expression: "data.time"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.data,
+                            "time",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "7.15-8.00" } }, [
+                        _vm._v("7.15-8.00")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "8.00-8.45" } }, [
+                        _vm._v("8.00-8.45")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "8.45-9.15" } }, [
+                        _vm._v("8.45-9.15")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "9.15-10.00" } }, [
+                        _vm._v("9.15-10.00")
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "modal-footer" }, [
@@ -23522,12 +24024,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-secondary",
-                attrs: { type: "button", "data-dismiss": "modal" },
-                on: {
-                  click: function($event) {
-                    _vm.data = {}
-                  }
-                }
+                attrs: { type: "button", "data-dismiss": "modal" }
               },
               [_vm._v("Close")]
             ),
@@ -23539,11 +24036,11 @@ var render = function() {
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
-                    return _vm.updateSchedule()
+                    return _vm.addSchedule()
                   }
                 }
               },
-              [_vm._v("Edit Mata Pelajaran")]
+              [_vm._v("Tambah Jadwal")]
             )
           ])
         ])
@@ -23579,13 +24076,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("No")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nama Pegawai")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Kelas ( Jurusan )")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Waktu")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
+        _c("th")
       ])
     ])
   },
@@ -23615,7 +24114,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("Edit Mata Pelajaran")]),
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Edit Jadwal")]),
       _vm._v(" "),
       _c(
         "button",
@@ -23666,69 +24165,71 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.students, function(student, index) {
-                    return _c("tr", { key: student.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(student.NISN))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(student.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(student.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(student.gender))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-primary",
-                            attrs: {
-                              href: "#editStudent",
-                              "data-toggle": "modal"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.findStudent(student.id)
-                              }
-                            }
-                          },
-                          [_vm._v("edit")]
-                        ),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.students, function(student, index) {
+                      return _c("tr", { key: student.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteStudent(student.id)
+                        _c("td", [_vm._v(_vm._s(student.NISN))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(student.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(student.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(student.gender))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-primary",
+                              attrs: {
+                                href: "#editStudent",
+                                "data-toggle": "modal"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.findStudent(student.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
-                      ])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  !_vm.students.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "6" } }, [
-                          _vm._v("Tidak ada data")
+                            },
+                            [_vm._v("edit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-danger",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteStudent(student.id)
+                                }
+                              }
+                            },
+                            [_vm._v("delete")]
+                          )
                         ])
                       ])
-                    : _vm._e()
-                ],
-                2
-              )
+                    }),
+                    _vm._v(" "),
+                    !_vm.students.length
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "6" } }, [
+                            _vm._v("Tidak ada data")
+                          ])
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
@@ -24214,63 +24715,65 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.studies, function(study, index) {
-                    return _c("tr", { key: study.id }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(study.name))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-primary",
-                            attrs: {
-                              href: "#editStudy",
-                              "data-toggle": "modal"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.findStudy(study.id)
-                              }
-                            }
-                          },
-                          [_vm._v("edit")]
-                        ),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.studies, function(study, index) {
+                      return _c("tr", { key: study.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "badge badge-danger",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteStudy(study.id)
+                        _c("td", [_vm._v(_vm._s(study.name))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-primary",
+                              attrs: {
+                                href: "#editStudy",
+                                "data-toggle": "modal"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.findStudy(study.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("delete")]
-                        )
-                      ])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  !_vm.studies.length
-                    ? _c("tr", [
-                        _c("td", { attrs: { colspan: "3" } }, [
-                          _vm._v("Tidak ada data")
+                            },
+                            [_vm._v("edit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "badge badge-danger",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteStudy(study.id)
+                                }
+                              }
+                            },
+                            [_vm._v("delete")]
+                          )
                         ])
                       ])
-                    : _vm._e()
-                ],
-                2
-              )
+                    }),
+                    _vm._v(" "),
+                    !_vm.studies.length
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "3" } }, [
+                            _vm._v("Tidak ada data")
+                          ])
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
