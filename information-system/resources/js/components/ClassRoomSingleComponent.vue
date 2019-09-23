@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-4 grid-margin stretch-card">
+            <div class="col-md-4 col-sm-12 grid-margin stretch-card">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addClassRoom">
                 Tambah Siswa
                 </button>

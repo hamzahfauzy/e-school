@@ -29,8 +29,8 @@
                                     <td>{{index+1}}</td>
                                     <td>
                                     {{role.name}}
-                                    <!-- <p></p>
-                                    <span class="badge badge-secondary">Role ID : {{role.id}}</span> -->
+                                    <p></p>
+                                    <span class="badge badge-secondary">Role ID : {{role.id}}</span>
                                     </td>
                                     <td>{{role.description}}</td>
                                     <td v-if="role.application_portal">{{role.application_portal.app_name}}</td>

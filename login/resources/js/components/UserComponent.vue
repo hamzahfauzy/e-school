@@ -145,8 +145,22 @@
                             <p class="alert alert-success" v-if="success">Tambah Role {{user.name}}</p>
                         <div class="form-group">
                             <label>Role</label>
-                            <select v-model="user_role.role_id" class="form-control">
+                            <select v-model="user_role.role_id" class="form-control" @change="changeRoleEvent($event)">
                                 <option v-for="role in roles" :key="role.id" :value="role.id">{{role.name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group role-teacher" v-if="roleTeacherShow">
+                            <label>Role Teacher</label>
+                            <select v-model="teacher_id" class="form-control">
+                                <option v-for="teacher in teachers" :key="teacher.id" :value="teacher.id">{{teacher.name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group role-student" v-if="roleStudentShow">
+                            <label>Role Student</label>
+                            <select v-model="student_id" class="form-control">
+                                <option v-for="student in students" :key="student.id" :value="student.id">{{student.name}}</option>
                             </select>
                         </div>
                         
@@ -184,8 +198,15 @@
                     password:'',
                     c_password:'',
                 },
+                teacher_id:0,
+                student_id:0,
+                user_role_id:0,
                 user_role:{},
+                teachers:{},
+                students:{},
                 errors:{},
+                roleTeacherShow:false,
+                roleStudentShow:false,
                 success:false,
                 delSuccess:false
             } 
@@ -262,6 +283,11 @@
                 })
             },
             addRole(user_id){
+                if(this.roleTeacherShow)
+                    this.user_role.other_id = this.teacher_id
+                if(this.roleStudentShow)
+                    this.user_role.other_id = this.student_id
+
                 this.user_role.user_id = user_id
                 fetch('api/user/addRole',{
                     method:'post',
@@ -272,6 +298,9 @@
                         this.errors = res.error
                     }else{
                         this.success = true
+                        this.roleTeacherShow = false
+                        this.roleStudentShow = false
+                        this.user_role.role_id = 0
                         this.loadUsers()
                     }
                 })
@@ -321,6 +350,34 @@
                             this.delSuccess = true
                             this.loadUsers()
                         }
+                    })
+                }
+            },
+            changeRoleEvent(event){
+                var val = event.target.value
+                this.roleTeacherShow = false
+                this.roleStudentShow = false
+                if(val == process.env.MIX_EL_TEACHER_ROLE_ID)
+                {
+                    this.roleTeacherShow = true
+                    fetch(process.env.MIX_IS_URL+'/api/employee', {
+                        headers:this.headers,
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        this.teachers = res
+                    })
+                }
+
+                if(val == process.env.MIX_EL_STUDENT_ROLE_ID)
+                {
+                    this.roleStudentShow = true
+                    fetch(process.env.MIX_IS_URL+'/api/student', {
+                        headers:this.headers,
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        this.students = res
                     })
                 }
             }

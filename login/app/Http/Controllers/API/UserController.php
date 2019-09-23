@@ -133,6 +133,10 @@ class UserController extends Controller
 
     public function addRole(Request $request){
         $user = User::find($request->user_id);
+        if(isset($request->other_id))
+            $user->update([
+                'other_id' => $request->other_id
+            ]);
         $user->roles()->attach($request->role_id);
         return response()->json(['success'=>1],$this->successStatus);
     }

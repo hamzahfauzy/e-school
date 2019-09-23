@@ -3144,6 +3144,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3165,8 +3179,15 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         c_password: ''
       },
+      teacher_id: 0,
+      student_id: 0,
+      user_role_id: 0,
       user_role: {},
+      teachers: {},
+      students: {},
       errors: {},
+      roleTeacherShow: false,
+      roleStudentShow: false,
       success: false,
       delSuccess: false
     };
@@ -3255,6 +3276,8 @@ __webpack_require__.r(__webpack_exports__);
     addRole: function addRole(user_id) {
       var _this5 = this;
 
+      if (this.roleTeacherShow) this.user_role.other_id = this.teacher_id;
+      if (this.roleStudentShow) this.user_role.other_id = this.student_id;
       this.user_role.user_id = user_id;
       fetch('api/user/addRole', {
         method: 'post',
@@ -3267,6 +3290,9 @@ __webpack_require__.r(__webpack_exports__);
           _this5.errors = res.error;
         } else {
           _this5.success = true;
+          _this5.roleTeacherShow = false;
+          _this5.roleStudentShow = false;
+          _this5.user_role.role_id = 0;
 
           _this5.loadUsers();
         }
@@ -3334,6 +3360,35 @@ __webpack_require__.r(__webpack_exports__);
 
             _this8.loadUsers();
           }
+        });
+      }
+    },
+    changeRoleEvent: function changeRoleEvent(event) {
+      var _this9 = this;
+
+      var val = event.target.value;
+      this.roleTeacherShow = false;
+      this.roleStudentShow = false;
+
+      if (val == "2") {
+        this.roleTeacherShow = true;
+        fetch("http://information-system.smkn1pr.sch.id" + '/api/employee', {
+          headers: this.headers
+        }).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          _this9.teachers = res;
+        });
+      }
+
+      if (val == "3") {
+        this.roleStudentShow = true;
+        fetch("http://information-system.smkn1pr.sch.id" + '/api/student', {
+          headers: this.headers
+        }).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          _this9.students = res;
         });
       }
     }
@@ -39985,7 +40040,12 @@ var render = function() {
                             "\n                                " +
                               _vm._s(role.name) +
                               "\n                                "
-                          )
+                          ),
+                          _c("p"),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "badge badge-secondary" }, [
+                            _vm._v("Role ID : " + _vm._s(role.id))
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(role.description))]),
@@ -40980,23 +41040,28 @@ var render = function() {
                   ],
                   staticClass: "form-control",
                   on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.user_role,
-                        "role_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.user_role,
+                          "role_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.changeRoleEvent($event)
+                      }
+                    ]
                   }
                 },
                 _vm._l(_vm.roles, function(role) {
@@ -41008,7 +41073,95 @@ var render = function() {
                 }),
                 0
               )
-            ])
+            ]),
+            _vm._v(" "),
+            _vm.roleTeacherShow
+              ? _c("div", { staticClass: "form-group role-teacher" }, [
+                  _c("label", [_vm._v("Role Teacher")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.teacher_id,
+                          expression: "teacher_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.teacher_id = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.teachers, function(teacher) {
+                      return _c(
+                        "option",
+                        { key: teacher.id, domProps: { value: teacher.id } },
+                        [_vm._v(_vm._s(teacher.name))]
+                      )
+                    }),
+                    0
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.roleStudentShow
+              ? _c("div", { staticClass: "form-group role-student" }, [
+                  _c("label", [_vm._v("Role Student")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.student_id,
+                          expression: "student_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.student_id = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.students, function(student) {
+                      return _c(
+                        "option",
+                        { key: student.id, domProps: { value: student.id } },
+                        [_vm._v(_vm._s(student.name))]
+                      )
+                    }),
+                    0
+                  )
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "modal-footer" }, [

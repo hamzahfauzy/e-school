@@ -1986,7 +1986,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.com" + '/login';
+      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
     }
 
     this.loadClassRooms();
@@ -2201,7 +2201,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.com" + '/login';
+      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
     }
 
     this.loadStudents();
@@ -2472,7 +2472,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.com" + '/login';
+      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
     }
 
     this.loadEmployees();
@@ -2668,7 +2668,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.com" + '/login';
+      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
     }
 
     this.loadEmployee();
@@ -2871,7 +2871,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.com" + '/login';
+      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
     }
 
     this.loadMajors();
@@ -3137,7 +3137,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.com" + '/login';
+      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
     }
 
     this.loadSchedules();
@@ -3428,7 +3428,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.com" + '/login';
+      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
     }
 
     this.loadStudents();
@@ -3631,7 +3631,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.com" + '/login';
+      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
     }
 
     this.loadStudies();
@@ -21729,20 +21729,24 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addClassRoom"
-            }
-          },
-          [_vm._v("\n            Tambah Ruang Kelas\n            ")]
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "col-md-4 col-sm-12 grid-margin stretch-card" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#addClassRoom"
+              }
+            },
+            [_vm._v("\n            Tambah Ruang Kelas\n            ")]
+          )
+        ]
+      )
     ])
   },
   function() {
@@ -22027,20 +22031,24 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addClassRoom"
-            }
-          },
-          [_vm._v("\n            Tambah Siswa\n            ")]
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "col-md-4 col-sm-12 grid-margin stretch-card" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#addClassRoom"
+              }
+            },
+            [_vm._v("\n            Tambah Siswa\n            ")]
+          )
+        ]
+      )
     ])
   },
   function() {
@@ -22688,20 +22696,24 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addEmployee"
-            }
-          },
-          [_vm._v("\n            Tambah Pegawai\n            ")]
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "col-md-4 col-sm-12 grid-margin stretch-card" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#addEmployee"
+              }
+            },
+            [_vm._v("\n            Tambah Pegawai\n            ")]
+          )
+        ]
+      )
     ])
   },
   function() {
@@ -22993,24 +23005,28 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addEmployee"
-            }
-          },
-          [
-            _vm._v(
-              "\n            Tambah Mata Pelajaran dan Ruang Kelas\n            "
-            )
-          ]
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "col-md-4 col-sm-12 grid-margin stretch-card" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#addEmployee"
+              }
+            },
+            [
+              _vm._v(
+                "\n            Tambah Mata Pelajaran dan Ruang Kelas\n            "
+              )
+            ]
+          )
+        ]
+      )
     ])
   },
   function() {
@@ -23319,20 +23335,24 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addMajor"
-            }
-          },
-          [_vm._v("\n            Tambah Jurusan\n            ")]
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "col-md-4 col-sm-12 grid-margin stretch-card" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#addMajor"
+              }
+            },
+            [_vm._v("\n            Tambah Jurusan\n            ")]
+          )
+        ]
+      )
     ])
   },
   function() {
@@ -24054,20 +24074,24 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addSchedule"
-            }
-          },
-          [_vm._v("\n            Tambah Jadwal\n            ")]
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "col-md-4 col-sm-12 grid-margin stretch-card" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#addSchedule"
+              }
+            },
+            [_vm._v("\n            Tambah Jadwal\n            ")]
+          )
+        ]
+      )
     ])
   },
   function() {
@@ -24602,20 +24626,24 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addStudent"
-            }
-          },
-          [_vm._v("\n            Tambah Siswa\n            ")]
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "col-md-4 col-sm-12 grid-margin stretch-card" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#addStudent"
+              }
+            },
+            [_vm._v("\n            Tambah Siswa\n            ")]
+          )
+        ]
+      )
     ])
   },
   function() {
@@ -24926,20 +24954,24 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4 grid-margin stretch-card" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#addStudy"
-            }
-          },
-          [_vm._v("\n            Tambah Mata Pelajaran\n            ")]
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "col-md-4 col-sm-12 grid-margin stretch-card" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#addStudy"
+              }
+            },
+            [_vm._v("\n            Tambah Mata Pelajaran\n            ")]
+          )
+        ]
+      )
     ])
   },
   function() {
@@ -37770,8 +37802,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\information-system\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\information-system\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/e-school/information-system/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/e-school/information-system/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
