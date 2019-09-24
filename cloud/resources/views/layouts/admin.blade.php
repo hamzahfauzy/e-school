@@ -26,11 +26,12 @@
     }
 
     window.deleteCookie = name => {
-        document.cookie = name + "=;domain=.{{env('APP_DOMAIN')}}";
+        document.cookie = name + "=;domain={{env('APP_DOMAIN')}};path=/";
     }
+
     window.doLogout = () => {
       var token = window.getCookie('eschool_token_app')
-      fetch('api/logout', {
+      fetch('/api/logout', {
         method:'post',
         headers: {
           'Authorization': 'Bearer '+token

@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::middleware('allowed')->group(function(){
+	Route::get('/', function () {
+	    return view('index',[
+	    	'role_id' => session('role_id')
+	    ]);
+	});
 });
