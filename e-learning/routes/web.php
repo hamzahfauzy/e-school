@@ -18,4 +18,6 @@ Route::middleware('allowed')->group(function(){
 	    	'role_id' => session('role_id')
 	    ]);
 	});
+
+	Route::get('announcements','HomeController@announcement');
 });

@@ -13,6 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function(){
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    
+});
+
+Route::prefix('announcement')->group(function(){
+    Route::get('','API\AnnouncementController@index');
+    Route::get('{ID}','API\AnnouncementController@single');
+    Route::post('create','API\AnnouncementController@create');
+    Route::post('update','API\AnnouncementController@update');
+    Route::delete('delete','API\AnnouncementController@delete');
 });

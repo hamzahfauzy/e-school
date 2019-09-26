@@ -3370,9 +3370,9 @@ __webpack_require__.r(__webpack_exports__);
       this.roleTeacherShow = false;
       this.roleStudentShow = false;
 
-      if (val == "2") {
+      if (val == "9") {
         this.roleTeacherShow = true;
-        fetch("http://information-system.smkn1pr.sch.id" + '/api/employee', {
+        fetch("http://information-system.smkn1pr.com" + '/api/employee', {
           headers: this.headers
         }).then(function (res) {
           return res.json();
@@ -3381,9 +3381,9 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
 
-      if (val == "3") {
+      if (val == "10") {
         this.roleStudentShow = true;
-        fetch("http://information-system.smkn1pr.sch.id" + '/api/student', {
+        fetch("http://information-system.smkn1pr.com" + '/api/student', {
           headers: this.headers
         }).then(function (res) {
           return res.json();
@@ -54025,8 +54025,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/e-school/login/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/e-school/login/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -7,7 +7,7 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
-          <li class="nav-item" v-for="menu in menus">
+          <li class="nav-item" v-for="menu in menus" :key="menu.id">
             <a class="nav-link" :href="menu.url">
               <i class="ti-layout-list-post menu-icon"></i>
               <span class="menu-title">{{menu.name}}</span>
