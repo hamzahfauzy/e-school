@@ -20,4 +20,13 @@ Route::middleware('allowed')->group(function(){
 	});
 
 	Route::get('announcements','HomeController@announcement');
+	Route::get('assignments','HomeController@assignment');
+	Route::get('questions','HomeController@question');
+	Route::get('questions/{question}','HomeController@showQuestion');
+	Route::get('exams','HomeController@exam');
+	Route::get('exams/{exam}','HomeController@showExam');
+	Route::get('virtual-classroom','HomeController@virtualClassroom');
+	Route::get('virtual-classroom/start/{virtualClassroom}','HomeController@startVirtualClassroom');
+	Route::get('virtual-classroom/finish/{virtualClassroom}','HomeController@finishVirtualClassroom');
+	Route::get('virtual-classroom/{virtualClassroom}','HomeController@showVirtualClassroom');
 });

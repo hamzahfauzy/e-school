@@ -4,35 +4,36 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Announcement;
+use App\Assignment;
 use Validator;
 
-class AnnouncementController extends Controller
+class AssignmentController extends Controller
 {
     public $success = 200;
 
     public function index($teacher_id){
-        $announcements = Announcement::where('teacher_id',$teacher_id)->get();
-        return response()->json($announcements,$this->success);
+        $assignments = Assignment::where('teacher_id',$teacher_id)->get();
+        return response()->json($assignments,$this->success);
     }
 
     public function single($id){
-        $announcement = Announcement::find($id);
-        return response()->json($announcement,$this->success);
+        $assignment = Assignment::find($id);
+        return response()->json($assignment,$this->success);
     }
 
     public function create(Request $request){
         $validator = Validator::make($request->all(),[
             'classroom_id'  =>  'required',
             'teacher_id'    =>  'required',
-            'messages'      =>  'required',
+            'study_id'      =>  'required',
+            'file_url'      =>  'required',
         ]);
 
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors()],422);
         }
-        $input = $request->only('classroom_id','teacher_id','messages');
-        $announcement = Announcement::create($input);
+        $input = $request->only('classroom_id','teacher_id','study_id','file_url');
+        $assignment = Assignment::create($input);
         return response()->json(['success'=>1],$this->success);
     }
 
@@ -40,24 +41,25 @@ class AnnouncementController extends Controller
         $validator = Validator::make($request->all(),[
             'classroom_id'      =>  'required',
             'teacher_id'      =>  'required',
-            'messages'      =>  'required',
+            'study_id'      =>  'required',
+            'file_url'      =>  'required',
         ]);
 
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors()],401);
         }
-        $input = $request->only('classroom_id','teacher_id','messages');
-        $announcement = Announcement::find($request->id);
-        $announcement->update($input);
+        $input = $request->only('classroom_id','teacher_id','study_id','file_url');
+        $assignment = Assignment::find($request->id);
+        $assignment->update($input);
         return response()->json(['success'=>1],$this->success);
     }
 
     public function delete(Request $request){
-        $announcement = Announcement::find($request->id);
-        if($announcement->teacher_id == $request->teacher_id)
+        $assignment = Assignment::find($request->id);
+        if($assignment->teacher_id == $request->teacher_id)
         {
-            $announcement->delete();
-            return response()->json(['success'=>1],$this->success);
+	        $assignment->delete();
+	        return response()->json(['success'=>1],$this->success);
         }
         return response()->json(['success'=>0],$this->success);
     }

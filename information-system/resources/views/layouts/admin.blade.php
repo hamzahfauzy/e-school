@@ -79,6 +79,10 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 
   <!-- plugins:js -->
   <script src="{{asset('template/vendors/base/vendor.bundle.base.js')}}" async></script>

@@ -10,7 +10,7 @@
 	          	<div class="row">
 					<div class="col-md-4 col-sm-12 grid-margin stretch-card">
 						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAnnouncement">
-						Tambah Pengumuman
+						Tambah Soal
 						</button>
 					</div>
 				</div>
@@ -21,28 +21,31 @@
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<p class="alert alert-success" v-if="deleteStatus">Hapus Pengumunan Berhasil</p>
+								<p class="alert alert-success" v-if="deleteStatus">Hapus Soal Berhasil</p>
 								<div class="table-responsive">
 								<table class="table table-striped">
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>Kelas</th>
-											<th>Pesan</th>
+											<th>Mata Pelajaran</th>
+											<th>Judul</th>
+											<th>Jenis Soal</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="(announcement,index) in announcements" :key="announcement.id">
+										<tr v-for="(question,index) in questions" :key="question.id">
 											<td>{{index+1}}</td>
-											<td>{{announcement.classroom ? announcement.classroom.name : announcement.classroom_id}}</td>
-											<td>{{announcement.messages}}</td>
+											<td>{{question.study ? question.study.name : question.study_id}}</td>
+											<td>{{question.title}}</td>
+											<td>{{question.question_type}}</td>
 											<td>
-												<!-- <a href="#editannouncement" data-toggle="modal" data-target="#addAnnouncement"class="badge badge-primary" @click="findAnnouncement(announcement.id)">edit</a> -->
-												<a href="#" @click="deleteAnnouncement(announcement.id)" class="badge badge-danger">Hapus</a>
+												<a :href="'/questions/'+question.id" v-if="question.question_type=='Pilihan Berganda'" class="badge badge-success">Jawaban</a>
+												<a href="javascript:void(0)"  data-toggle="modal" data-target="#editSoal" class="badge badge-primary" @click="findQuestion(question.id)">Edit</a>
+												<a href="javascript:void(0)" @click="deleteQuestion(question.id)" class="badge badge-danger">Hapus</a>
 											</td>
 										</tr>
-										<tr  v-if="!announcements.length" >
+										<tr  v-if="!questions.length" >
 											<td colspan="5">Tidak ada data</td>
 										</tr>
 									</tbody>
@@ -61,27 +64,77 @@
 					<div class="modal-dialog" >
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">Tambah Pengumuman</h5>
+								<h5 class="modal-title">Tambah Soal</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
-								<p v-if="status" class="alert alert-success">Tambah Pengumuman Berhasil</p>
+								<p v-if="status" class="alert alert-success">Tambah Soal Berhasil</p>
 								<div class="form-group">
-									<label>Kelas</label>
-									<select v-model="data.classroom_id" class="form-control">
-										<option v-for="class_room in employee.class_rooms" :key="class_room.id" :value="class_room.id">{{class_room.name}}</option>
+									<label>Mata Pelajaran</label>
+									<select v-model="data.study_id" class="form-control">
+										<option v-for="study in employee.studies" :key="study.id" :value="study.id">{{study.name}}</option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Pesan</label>
-									<textarea class="form-control" v-model="data.messages" cols="30" rows="10"></textarea>
+									<label>Judul</label>
+									<input class="form-control" v-model="data.title">
+								</div>
+								<div class="form-group">
+									<label>Deskripsi</label>
+									<textarea class="form-control" v-model="data.description"></textarea>
+								</div>
+								<div class="form-group">
+									<label>Jenis Soal</label>
+									<select v-model="data.question_type" class="form-control">
+										<option v-for="qtype in ['Pilihan Berganda','Essay']" :key="qtype" :value="qtype">{{qtype}}</option>
+									</select>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
-								<button type="button" class="btn btn-primary" @click="addAnnouncement()">Tambah Pengumuman</button>
+								<button type="button" class="btn btn-primary" @click="addQuestion()">Tambah Tugas</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="editSoal">
+					<div class="modal-dialog" >
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Edit Soal</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p v-if="status" class="alert alert-success">Edit Soal Berhasil</p>
+								<div class="form-group">
+									<label>Mata Pelajaran</label>
+									<select v-model="data.study_id" class="form-control">
+										<option v-for="study in employee.studies" :key="study.id" :value="study.id">{{study.name}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Judul</label>
+									<input class="form-control" v-model="data.title">
+								</div>
+								<div class="form-group">
+									<label>Deskripsi</label>
+									<textarea class="form-control" v-model="data.description"></textarea>
+								</div>
+								<div class="form-group">
+									<label>Jenis Soal</label>
+									<select v-model="data.question_type" class="form-control">
+										<option v-for="qtype in ['Pilihan Berganda','Essay']" :key="qtype" :value="qtype">{{qtype}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal" @click="resetForm()">Close</button>
+								<button type="button" class="btn btn-primary" @click="updateQuestion()">Update Soal</button>
 							</div>
 						</div>
 					</div>
@@ -104,7 +157,7 @@ export default {
 	},
 	data(){
         return{
-            announcements:{},
+            questions:{},
             data:{},
             token:'',
             headers:'',
@@ -113,6 +166,7 @@ export default {
 			employees:{},
 			user_id:0,
 			other_id:0,
+			question_id:0,
 			employee:{},
 			eS:false
         }
@@ -128,7 +182,7 @@ export default {
         }
         await this.fetchUserId()
         await this.findEmployee()
-        this.loadAnnouncements()
+        this.loadQuestions()
     },
     methods:{
 
@@ -143,21 +197,28 @@ export default {
             this.other_id = data.other_id
             return data;
         },
-        async loadAnnouncements(){
+        async loadQuestions(){
             var vm = this
-            let response = await fetch('api/announcement/'+vm.other_id,{
+            let response = await fetch('api/question/'+vm.other_id,{
 	            headers:vm.headers,
 	        })
 	        let data = await response.json()
 	        data.forEach(val => {
 	        	let obj = vm.employee.class_rooms.find(o => o.id === val.classroom_id);
+	        	let studyObj = vm.employee.studies.find(o => o.id === val.study_id);
 				val.classroom = obj
+				val.study = studyObj
 	        })
-	        this.announcements = await data
+	        this.questions = await data
+
+            setTimeout(()=>{
+                vm.status = false
+                vm.deleteStatus = false
+            },2500)
 	        return data
         },
-        findAnnouncement(id){
-            fetch('api/announcement/'+id,{
+        findQuestion(id){
+            fetch('api/question/get/'+id,{
                 headers:this.headers,
             })
             .then(res => res.json())
@@ -165,9 +226,10 @@ export default {
                 this.data = res
             })
         },
-        addAnnouncement(){
+        addQuestion(){
         	this.data.teacher_id = this.other_id
-            fetch('api/announcement/create',{
+        	console.log(this.data)
+            fetch('api/question/create',{
                 method:'post',
                 headers:this.headers,
                 body:JSON.stringify(this.data)
@@ -176,12 +238,15 @@ export default {
             .then(res=>{
                 this.status = true
                 this.data = {}
-                this.loadAnnouncements()
+                this.loadQuestions()
             })
         },
-        updateAnnouncement(){
+        resetForm(){
+        	this.data = {}
+        },
+        updateQuestion(){
         	this.data.teacher_id = this.other_id
-            fetch('api/announcement/update',{
+            fetch('api/question/update',{
                 method:'post',
                 headers:this.headers,
                 body:JSON.stringify(this.data)
@@ -189,19 +254,19 @@ export default {
             .then(res=>res.json())
             .then(res=>{
                 this.status = true
-                this.loadAnnouncements()
+                this.loadQuestions()
             })
         },
-        deleteAnnouncement(announcement_id){
-            fetch('api/announcement/delete',{
+        deleteQuestion(question_id){
+            fetch('api/question/delete',{
                 method:'delete',
                 headers:this.headers,
-                body:JSON.stringify({id:announcement_id,teacher_id:this.other_id})
+                body:JSON.stringify({id:question_id,teacher_id:this.other_id})
             })
             .then(res=>res.json())
             .then(res=>{
                 this.deleteStatus = true
-                this.loadAnnouncements()
+                this.loadQuestions()
             })
 		},
 

@@ -2028,14 +2028,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               this.token = window.getCookie('eschool_token_app');
-              this.cloud_url = "http://cloud.smkn1pr.com";
+              this.cloud_url = "http://cloud.smkn1pr.sch.id";
               this.headers = {
                 'Authorization': 'Bearer ' + this.token,
                 'Content-Type': 'application/json'
               };
 
               if (this.token === undefined || this.token === null || this.token === '') {
-                window.location = "http://eschool.smkn1pr.com" + '/login';
+                window.location = "http://eschool.smkn1pr.sch.id" + '/login';
               }
 
               _context.next = 6;
@@ -2070,7 +2070,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return fetch("http://eschool.smkn1pr.com" + '/api/details', {
+                return fetch("http://eschool.smkn1pr.sch.id" + '/api/details', {
                   method: 'post',
                   headers: this.headers
                 });
@@ -2188,7 +2188,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadUsers: function loadUsers() {
       var _this5 = this;
 
-      fetch("http://eschool.smkn1pr.com" + "/api/user", {
+      fetch("http://eschool.smkn1pr.sch.id" + "/api/user", {
         headers: this.headers
       }).then(function (res) {
         return res.json();
@@ -2434,7 +2434,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               this.token = window.getCookie('eschool_token_app');
-              this.cloud_url = "http://cloud.smkn1pr.com";
+              this.cloud_url = "http://cloud.smkn1pr.sch.id";
               this.headers = {
                 'Authorization': 'Bearer ' + this.token,
                 'Content-Type': 'application/json'
@@ -2473,7 +2473,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return fetch("http://eschool.smkn1pr.com" + '/api/details', {
+                return fetch("http://eschool.smkn1pr.sch.id" + '/api/details', {
                   method: 'post',
                   headers: this.headers
                 });
@@ -2523,7 +2523,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadSize: function loadSize() {
       var _this2 = this;
 
-      fetch("http://eschool.smkn1pr.com" + '/api/cloud/index', {
+      fetch("http://eschool.smkn1pr.sch.id" + '/api/cloud/index', {
         headers: this.headers
       }).then(function (res) {
         return res.json();
@@ -2555,7 +2555,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadUsers: function loadUsers() {
       var _this4 = this;
 
-      fetch("http://eschool.smkn1pr.com" + "/api/user", {
+      fetch("http://eschool.smkn1pr.sch.id" + "/api/user", {
         headers: this.headers
       }).then(function (res) {
         return res.json();
@@ -2690,7 +2690,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               this.token = window.getCookie('eschool_token_app');
-              this.cloud_url = "http://cloud.smkn1pr.com";
+              this.cloud_url = "http://cloud.smkn1pr.sch.id";
               this.headers = {
                 'Authorization': 'Bearer ' + this.token,
                 'Content-Type': 'application/json'
@@ -2726,7 +2726,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return fetch("http://eschool.smkn1pr.com" + '/api/details', {
+                return fetch("http://eschool.smkn1pr.sch.id" + '/api/details', {
                   method: 'post',
                   headers: this.headers
                 });
@@ -34558,8 +34558,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\cloud\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\cloud\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/e-school/cloud/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/e-school/cloud/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

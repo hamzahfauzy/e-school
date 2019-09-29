@@ -22,8 +22,8 @@ class CreateVirtualClassroomsTable extends Migration
             $table->text('description');
             $table->integer('status');
             $table->string('file_url');
-            $table->datetime('start_at');
-            $table->datetime('finish_at');
+            $table->datetime('start_at')->nullable();
+            $table->datetime('finish_at')->nullable();
             $table->timestamps();
         });
     }

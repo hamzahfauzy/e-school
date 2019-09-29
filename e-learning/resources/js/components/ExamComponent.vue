@@ -10,7 +10,7 @@
 	          	<div class="row">
 					<div class="col-md-4 col-sm-12 grid-margin stretch-card">
 						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAnnouncement">
-						Tambah Pengumuman
+						Buat Sesi Kuis
 						</button>
 					</div>
 				</div>
@@ -21,28 +21,31 @@
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<p class="alert alert-success" v-if="deleteStatus">Hapus Pengumunan Berhasil</p>
+								<p class="alert alert-success" v-if="deleteStatus">Hapus Sesi Kuis Berhasil</p>
 								<div class="table-responsive">
 								<table class="table table-striped">
 									<thead>
 										<tr>
 											<th>#</th>
+											<th>Nama</th>
+											<th>Mata Pelajaran</th>
 											<th>Kelas</th>
-											<th>Pesan</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="(announcement,index) in announcements" :key="announcement.id">
+										<tr v-for="(exam,index) in exams" :key="exam.id">
 											<td>{{index+1}}</td>
-											<td>{{announcement.classroom ? announcement.classroom.name : announcement.classroom_id}}</td>
-											<td>{{announcement.messages}}</td>
+											<td>{{exam.name}}</td>
+											<td>{{exam.study ? exam.study.name : exam.study_id}}</td>
+											<td>{{exam.classroom ? exam.classroom.name : exam.classroom_id}}</td>
 											<td>
-												<!-- <a href="#editannouncement" data-toggle="modal" data-target="#addAnnouncement"class="badge badge-primary" @click="findAnnouncement(announcement.id)">edit</a> -->
-												<a href="#" @click="deleteAnnouncement(announcement.id)" class="badge badge-danger">Hapus</a>
+												<a :href="'/exams/'+exam.id" class="badge badge-success">Soal Kuis</a>
+												<a href="javascript:void(0)" data-toggle="modal" data-target="#editSoal" class="badge badge-primary" @click="findExam(exam.id)">Edit</a>
+												<a href="javascript:void(0)" @click="deleteExam(exam.id)" class="badge badge-danger">Hapus</a>
 											</td>
 										</tr>
-										<tr  v-if="!announcements.length" >
+										<tr  v-if="!exams.length" >
 											<td colspan="5">Tidak ada data</td>
 										</tr>
 									</tbody>
@@ -61,27 +64,81 @@
 					<div class="modal-dialog" >
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">Tambah Pengumuman</h5>
+								<h5 class="modal-title">Tambah Sesi Kuis</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
-								<p v-if="status" class="alert alert-success">Tambah Pengumuman Berhasil</p>
+								<p v-if="status" class="alert alert-success">Tambah Sesi Kuis Berhasil</p>
 								<div class="form-group">
 									<label>Kelas</label>
 									<select v-model="data.classroom_id" class="form-control">
-										<option v-for="class_room in employee.class_rooms" :key="class_room.id" :value="class_room.id">{{class_room.name}}</option>
+										<option v-for="classroom in employee.class_rooms" :key="classroom.id" :value="classroom.id">{{classroom.name}}</option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Pesan</label>
-									<textarea class="form-control" v-model="data.messages" cols="30" rows="10"></textarea>
+									<label>Mata Pelajaran</label>
+									<select v-model="data.study_id" class="form-control">
+										<option v-for="study in employee.studies" :key="study.id" :value="study.id">{{study.name}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Nama Sesi</label>
+									<input type="text" class="form-control" v-model="data.name" />
+								</div>
+								<div class="form-group">
+									<label>Jenis Kuis</label>
+									<select v-model="data.exam_type" class="form-control">
+										<option v-for="qtype in ['Ulangan Harian','UTS','UAS']" :key="qtype" :value="qtype">{{qtype}}</option>
+									</select>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
-								<button type="button" class="btn btn-primary" @click="addAnnouncement()">Tambah Pengumuman</button>
+								<button type="button" class="btn btn-primary" @click="addExam()">Tambah Sesi Kuis</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="editSoal">
+					<div class="modal-dialog" >
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Edit Sesi</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p v-if="status" class="alert alert-success">Edit Sesi Kuis Berhasil</p>
+								<div class="form-group">
+									<label>Kelas</label>
+									<select v-model="data.classroom_id" class="form-control">
+										<option v-for="classroom in employee.class_rooms" :key="classroom.id" :value="classroom.id">{{classroom.name}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Mata Pelajaran</label>
+									<select v-model="data.study_id" class="form-control">
+										<option v-for="study in employee.studies" :key="study.id" :value="study.id">{{study.name}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Nama Sesi</label>
+									<input type="text" class="form-control" v-model="data.name" />
+								</div>
+								<div class="form-group">
+									<label>Jenis Kuis</label>
+									<select v-model="data.exam_type" class="form-control">
+										<option v-for="qtype in ['Ulangan Harian','UTS','UAS']" :key="qtype" :value="qtype">{{qtype}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal" @click="resetForm()">Close</button>
+								<button type="button" class="btn btn-primary" @click="updateExam()">Update Sesi Kuis</button>
 							</div>
 						</div>
 					</div>
@@ -104,7 +161,7 @@ export default {
 	},
 	data(){
         return{
-            announcements:{},
+            exams:{},
             data:{},
             token:'',
             headers:'',
@@ -113,6 +170,7 @@ export default {
 			employees:{},
 			user_id:0,
 			other_id:0,
+			exam_id:0,
 			employee:{},
 			eS:false
         }
@@ -128,7 +186,7 @@ export default {
         }
         await this.fetchUserId()
         await this.findEmployee()
-        this.loadAnnouncements()
+        this.loadExams()
     },
     methods:{
 
@@ -143,21 +201,28 @@ export default {
             this.other_id = data.other_id
             return data;
         },
-        async loadAnnouncements(){
+        async loadExams(){
             var vm = this
-            let response = await fetch('api/announcement/'+vm.other_id,{
+            let response = await fetch('api/exam/'+vm.other_id,{
 	            headers:vm.headers,
 	        })
 	        let data = await response.json()
 	        data.forEach(val => {
 	        	let obj = vm.employee.class_rooms.find(o => o.id === val.classroom_id);
+	        	let studyObj = vm.employee.studies.find(o => o.id === val.study_id);
 				val.classroom = obj
+				val.study = studyObj
 	        })
-	        this.announcements = await data
+	        this.exams = await data
+
+            setTimeout(()=>{
+                vm.status = false
+                vm.deleteStatus = false
+            },2500)
 	        return data
         },
-        findAnnouncement(id){
-            fetch('api/announcement/'+id,{
+        findExam(id){
+            fetch('api/exam/get/'+id,{
                 headers:this.headers,
             })
             .then(res => res.json())
@@ -165,9 +230,10 @@ export default {
                 this.data = res
             })
         },
-        addAnnouncement(){
+        addExam(){
         	this.data.teacher_id = this.other_id
-            fetch('api/announcement/create',{
+        	console.log(this.data)
+            fetch('api/exam/create',{
                 method:'post',
                 headers:this.headers,
                 body:JSON.stringify(this.data)
@@ -176,12 +242,15 @@ export default {
             .then(res=>{
                 this.status = true
                 this.data = {}
-                this.loadAnnouncements()
+                this.loadExams()
             })
         },
-        updateAnnouncement(){
+        resetForm(){
+        	this.data = {}
+        },
+        updateExam(){
         	this.data.teacher_id = this.other_id
-            fetch('api/announcement/update',{
+            fetch('api/exam/update',{
                 method:'post',
                 headers:this.headers,
                 body:JSON.stringify(this.data)
@@ -189,19 +258,19 @@ export default {
             .then(res=>res.json())
             .then(res=>{
                 this.status = true
-                this.loadAnnouncements()
+                this.loadExams()
             })
         },
-        deleteAnnouncement(announcement_id){
-            fetch('api/announcement/delete',{
+        deleteExam(exam_id){
+            fetch('api/exam/delete',{
                 method:'delete',
                 headers:this.headers,
-                body:JSON.stringify({id:announcement_id,teacher_id:this.other_id})
+                body:JSON.stringify({id:exam_id,teacher_id:this.other_id})
             })
             .then(res=>res.json())
             .then(res=>{
                 this.deleteStatus = true
-                this.loadAnnouncements()
+                this.loadExams()
             })
 		},
 

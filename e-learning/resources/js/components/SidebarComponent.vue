@@ -64,8 +64,7 @@ export default {
         })
         .then(res => res.json())
         .then(res => {
-        	console.log(res)
-            this.menus = res
+          this.menus = res
         })
 
         var vm = this
