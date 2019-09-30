@@ -6,45 +6,36 @@
 			<!-- CONTENT -->
 
 	        <div class="content-wrapper">
-
-	          	<div class="row">
-					<div class="col-md-4 col-sm-12 grid-margin stretch-card">
-						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAnnouncement">
-						Tambah Pengumuman
-						</button>
-					</div>
-				</div>
-
 				<!-- TABLE -->
 
 				<div class="row">
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<p class="alert alert-success" v-if="deleteStatus">Hapus Pengumunan Berhasil</p>
+								<p class="alert alert-success" v-if="deleteStatus">Hapus Tugas Berhasil</p>
 								<div class="table-responsive">
 								<table class="table table-striped">
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>Kelas</th>
-											<th>Pesan</th>
-											<th>Muncul Sampai</th>
+											<th>Guru</th>
+											<th>Mata Pelajaran</th>
+											<th>File</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="(announcement,index) in announcements" :key="announcement.id">
+										<tr v-for="(assignment,index) in assignments" :key="assignment.id">
 											<td>{{index+1}}</td>
-											<td>{{announcement.classroom ? announcement.classroom.name : announcement.classroom_id}}</td>
-											<td>{{announcement.messages}}</td>
-											<td>{{announcement.expired_at}}</td>
+											<td>{{assignment.teacher ? assignment.teacher.name : assignment.teacher_id}}</td>
+											<td>{{assignment.study ? assignment.study.name : assignment.study_id}}</td>
+											<td><a :href="assignment.file_url">Download</a></td>
 											<td>
-												<!-- <a href="#editannouncement" data-toggle="modal" data-target="#addAnnouncement"class="badge badge-primary" @click="findAnnouncement(announcement.id)">edit</a> -->
-												<a href="#" @click="deleteAnnouncement(announcement.id)" class="badge badge-danger">Hapus</a>
+												<a href="javascript:void(0)" v-if="!assignment.answered" data-toggle="modal" data-target="#addAnnouncement" @click="setAssignmentId(assignment.id)" class="badge badge-success">Jawab</a>
+												<a v-if="assignment.answered" :href="assignment.answered.file_url">File Jawaban</a>
 											</td>
 										</tr>
-										<tr  v-if="!announcements.length" >
+										<tr  v-if="!assignments.length" >
 											<td colspan="5">Tidak ada data</td>
 										</tr>
 									</tbody>
@@ -58,36 +49,25 @@
 				<!-- /TABLE -->
 
 				<!-- ADD MODAL -->
-
 				<div class="modal fade" id="addAnnouncement">
 					<div class="modal-dialog" >
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">Tambah Pengumuman</h5>
+								<h5 class="modal-title">Jawab Tugas</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
-								<p v-if="status" class="alert alert-success">Tambah Pengumuman Berhasil</p>
+								<p v-if="status" class="alert alert-success">Jawab Tugas Berhasil</p>
 								<div class="form-group">
-									<label>Kelas</label>
-									<select v-model="data.classroom_id" class="form-control">
-										<option v-for="class_room in employee.class_rooms" :key="class_room.id" :value="class_room.id">{{class_room.name}}</option>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>Pesan</label>
-									<textarea class="form-control" v-model="data.messages" cols="30" rows="10"></textarea>
-								</div>
-								<div class="form-group">
-									<label>Muncul Sampai</label>
-									<input type="datetime-local" class="form-control" v-model="data.expired_at" />
+									<label>File URL</label>
+									<input class="form-control" v-model="data.file_url">
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
-								<button type="button" class="btn btn-primary" @click="addAnnouncement()">Tambah Pengumuman</button>
+								<button type="button" class="btn btn-primary" @click="answerAssignment()">Jawab Tugas</button>
 							</div>
 						</div>
 					</div>
@@ -110,7 +90,9 @@ export default {
 	},
 	data(){
         return{
-            announcements:{},
+            assignments:{},
+            assignment_id:0,
+            answered_assignments:{},
             data:{},
             token:'',
             headers:'',
@@ -132,12 +114,12 @@ export default {
         if(this.token === undefined || this.token === null || this.token === '' ){
             window.location = process.env.MIX_ES_URL+'/login'
         }
+        this.loadEmployees()
         await this.fetchUserId()
         await this.findEmployee()
-        this.loadAnnouncements()
+        this.loadAssignments()
     },
     methods:{
-
 		// ANNOUNCEMENT
 		async fetchUserId(){
             let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
@@ -149,21 +131,43 @@ export default {
             this.other_id = data.other_id
             return data;
         },
-        async loadAnnouncements(){
+        async loadAssignments(){
+        	await this.loadAnsweredAssignments()
             var vm = this
-            let response = await fetch('api/announcement/'+vm.other_id,{
+            let response = await fetch('api/assignment/'+vm.other_id,{
 	            headers:vm.headers,
 	        })
 	        let data = await response.json()
 	        data.forEach(val => {
-	        	let obj = vm.employee.class_rooms.find(o => o.id === val.classroom_id);
-				val.classroom = obj
+	        	let obj = vm.employees.find(o => o.id === val.teacher_id);
+	        	let studyObj = vm.employee.studies.find(o => o.id === val.study_id);
+	        	let answered = vm.answered_assignments.find(o=>o.assignment_id === val.id)
+				val.teacher = obj
+				val.answered = answered
+				val.study = studyObj
 	        })
-	        this.announcements = await data
+	        this.assignments = await data
+
+            setTimeout(()=>{
+                vm.status = false
+                vm.deleteStatus = false
+            },2500)
 	        return data
         },
-        findAnnouncement(id){
-            fetch('api/announcement/'+id,{
+        async loadAnsweredAssignments(){
+            var vm = this
+            let response = await fetch('api/assignment-answer/'+vm.other_id,{
+	            headers:vm.headers,
+	        })
+	        let data = await response.json()
+	        this.answered_assignments = await data
+	        return data
+        },
+        setAssignmentId(assignment_id){
+        	this.assignment_id = assignment_id
+        },
+        findAssignment(id){
+            fetch('api/assignment/'+id,{
                 headers:this.headers,
             })
             .then(res => res.json())
@@ -171,9 +175,10 @@ export default {
                 this.data = res
             })
         },
-        addAnnouncement(){
-        	this.data.teacher_id = this.other_id
-            fetch('api/announcement/create',{
+        answerAssignment(){
+        	this.data.student_id = this.other_id
+        	this.data.assignment_id = this.assignment_id
+            fetch('api/assignment-answer/create',{
                 method:'post',
                 headers:this.headers,
                 body:JSON.stringify(this.data)
@@ -182,35 +187,9 @@ export default {
             .then(res=>{
                 this.status = true
                 this.data = {}
-                this.loadAnnouncements()
+                this.loadAssignments()
             })
         },
-        updateAnnouncement(){
-        	this.data.teacher_id = this.other_id
-            fetch('api/announcement/update',{
-                method:'post',
-                headers:this.headers,
-                body:JSON.stringify(this.data)
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.status = true
-                this.loadAnnouncements()
-            })
-        },
-        deleteAnnouncement(announcement_id){
-            fetch('api/announcement/delete',{
-                method:'delete',
-                headers:this.headers,
-                body:JSON.stringify({id:announcement_id,teacher_id:this.other_id})
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.deleteStatus = true
-                this.loadAnnouncements()
-            })
-		},
-
 		// /ANNOUNCEMENT
 		loadEmployees(){
 			fetch(process.env.MIX_IS_URL+'/api/employee',{

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Announcement;
 use Validator;
 
@@ -22,7 +23,7 @@ class AnnouncementController extends Controller
     }
 
     public function getByClassroom($classroom){
-        $announcements = Announcement::where('classroom_id',$classroom)->orderby('created_at','desc')->get();
+        $announcements = Announcement::where('classroom_id',$classroom)->where('expired_at','>=',Carbon::now())->orderby('created_at','desc')->get();
         return response()->json($announcements,$this->success);
     }
 
@@ -31,27 +32,29 @@ class AnnouncementController extends Controller
             'classroom_id'  =>  'required',
             'teacher_id'    =>  'required',
             'messages'      =>  'required',
+            'expired_at'    =>  'required',
         ]);
 
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors()],422);
         }
-        $input = $request->only('classroom_id','teacher_id','messages');
+        $input = $request->only('classroom_id','teacher_id','messages','expired_at');
         $announcement = Announcement::create($input);
         return response()->json(['success'=>1],$this->success);
     }
 
     public function update(Request $request){
         $validator = Validator::make($request->all(),[
-            'classroom_id'      =>  'required',
-            'teacher_id'      =>  'required',
+            'classroom_id'  =>  'required',
+            'teacher_id'    =>  'required',
             'messages'      =>  'required',
+            'expired_at'    =>  'required',
         ]);
 
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors()],401);
         }
-        $input = $request->only('classroom_id','teacher_id','messages');
+        $input = $request->only('classroom_id','teacher_id','messages','expired_at');
         $announcement = Announcement::find($request->id);
         $announcement->update($input);
         return response()->json(['success'=>1],$this->success);

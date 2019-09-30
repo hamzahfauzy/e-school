@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
-use App\{Exam,ExamItem};
+use App\{Exam,ExamItem,ExamAnswer};
 
 class ExamItemController extends Controller
 {
@@ -19,6 +19,36 @@ class ExamItemController extends Controller
         	$exam->question;
         }
         return response()->json($exams,$this->success);
+    }
+
+    public function answer(Request $request){
+        foreach($request->all() as $req)
+        {
+            $answer = ExamAnswer::where('exam_item_id',$req['exam_item_id'])
+                                    ->where('student_id',$req['student_id'])
+                                    ->first();
+
+            if(empty($answer))
+            {
+                $create = [
+                    'exam_item_id' => $req['exam_item_id'],
+                    'student_id'   => $req['student_id'],
+                ];
+                if($req['question_type'] == 'Essay')
+                    $create['question_answer_text'] = $req['answer'];
+                else
+                    $create['question_answer_id'] = $req['answer'];
+                ExamAnswer::create($create);
+                continue;
+            }
+            $update = [];
+            if($req['question_type'] == 'Essay')
+                $update['question_answer_text'] = $req['answer'];
+            else
+                $update['question_answer_id'] = $req['answer'];
+            $answer->update($update);
+        }
+        return response()->json(['success'=>1],$this->success);
     }
 
     public function single($id){

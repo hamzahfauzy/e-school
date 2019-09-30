@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
-use App\Exam;
+use App\{Exam,ExamAnswer,ExamStudent};
 
 class ExamController extends Controller
 {
@@ -20,6 +20,33 @@ class ExamController extends Controller
     public function single($id){
         $exam = Exam::find($id);
         return response()->json($exam,$this->success);
+    }
+
+    public function answers($id,$student_id){
+        $response = [];
+        $exam = Exam::find($id);
+        foreach($exam->items as $item)
+        {
+            $answer = ExamAnswer::where('exam_item_id',$item->id)->where('student_id',$student_id)->first();
+            if(empty($answer))
+                continue;
+            $response[] = $item->question->question_type == 'Essay' ? $answer->question_answer_text : $answer->question_answer_id;
+        }
+        return response()->json($response,$this->success);
+    }
+
+    public function getStatus($id,$student_id){
+        $exam = ExamStudent::where('exam_id',$id)->where('student_id',$student_id)->first();
+        return response()->json($exam,$this->success);
+    }
+
+    public function setStatus(Request $request){
+        $exam = ExamStudent::create([
+            'exam_id' => $request->exam_id,
+            'student_id' => $request->student_id,
+            'status' => 1,
+        ]);
+        return response()->json(['success'=>1],$this->success);
     }
 
     public function create(Request $request){

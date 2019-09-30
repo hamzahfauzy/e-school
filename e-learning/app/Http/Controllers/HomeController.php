@@ -16,6 +16,9 @@ class HomeController extends Controller
     function assignment(){
     	if(session('role_id') == env('MIX_EL_TEACHER_ROLE_ID'))
         	return view("teacher.assignment",['role_id' => session('role_id')]);
+
+        if(session('role_id') == env('MIX_EL_STUDENT_ROLE_ID'))
+            return view("student.assignment",['role_id' => session('role_id')]);
     }
 
     function question(){
@@ -31,11 +34,19 @@ class HomeController extends Controller
     function exam(){
     	if(session('role_id') == env('MIX_EL_TEACHER_ROLE_ID'))
         	return view("teacher.exam",['role_id' => session('role_id')]);
+
+        if(session('role_id') == env('MIX_EL_STUDENT_ROLE_ID'))
+            return view("student.exam",['role_id' => session('role_id')]);
     }
 
     function showExam(Exam $exam){
     	if(session('role_id') == env('MIX_EL_TEACHER_ROLE_ID'))
         	return view("teacher.show-exam",['role_id' => session('role_id'),'exam' => $exam]);
+    }
+
+    function panelExam(Exam $exam){
+        if(session('role_id') == env('MIX_EL_STUDENT_ROLE_ID'))
+            return view("student.panel-exam",['role_id' => session('role_id'),'exam' => $exam]);
     }
 
     function virtualClassroom(){

@@ -8,4 +8,8 @@ class Exam extends Model
 {
     //
     protected $guarded = [];
+
+    function items(){
+    	return $this->hasMany(ExamItem::class,'exam_id','id');
+    }
 }

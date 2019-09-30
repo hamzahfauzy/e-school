@@ -6,22 +6,11 @@
 			<!-- CONTENT -->
 
 	        <div class="content-wrapper">
-
-	          	<div class="row">
-					<div class="col-md-4 col-sm-12 grid-margin stretch-card">
-						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAnnouncement">
-						Tambah Pengumuman
-						</button>
-					</div>
-				</div>
-
 				<!-- TABLE -->
-
 				<div class="row">
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<p class="alert alert-success" v-if="deleteStatus">Hapus Pengumunan Berhasil</p>
 								<div class="table-responsive">
 								<table class="table table-striped">
 									<thead>

@@ -24,6 +24,7 @@ Route::middleware('allowed')->group(function(){
 	Route::get('questions','HomeController@question');
 	Route::get('questions/{question}','HomeController@showQuestion');
 	Route::get('exams','HomeController@exam');
+	Route::get('exams/panel/{exam}','HomeController@panelExam');
 	Route::get('exams/{exam}','HomeController@showExam');
 	Route::get('virtual-classroom','HomeController@virtualClassroom');
 	Route::get('virtual-classroom/start/{virtualClassroom}','HomeController@startVirtualClassroom');

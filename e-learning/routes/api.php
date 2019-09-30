@@ -31,6 +31,11 @@ Route::prefix('announcement')->group(function(){
     Route::delete('delete','API\AnnouncementController@delete');
 });
 
+Route::prefix('assignment-answer')->group(function(){
+    Route::get('{student_id}','API\AssignmentAnswerController@get');
+    Route::post('create','API\AssignmentAnswerController@create');
+});
+
 Route::prefix('assignment')->group(function(){
     Route::get('{teacher_id}','API\AssignmentController@index');
     Route::get('get/{ID}','API\AssignmentController@single');
@@ -51,6 +56,9 @@ Route::prefix('question')->group(function(){
 Route::prefix('exam')->group(function(){
     Route::get('{teacher_id}','API\ExamController@index');
     Route::get('get/{ID}','API\ExamController@single');
+    Route::get('get/{ID}/answers/{student_id}','API\ExamController@answers');
+    Route::get('get-status/{ID}/answers/{student_id}','API\ExamController@getStatus');
+    Route::post('finish','API\ExamController@setStatus');
     Route::post('create','API\ExamController@create');
     Route::post('update','API\ExamController@update');
     Route::delete('delete','API\ExamController@delete');
@@ -59,6 +67,7 @@ Route::prefix('exam')->group(function(){
 Route::prefix('exam_item')->group(function(){
     Route::get('{exam_id}','API\ExamItemController@index');
     Route::get('get/{ID}','API\ExamItemController@single');
+    Route::post('answer','API\ExamItemController@answer');
     Route::post('create','API\ExamItemController@create');
     Route::post('update','API\ExamItemController@update');
     Route::delete('delete','API\ExamItemController@delete');
