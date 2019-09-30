@@ -9,6 +9,6 @@ class Student extends Model
     protected $guarded = [];
 
     public function class_room(){
-        return $this->belongsToMany(ClassRoom::class);
+        return $this->belongsToMany(Classroom::class);
     }
 }

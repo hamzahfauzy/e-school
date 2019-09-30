@@ -25,6 +25,7 @@ Route::middleware('auth:api')->group(function(){
 Route::prefix('announcement')->group(function(){
     Route::get('{teacher_id}','API\AnnouncementController@index');
     Route::get('get/{ID}','API\AnnouncementController@single');
+    Route::get('get-by-classroom/{classroom}','API\AnnouncementController@getByClassroom');
     Route::post('create','API\AnnouncementController@create');
     Route::post('update','API\AnnouncementController@update');
     Route::delete('delete','API\AnnouncementController@delete');

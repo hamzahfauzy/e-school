@@ -21,6 +21,11 @@ class AnnouncementController extends Controller
         return response()->json($announcement,$this->success);
     }
 
+    public function getByClassroom($classroom){
+        $announcements = Announcement::where('classroom_id',$classroom)->orderby('created_at','desc')->get();
+        return response()->json($announcements,$this->success);
+    }
+
     public function create(Request $request){
         $validator = Validator::make($request->all(),[
             'classroom_id'  =>  'required',

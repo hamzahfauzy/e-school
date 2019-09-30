@@ -1850,6 +1850,42 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1866,7 +1902,301 @@ __webpack_require__.r(__webpack_exports__);
     role_id: 0
   },
   data: function data() {
-    return {};
+    return {
+      announcements: {},
+      employees: {},
+      user: {},
+      userIS: {},
+      other_id: 0,
+      user_status: 0
+    };
+  },
+  created: function () {
+    var _created = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              this.token = window.getCookie('eschool_token_app');
+              this.headers = {
+                'Authorization': 'Bearer ' + this.token,
+                'Content-Type': 'application/json'
+              };
+              this.loadEmployees();
+              _context.next = 5;
+              return this.fetchUserId();
+
+            case 5:
+              _context.next = 7;
+              return this.loadUserFromIS();
+
+            case 7:
+              if (!(this.user_status == 1)) {
+                _context.next = 10;
+                break;
+              }
+
+              _context.next = 10;
+              return this.loadAnnouncements();
+
+            case 10:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    function created() {
+      return _created.apply(this, arguments);
+    }
+
+    return created;
+  }(),
+  methods: {
+    fetchUserId: function () {
+      var _fetchUserId = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this = this;
+
+        var response, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return fetch("http://eschool.smkn1pr.sch.id" + '/api/details', {
+                  method: 'post',
+                  headers: this.headers
+                });
+
+              case 2:
+                response = _context2.sent;
+                _context2.next = 5;
+                return response.json();
+
+              case 5:
+                data = _context2.sent;
+                data.roles.forEach(function (val) {
+                  if ("3" == val.id) {
+                    _this.user_status = 1;
+                  } else if ("2" == val.id) {
+                    _this.user_status = 2;
+                  }
+                });
+                _context2.next = 9;
+                return data;
+
+              case 9:
+                this.user = _context2.sent;
+                _context2.next = 12;
+                return data.other_id;
+
+              case 12:
+                this.other_id = _context2.sent;
+                return _context2.abrupt("return", data);
+
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function fetchUserId() {
+        return _fetchUserId.apply(this, arguments);
+      }
+
+      return fetchUserId;
+    }(),
+    loadAnnouncements: function () {
+      var _loadAnnouncements = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var vm, response, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                vm = this;
+                _context4.next = 3;
+                return fetch('/api/announcement/get-by-classroom/' + this.userIS.class_room[0].id, {
+                  headers: this.headers
+                });
+
+              case 3:
+                response = _context4.sent;
+                _context4.next = 6;
+                return response.json();
+
+              case 6:
+                data = _context4.sent;
+                data.forEach(
+                /*#__PURE__*/
+                function () {
+                  var _ref = _asyncToGenerator(
+                  /*#__PURE__*/
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(val) {
+                    var employee;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                      while (1) {
+                        switch (_context3.prev = _context3.next) {
+                          case 0:
+                            employee = vm.employees.find(function (o) {
+                              return o.id === val.teacher_id;
+                            });
+                            val.employee = employee;
+
+                          case 2:
+                          case "end":
+                            return _context3.stop();
+                        }
+                      }
+                    }, _callee3);
+                  }));
+
+                  return function (_x) {
+                    return _ref.apply(this, arguments);
+                  };
+                }());
+                _context4.next = 10;
+                return data;
+
+              case 10:
+                this.announcements = _context4.sent;
+                return _context4.abrupt("return", data);
+
+              case 12:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function loadAnnouncements() {
+        return _loadAnnouncements.apply(this, arguments);
+      }
+
+      return loadAnnouncements;
+    }(),
+    loadUserFromIS: function () {
+      var _loadUserFromIS = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var response, data, _response, _data;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (!(this.user_status == 2)) {
+                  _context5.next = 9;
+                  break;
+                }
+
+                _context5.next = 3;
+                return fetch("http://information-system.smkn1pr.sch.id" + '/api/employee/' + this.other_id, {
+                  headers: this.headers
+                });
+
+              case 3:
+                response = _context5.sent;
+                _context5.next = 6;
+                return response.json();
+
+              case 6:
+                data = _context5.sent;
+                this.userIS = data;
+                return _context5.abrupt("return", data);
+
+              case 9:
+                if (!(this.user_status == 1)) {
+                  _context5.next = 18;
+                  break;
+                }
+
+                _context5.next = 12;
+                return fetch("http://information-system.smkn1pr.sch.id" + '/api/student/' + this.other_id, {
+                  headers: this.headers
+                });
+
+              case 12:
+                _response = _context5.sent;
+                _context5.next = 15;
+                return _response.json();
+
+              case 15:
+                _data = _context5.sent;
+                this.userIS = _data;
+                return _context5.abrupt("return", _data);
+
+              case 18:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function loadUserFromIS() {
+        return _loadUserFromIS.apply(this, arguments);
+      }
+
+      return loadUserFromIS;
+    }(),
+    loadEmployees: function loadEmployees() {
+      var _this2 = this;
+
+      fetch("http://information-system.smkn1pr.sch.id" + '/api/employee', {
+        headers: this.headers
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this2.employees = res;
+      });
+    },
+    findEmployee: function () {
+      var _findEmployee = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(id) {
+        var response, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return fetch("http://information-system.smkn1pr.sch.id" + '/api/employee/' + id, {
+                  headers: this.headers
+                });
+
+              case 2:
+                response = _context6.sent;
+                _context6.next = 5;
+                return response.json();
+
+              case 5:
+                data = _context6.sent;
+                return _context6.abrupt("return", data);
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+
+      function findEmployee(_x2) {
+        return _findEmployee.apply(this, arguments);
+      }
+
+      return findEmployee;
+    }()
   }
 });
 
@@ -23316,7 +23646,57 @@ var render = function() {
       _c(
         "div",
         { staticClass: "main-panel" },
-        [_vm._m(0), _vm._v(" "), _c("footer-component")],
+        [
+          _c("div", { staticClass: "content-wrapper" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            this.user_status == 1
+              ? _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-12 grid-margin stretch-card" },
+                    [
+                      _c("div", { staticClass: "card" }, [
+                        _c(
+                          "div",
+                          { staticClass: "card-body" },
+                          [
+                            _c("p", [_vm._v("Pengumuman")]),
+                            _vm._v(" "),
+                            _vm._l(_vm.announcements, function(announcement) {
+                              return _c(
+                                "p",
+                                { staticClass: "alert alert-success" },
+                                [
+                                  _c("b", [
+                                    _vm._v(_vm._s(announcement.employee.name))
+                                  ]),
+                                  _c("br"),
+                                  _vm._v(
+                                    "\n\t\t\t            " +
+                                      _vm._s(announcement.messages) +
+                                      "\n\t\t\t            "
+                                  ),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v(_vm._s(announcement.created_at))
+                                  ])
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("footer-component")
+        ],
         1
       )
     ],
@@ -23328,8 +23708,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content-wrapper" }, [
-      _c("h2", [_vm._v("Hello World")])
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12 grid-margin" }, [
+        _c(
+          "div",
+          { staticClass: "d-flex justify-content-between align-items-center" },
+          [
+            _c("div", [
+              _c("h4", { staticClass: "font-weight-bold mb-0" }, [
+                _vm._v("Dashboard")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-icon-text btn-rounded",
+                  attrs: { type: "button" }
+                },
+                [
+                  _c("i", { staticClass: "ti-clipboard btn-icon-prepend" }),
+                  _vm._v("Report\n\t\t            ")
+                ]
+              )
+            ])
+          ]
+        )
+      ])
     ])
   }
 ]
@@ -39530,15 +39936,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************************!*\
   !*** ./resources/js/components/ShowQuestionComponent.vue ***!
   \***********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ShowQuestionComponent_vue_vue_type_template_id_0a5a33df___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowQuestionComponent.vue?vue&type=template&id=0a5a33df& */ "./resources/js/components/ShowQuestionComponent.vue?vue&type=template&id=0a5a33df&");
 /* harmony import */ var _ShowQuestionComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShowQuestionComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ShowQuestionComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ShowQuestionComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ShowQuestionComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -39568,7 +39973,7 @@ component.options.__file = "resources/js/components/ShowQuestionComponent.vue"
 /*!************************************************************************************!*\
   !*** ./resources/js/components/ShowQuestionComponent.vue?vue&type=script&lang=js& ***!
   \************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

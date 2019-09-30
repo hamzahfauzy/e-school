@@ -18,6 +18,7 @@ class StudentController extends Controller
 
     public function single($id){
         $student = Student::find($id);
+        $student->class_room;
         return response()->json($student,$this->success);
     }
 
