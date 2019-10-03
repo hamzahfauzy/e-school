@@ -5,21 +5,29 @@
         </div>
         <div class="flex-center position-ref full-height">
             <div class="content">
-                <div class="title" style="font-size: 50px">
-                    e-School Landing Page
+                <div>
+                    <center>
+                        <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar">
+                        <p></p>
+                        <h2 style="margin: 0px;">{{username}}</h2>
+                    </center>
                 </div>
 
-                <div>
-                    <h2 align="center" style="margin: 0px;">Welcome, {{username}}</h2>
+                <div class="title" style="font-size: 2em">
+                    Selamat datang di E-School
                 </div>
 
                 <br>
 
                 <div class="links">
-                    <a v-for="role in details.roles" :key="role.id" :href="role.application_portal.app_url">
-                        {{role.application_portal.app_name}}
-                    </a>
-                    <a href="javascript:void(0)" @click="doLogout()">Logout</a>
+                    <div class="container">
+                        <div class="row">
+                            <a class="col-sm-12" v-for="role in details.roles" :key="role.id" :href="role.application_portal.app_url">
+                                {{role.application_portal.app_name}}
+                            </a>
+                            <a class="col-sm-12" href="javascript:void(0)" @click="doLogout()">Logout</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

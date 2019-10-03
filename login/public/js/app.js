@@ -1866,6 +1866,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -38700,56 +38708,75 @@ var render = function() {
       _c("div", { staticClass: "content" }, [
         _c(
           "div",
-          { staticClass: "title", staticStyle: { "font-size": "50px" } },
-          [_vm._v("\n                e-School Landing Page\n            ")]
+          [
+            _c("center", [
+              _c("img", {
+                attrs: {
+                  src: "https://www.w3schools.com/howto/img_avatar.png",
+                  alt: "Avatar"
+                }
+              }),
+              _vm._v(" "),
+              _c("p"),
+              _vm._v(" "),
+              _c("h2", { staticStyle: { margin: "0px" } }, [
+                _vm._v(_vm._s(_vm.username))
+              ])
+            ])
+          ],
+          1
         ),
-        _vm._v(" "),
-        _c("div", [
-          _c(
-            "h2",
-            { staticStyle: { margin: "0px" }, attrs: { align: "center" } },
-            [_vm._v("Welcome, " + _vm._s(_vm.username))]
-          )
-        ]),
-        _vm._v(" "),
-        _c("br"),
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "links" },
-          [
-            _vm._l(_vm.details.roles, function(role) {
-              return _c(
-                "a",
-                {
-                  key: role.id,
-                  attrs: { href: role.application_portal.app_url }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(role.application_portal.app_name) +
-                      "\n                "
-                  )
-                ]
-              )
-            }),
-            _vm._v(" "),
+          { staticClass: "title", staticStyle: { "font-size": "2em" } },
+          [_vm._v("\n                Selamat datang di E-School\n            ")]
+        ),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("div", { staticClass: "links" }, [
+          _c("div", { staticClass: "container" }, [
             _c(
-              "a",
-              {
-                attrs: { href: "javascript:void(0)" },
-                on: {
-                  click: function($event) {
-                    return _vm.doLogout()
-                  }
-                }
-              },
-              [_vm._v("Logout")]
+              "div",
+              { staticClass: "row" },
+              [
+                _vm._l(_vm.details.roles, function(role) {
+                  return _c(
+                    "a",
+                    {
+                      key: role.id,
+                      staticClass: "col-sm-12",
+                      attrs: { href: role.application_portal.app_url }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(role.application_portal.app_name) +
+                          "\n                        "
+                      )
+                    ]
+                  )
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "col-sm-12",
+                    attrs: { href: "javascript:void(0)" },
+                    on: {
+                      click: function($event) {
+                        return _vm.doLogout()
+                      }
+                    }
+                  },
+                  [_vm._v("Logout")]
+                )
+              ],
+              2
             )
-          ],
-          2
-        )
+          ])
+        ])
       ])
     ])
   ])

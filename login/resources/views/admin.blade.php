@@ -38,11 +38,62 @@
         html, body {
                 background-color: #fff;
                 color: #636b6f;
-                font-family: 'Nunito', sans-serif;
+                font-family: 'Lato', sans-serif;
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
+                color: #FFF !important;
             }
+        a {
+            color: #FFF !important;
+            margin-bottom: 10px;
+            padding: 15px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border:2px solid #FFF;
+            display: inline-block;
+        }
+
+        a:hover {
+            color: blue !important;
+            border:2px solid blue;
+            background-color: #FFF;
+        }
+        img {
+            border-radius: 50%;
+            width: 200px;
+        }
+        .bg {
+            background:url('images/bg.jpg');
+            width: 100%;
+            padding: 0px 10px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bg::before {
+            content: "";
+            display: block;
+            position: absolute;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: #000;
+            opacity: 0.2;
+        }
 
             .full-height {
                 height: 100vh;
@@ -118,8 +169,10 @@
         </style>
 </head>
 <body>
-    <div id="app">
-        <admin-component></admin-component>
+    <div class="bg">
+        <div id="app">
+            <admin-component></admin-component>
+        </div>
     </div>
 </body>
 </html>
