@@ -139,7 +139,7 @@
             {
                 window.location = "/login"
             }
-            this.es_env = process.env.MIX_ES_ENV
+            this.es_env = window.config.MIX_ES_ENV
             this.loadApplicationPortals();
         },
 

@@ -11,16 +11,16 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="deleteStatus">delete ruang kelas success</p>
+                        <p class="alert alert-success" v-if="deleteStatus">Hapus Ruang Kelas Berhasil</p>
                         <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>Nama</th>
                                     <th>Jurusan</th>
                                     <th>Wali Kelas</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,9 +30,9 @@
                                     <td>{{class_room.major.name}}</td>
                                     <td>{{class_room.employee.name}}</td>
                                     <td>
-                                        <a :href="'/class_rooms/'+class_room.name" class="badge badge-success">view</a>
-                                        <a href="#editClassRoom" data-toggle="modal" class="badge badge-primary" @click="findClassRoom(class_room.id)">edit</a>
-                                        <a href="#" @click="deleteClassRoom(class_room.id)" class="badge badge-danger">delete</a>
+                                        <a :href="'/class_rooms/'+class_room.name" class="badge badge-success">Lihat</a>
+                                        <a href="#editClassRoom" data-toggle="modal" class="badge badge-primary" @click="findClassRoom(class_room.id)">Edit</a>
+                                        <a href="#" @click="deleteClassRoom(class_room.id)" class="badge badge-danger">Hapus</a>
                                     </td>
                                 </tr>
                                 <tr  v-if="!class_rooms.length" >
@@ -57,7 +57,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p v-if="status" class="alert alert-success">tambah ruang kelas sukses</p>
+                            <p v-if="status" class="alert alert-success">Tambah Ruang Kelas Berhasil</p>
                             <div class="form-group">
                                 <label>Nama</label>
                                 <input type="text" class="form-control" v-model="data.name">
@@ -89,13 +89,13 @@
                 <div class="modal-content">
                     <form @submit.prevent="updateClassRoom">
                         <div class="modal-header">
-                            <h5 class="modal-title">edit Ruang Kelas</h5>
+                            <h5 class="modal-title">Edit Ruang Kelas</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p v-if="status" class="alert alert-success">edit ruang kelas sukses</p>
+                            <p v-if="status" class="alert alert-success">Edit Ruang Kelas Berhasil</p>
                             <div class="form-group">
                                 <label>Nama</label>
                                 <input type="text" class="form-control" v-model="data.name">
@@ -146,7 +146,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         this.loadClassRooms()
         this.getMajors()

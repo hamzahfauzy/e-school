@@ -45,45 +45,6 @@
 				</div>
 
 				<!-- /TABLE -->
-
-				<!-- ADD MODAL -->
-
-				<div class="modal fade" id="addAnnouncement">
-					<div class="modal-dialog" >
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Tambah Pengumuman</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								<p v-if="status" class="alert alert-success">Tambah Pengumuman Berhasil</p>
-								<div class="form-group">
-									<label>Kelas</label>
-									<select v-model="data.classroom_id" class="form-control">
-										<option v-for="class_room in employee.class_rooms" :key="class_room.id" :value="class_room.id">{{class_room.name}}</option>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>Pesan</label>
-									<textarea class="form-control" v-model="data.messages" cols="30" rows="10"></textarea>
-								</div>
-								<div class="form-group">
-									<label>Muncul Sampai</label>
-									<input type="datetime-local" class="form-control" v-model="data.expired_at" />
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
-								<button type="button" class="btn btn-primary" @click="addAnnouncement()">Tambah Pengumuman</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- /ADD MODAL -->
-
 	        </div>
 
 				<!-- /CONTENT -->
@@ -119,7 +80,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         await this.fetchUserId()
         await this.findEmployee()
@@ -129,7 +90,7 @@ export default {
 
 		// ANNOUNCEMENT
 		async fetchUserId(){
-            let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+            let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
                 method:'post',
                 headers:this.headers
             });
@@ -160,49 +121,9 @@ export default {
                 this.data = res
             })
         },
-        addAnnouncement(){
-        	this.data.teacher_id = this.other_id
-            fetch('api/announcement/create',{
-                method:'post',
-                headers:this.headers,
-                body:JSON.stringify(this.data)
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.status = true
-                this.data = {}
-                this.loadAnnouncements()
-            })
-        },
-        updateAnnouncement(){
-        	this.data.teacher_id = this.other_id
-            fetch('api/announcement/update',{
-                method:'post',
-                headers:this.headers,
-                body:JSON.stringify(this.data)
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.status = true
-                this.loadAnnouncements()
-            })
-        },
-        deleteAnnouncement(announcement_id){
-            fetch('api/announcement/delete',{
-                method:'delete',
-                headers:this.headers,
-                body:JSON.stringify({id:announcement_id,teacher_id:this.other_id})
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.deleteStatus = true
-                this.loadAnnouncements()
-            })
-		},
-
 		// /ANNOUNCEMENT
 		loadEmployees(){
-			fetch(process.env.MIX_IS_URL+'/api/employee',{
+			fetch(window.config.MIX_IS_URL+'/api/employee',{
                 headers:this.headers,
             })
             .then(res => res.json())
@@ -211,7 +132,7 @@ export default {
             })
 		},
 		async findEmployee(){
-			let response = await fetch(process.env.MIX_IS_URL+'/api/employee/'+this.other_id,{
+			let response = await fetch(window.config.MIX_IS_URL+'/api/employee/'+this.other_id,{
                 headers:this.headers,
             });
             let data = await response.json()

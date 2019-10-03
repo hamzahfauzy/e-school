@@ -12,4 +12,8 @@ class Exam extends Model
     function items(){
     	return $this->hasMany(ExamItem::class,'exam_id','id');
     }
+
+    function students(){
+    	return $this->hasMany(ExamStudent::class,'exam_id','id');
+    }
 }

@@ -11,14 +11,14 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="deleteStatus">delete jurusan success</p>
+                        <p class="alert alert-success" v-if="deleteStatus">Hapus Mata Pelajaran Berhasil</p>
                         <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>Nama</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -26,8 +26,8 @@
                                     <td>{{index+1}}</td>
                                     <td>{{study.name}}</td>
                                     <td>
-                                        <a href="#editStudy" data-toggle="modal" class="badge badge-primary" @click="findStudy(study.id)">edit</a>
-                                        <a href="#" @click="deleteStudy(study.id)" class="badge badge-danger">delete</a>
+                                        <a href="#editStudy" data-toggle="modal" class="badge badge-primary" @click="findStudy(study.id)">Edit</a>
+                                        <a href="#" @click="deleteStudy(study.id)" class="badge badge-danger">Hapus</a>
                                     </td>
                                 </tr>
                                 <tr  v-if="!studies.length" >
@@ -51,7 +51,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p v-if="status" class="alert alert-success">tambah mata pelajaran sukses</p>
+                        <p v-if="status" class="alert alert-success">Tambah Mata Pelajaran Berhasil</p>
                         <div class="form-group">
                             <label>Nama</label>
                             <input type="text" class="form-control" v-model="data.name">
@@ -75,7 +75,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p v-if="status" class="alert alert-success">edit mata pelajaran sukses</p>
+                        <p v-if="status" class="alert alert-success">Edit Mata Pelajaran Berhasil</p>
                         <div class="form-group">
                             <label>Nama</label>
                             <input type="text" class="form-control" v-model="data.name">
@@ -111,7 +111,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         this.loadStudies()
     },

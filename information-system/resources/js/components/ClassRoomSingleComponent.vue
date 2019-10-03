@@ -16,14 +16,14 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="deleteStatus">delete ruang kelas success</p>
+                        <p class="alert alert-success" v-if="deleteStatus">Hapus Siswa Berhasil</p>
                         <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>Nama Siswa</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,7 +56,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p v-if="status" class="alert alert-success">tambah siswa sukses</p>
+                            <p v-if="status" class="alert alert-success">Tambah Siswa Berhasil</p>
                             <div class="form-group">
                                 <label>Siswa</label>
                                 <select class="form-control" v-model="data.student_id">
@@ -99,7 +99,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         this.loadStudents()
         this.getStudents()

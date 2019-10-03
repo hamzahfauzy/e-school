@@ -37,7 +37,12 @@ class ExamItemController extends Controller
                 if($req['question_type'] == 'Essay')
                     $create['question_answer_text'] = $req['answer'];
                 else
+                {
+                    $examItem = ExamItem::find($req['exam_item_id']);
+                    $question = $examItem->question;
                     $create['question_answer_id'] = $req['answer'];
+                    $create['score'] = $req['answer'] == $question->key_answer_id ? 1 : 0;
+                }
                 ExamAnswer::create($create);
                 continue;
             }
@@ -45,7 +50,12 @@ class ExamItemController extends Controller
             if($req['question_type'] == 'Essay')
                 $update['question_answer_text'] = $req['answer'];
             else
+            {
+                $examItem = ExamItem::find($req['exam_item_id']);
+                $question = $examItem->question;
                 $update['question_answer_id'] = $req['answer'];
+                $update['score'] = $req['answer'] == $question->key_answer_id ? 1 : 0;
+            }
             $answer->update($update);
         }
         return response()->json(['success'=>1],$this->success);

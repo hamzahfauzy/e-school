@@ -21,6 +21,11 @@ class AssignmentController extends Controller
         return response()->json($assignment,$this->success);
     }
 
+    function get(Assignment $assignment)
+    {
+        return response()->json($assignment->answers,$this->success);
+    }
+
     public function create(Request $request){
         $validator = Validator::make($request->all(),[
             'classroom_id'  =>  'required',

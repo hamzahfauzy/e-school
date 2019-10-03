@@ -11,19 +11,19 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="deleteStatus">delete pegawai success</p>
+                        <p class="alert alert-success" v-if="deleteStatus">Hapus Pegawai Berhasil</p>
                         <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>NIP</th>
                                     <th>Nama</th>
                                     <th>Alamat</th>
                                     <th>Jenis Kelamin</th>
                                     <th>No Hp</th>
                                     <th>Status Pegawai</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,9 +36,9 @@
                                     <td>{{employee.phone_number}}</td>
                                     <td>{{employee.employee_status}}</td>
                                     <td>
-                                        <a :href="'/employees/'+employee.name" class="badge badge-success">view</a>
-                                        <a href="#editEmployee" data-toggle="modal" class="badge badge-primary" @click="findEmployee(employee.id)">edit</a>
-                                        <a href="#" @click="deleteEmployee(employee.id)" class="badge badge-danger">delete</a>
+                                        <a :href="'/employees/'+employee.name" class="badge badge-success">Lihat</a>
+                                        <a href="#editEmployee" data-toggle="modal" class="badge badge-primary" @click="findEmployee(employee.id)">Edit</a>
+                                        <a href="#" @click="deleteEmployee(employee.id)" class="badge badge-danger">Hapus</a>
                                     </td>
                                 </tr>
                                 <tr  v-if="!employees.length" >
@@ -62,7 +62,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p v-if="status" class="alert alert-success">tambah pegawai sukses</p>
+                        <p v-if="status" class="alert alert-success">Tambah Pegawai Berhasil</p>
                         <div class="form-group">
                             <label>NIP</label>
                             <input type="text" class="form-control" v-model="data.NIP">
@@ -120,7 +120,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p v-if="status" class="alert alert-success">edit pegawai sukses</p>
+                        <p v-if="status" class="alert alert-success">Edit Pegawai Berhasil</p>
                         <div class="form-group">
                             <label>NIP</label>
                             <input type="text" class="form-control" v-model="data.NIP">
@@ -190,7 +190,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         this.loadEmployees()
     },

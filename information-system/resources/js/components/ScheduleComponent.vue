@@ -11,7 +11,7 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="deleteStatus">delete jadwal success</p>
+                        <p class="alert alert-success" v-if="deleteStatus">Hapus Jadwal Berhasil</p>
                         <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -31,7 +31,7 @@
                                     <td>{{schedule.day}} , {{schedule.time_start}} - {{schedule.time_finish}}</td>
                                     <td>
                                         <!-- <a href="#editSchedule" data-toggle="modal" class="badge badge-primary" @click="findSchedule(schedule.id)">edit</a> -->
-                                        <a href="#" @click="deleteSchedule(schedule.id)" class="badge badge-danger">delete</a>
+                                        <a href="#" @click="deleteSchedule(schedule.id)" class="badge badge-danger">Hapus</a>
                                     </td>
                                 </tr>
                                 <tr  v-if="!schedules.length" >
@@ -55,7 +55,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p v-if="status" class="alert alert-success">tambah jadwal sukses</p>
+                        <p v-if="status" class="alert alert-success">Tambah Jadwal Berhasil</p>
                         <div class="form-group">
                             <label>Pegawai</label>
                             <select v-model="data.employee_id" @change="findEmployee" class="form-control">
@@ -107,7 +107,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p v-if="status" class="alert alert-success">edit jadwal sukses</p>
+                        <p v-if="status" class="alert alert-success">Edit Jadwal Berhasil</p>
                         <div class="form-group">
                             <label>Pegawai</label>
                             <select v-model="data.employee_id" @change="findEmployee" class="form-control">
@@ -174,7 +174,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         this.loadSchedules()
         this.getEmployees()

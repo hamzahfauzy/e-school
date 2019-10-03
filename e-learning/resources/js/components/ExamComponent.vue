@@ -36,11 +36,15 @@
 									<tbody>
 										<tr v-for="(exam,index) in exams" :key="exam.id">
 											<td>{{index+1}}</td>
-											<td>{{exam.name}}</td>
+											<td>
+												<a :href="'/exams/answered/'+exam.id">
+												{{exam.name}}
+												</a>
+											</td>
 											<td>{{exam.study ? exam.study.name : exam.study_id}}</td>
 											<td>{{exam.classroom ? exam.classroom.name : exam.classroom_id}}</td>
 											<td>
-												<a :href="'/exams/'+exam.id" class="badge badge-success">Soal Kuis</a>
+												<a :href="'/exams/answers/'+exam.id" class="badge badge-success">Soal Kuis</a>
 												<a href="javascript:void(0)" data-toggle="modal" data-target="#editSoal" class="badge badge-primary" @click="findExam(exam.id)">Edit</a>
 												<a href="javascript:void(0)" @click="deleteExam(exam.id)" class="badge badge-danger">Hapus</a>
 											</td>
@@ -182,7 +186,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         await this.fetchUserId()
         await this.findEmployee()
@@ -192,7 +196,7 @@ export default {
 
 		// ANNOUNCEMENT
 		async fetchUserId(){
-            let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+            let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
                 method:'post',
                 headers:this.headers
             });
@@ -262,16 +266,35 @@ export default {
             })
         },
         deleteExam(exam_id){
-            fetch('api/exam/delete',{
-                method:'delete',
-                headers:this.headers,
-                body:JSON.stringify({id:exam_id,teacher_id:this.other_id})
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.deleteStatus = true
-                this.loadExams()
-            })
+        	var vm = this
+        	Swal.fire({
+			  title: 'Apakah anda yakin akan menghapus data ini?',
+			  text: "Tindakan ini tidak dapat dikembalikan!",
+			  type: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: 'Tidak',
+			  confirmButtonText: 'Ya, Hapus data ini!'
+			}).then((result) => {
+			  if (result.value) {
+			  	fetch('api/exam/delete',{
+	                method:'delete',
+	                headers:vm.headers,
+	                body:JSON.stringify({id:exam_id,teacher_id:vm.other_id})
+	            })
+	            .then(res=>res.json())
+	            .then(res=>{
+	                vm.deleteStatus = true
+	                vm.loadExams()
+	                Swal.fire(
+				      'Terhapus!',
+				      'Data berhasil dihapus.',
+				      'success'
+				    )
+	            })
+			  }
+			})
 		},
 
 		// /ANNOUNCEMENT

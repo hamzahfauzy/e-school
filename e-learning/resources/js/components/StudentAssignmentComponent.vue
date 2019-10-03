@@ -21,6 +21,7 @@
 											<th>Guru</th>
 											<th>Mata Pelajaran</th>
 											<th>File</th>
+											<th>Tanggal</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -29,14 +30,18 @@
 											<td>{{index+1}}</td>
 											<td>{{assignment.teacher ? assignment.teacher.name : assignment.teacher_id}}</td>
 											<td>{{assignment.study ? assignment.study.name : assignment.study_id}}</td>
-											<td><a :href="assignment.file_url">Download</a></td>
+											<td>
+												<a :href="assignment.file_url">File Tugas</a>
+												|
+												<a v-if="assignment.answered" :href="assignment.answered.file_url">File Jawaban</a>
+											</td>
+											<td>{{assignment.created_at}}</td>
 											<td>
 												<a href="javascript:void(0)" v-if="!assignment.answered" data-toggle="modal" data-target="#addAnnouncement" @click="setAssignmentId(assignment.id)" class="badge badge-success">Jawab</a>
-												<a v-if="assignment.answered" :href="assignment.answered.file_url">File Jawaban</a>
 											</td>
 										</tr>
 										<tr  v-if="!assignments.length" >
-											<td colspan="5">Tidak ada data</td>
+											<td colspan="6">Tidak ada data</td>
 										</tr>
 									</tbody>
 								</table>
@@ -112,7 +117,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         this.loadEmployees()
         await this.fetchUserId()
@@ -122,7 +127,7 @@ export default {
     methods:{
 		// ANNOUNCEMENT
 		async fetchUserId(){
-            let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+            let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
                 method:'post',
                 headers:this.headers
             });
@@ -176,23 +181,42 @@ export default {
             })
         },
         answerAssignment(){
-        	this.data.student_id = this.other_id
-        	this.data.assignment_id = this.assignment_id
-            fetch('api/assignment-answer/create',{
-                method:'post',
-                headers:this.headers,
-                body:JSON.stringify(this.data)
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.status = true
-                this.data = {}
-                this.loadAssignments()
-            })
+        	var vm = this
+        	Swal.fire({
+			  title: 'Apakah anda yakin akan mengirim jawaban ini?',
+			  text: "Tindakan ini tidak dapat dikembalikan!",
+			  type: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: 'Tidak',
+			  confirmButtonText: 'Ya, Kirim Jawaban!'
+			}).then((result) => {
+			  if (result.value) {
+			  	vm.data.student_id = vm.other_id
+	        	vm.data.assignment_id = vm.assignment_id
+	            fetch('api/assignment-answer/create',{
+	                method:'post',
+	                headers:vm.headers,
+	                body:JSON.stringify(vm.data)
+	            })
+	            .then(res=>res.json())
+	            .then(res=>{
+	                vm.status = true
+	                vm.data = {}
+	                vm.loadAssignments()
+	                Swal.fire(
+				      'Terkirim!',
+				      'Jawaban berhasil kirim.',
+				      'success'
+				    )
+	            })
+			  }
+			})
         },
 		// /ANNOUNCEMENT
 		loadEmployees(){
-			fetch(process.env.MIX_IS_URL+'/api/employee',{
+			fetch(window.config.MIX_IS_URL+'/api/employee',{
                 headers:this.headers,
             })
             .then(res => res.json())
@@ -201,7 +225,7 @@ export default {
             })
 		},
 		async findEmployee(){
-			let response = await fetch(process.env.MIX_IS_URL+'/api/employee/'+this.other_id,{
+			let response = await fetch(window.config.MIX_IS_URL+'/api/employee/'+this.other_id,{
                 headers:this.headers,
             });
             let data = await response.json()

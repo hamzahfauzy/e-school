@@ -11,7 +11,7 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="deleteStatus">delete student success</p>
+                        <p class="alert alert-success" v-if="deleteStatus">Hapus Siswa Berhasil</p>
                         <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -32,8 +32,8 @@
                                     <td>{{student.name}}</td>
                                     <td>{{student.gender}}</td>
                                     <td>
-                                        <a href="#editStudent" data-toggle="modal" class="badge badge-primary" @click="findStudent(student.id)">edit</a>
-                                        <a href="#" @click="deleteStudent(student.id)" class="badge badge-danger">delete</a>
+                                        <a href="#editStudent" data-toggle="modal" class="badge badge-primary" @click="findStudent(student.id)">Edit</a>
+                                        <a href="#" @click="deleteStudent(student.id)" class="badge badge-danger">Hapus</a>
                                     </td>
                                 </tr>
                                 <tr  v-if="!students.length" >
@@ -57,7 +57,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p v-if="status" class="alert alert-success">tambah siswa sukses</p>
+                        <p v-if="status" class="alert alert-success">Tambah Siswa Berhasil</p>
                         <div class="form-group">
                             <label>NISN</label>
                             <input type="text" class="form-control" v-model="data.NISN">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p v-if="status" class="alert alert-success">edit siswa sukses</p>
+                        <p v-if="status" class="alert alert-success">Edit Siswa Berhasil</p>
                         <div class="form-group">
                             <label>NISN</label>
                             <input type="text" class="form-control" v-model="data.NISN">
@@ -171,7 +171,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         this.loadStudents()
     },

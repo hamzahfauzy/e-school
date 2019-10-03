@@ -8,7 +8,7 @@
 	        <div class="content-wrapper">
 
 	          	<div class="row">
-					<div class="col-md-4 col-sm-12 grid-margin stretch-card">
+					<div class="col-md-6 col-sm-12 grid-margin stretch-card">
 						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAnnouncement">
 						Tambah Item Soal
 						</button>
@@ -124,7 +124,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         await this.fetchUserId()
         await this.loadItems()
@@ -134,7 +134,7 @@ export default {
 
 		// ANNOUNCEMENT
 		async fetchUserId(){
-            let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+            let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
                 method:'post',
                 headers:this.headers
             });
@@ -190,16 +190,35 @@ export default {
             })
         },
         deleteItem(item_id){
-            fetch('/api/exam_item/delete',{
-                method:'delete',
-                headers:this.headers,
-                body:JSON.stringify({id:item_id,exam_id:this.exam_id})
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.deleteStatus = true
-                this.loadItems()
-            })
+        	var vm = this
+        	Swal.fire({
+			  title: 'Apakah anda yakin akan menghapus data ini?',
+			  text: "Tindakan ini tidak dapat dikembalikan!",
+			  type: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: 'Tidak',
+			  confirmButtonText: 'Ya, Hapus data ini!'
+			}).then((result) => {
+			  if (result.value) {
+			  	fetch('/api/exam_item/delete',{
+	                method:'delete',
+	                headers:vm.headers,
+	                body:JSON.stringify({id:item_id,exam_id:vm.exam_id})
+	            })
+	            .then(res=>res.json())
+	            .then(res=>{
+	                vm.deleteStatus = true
+	                vm.loadItems()
+	                Swal.fire(
+				      'Terhapus!',
+				      'Data berhasil dihapus.',
+				      'success'
+				    )
+	            })
+			  }
+			})
 		},
     }
 }

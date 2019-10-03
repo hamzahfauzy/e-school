@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
-use App\{Exam,ExamAnswer,ExamStudent};
+use App\{Exam,ExamItem,ExamAnswer,ExamStudent};
 
 class ExamController extends Controller
 {
@@ -18,6 +18,25 @@ class ExamController extends Controller
     }
 
     public function single($id){
+        $exam = Exam::find($id);
+        $exam->items;
+        foreach($exam->students as $student)
+        {
+            $totalScore = 0;
+            $examItems = ExamItem::where('exam_id',$student->exam_id)->get();
+            foreach($examItems as $item)
+            {
+                $answer = ExamAnswer::where('exam_item_id',$item->id)->where('student_id',$student->student_id)->first();
+                $totalScore += $answer->score;
+            }
+
+            $totalScore = number_format(($totalScore / count($examItems))*10,2);
+            $student->totalScore = $totalScore;
+        }
+        return response()->json($exam,$this->success);
+    }
+
+    public function singleWithStudents($id){
         $exam = Exam::find($id);
         return response()->json($exam,$this->success);
     }
@@ -47,6 +66,74 @@ class ExamController extends Controller
             'status' => 1,
         ]);
         return response()->json(['success'=>1],$this->success);
+    }
+
+    public function getStudentAnswer(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'item_ids'   =>  'required',
+            'student_id' =>  'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()],422);
+        }
+
+        $response = [];
+        foreach($request->item_ids as $item_id)
+        {
+            $examItem = ExamItem::find($item_id);
+            $answer = ExamAnswer::where('exam_item_id',$item_id)->where('student_id',$request->student_id)->first();
+            $answer->question = $examItem->question;
+            if($examItem->question->question_type == 'Pilihan Berganda')
+                $answer->answer;
+            $response[] = $answer;
+        }
+        return response()->json($response,$this->success);
+    }
+
+    public function getStudentTotalScore(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'exam_id'   =>  'required',
+            'student_id' =>  'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()],422);
+        }
+
+        $totalScore = 0;
+        $examItems = ExamItem::where('exam_id',$request->exam_id)->get();
+        foreach($examItems as $item)
+        {
+            $answer = ExamAnswer::where('exam_item_id',$item->id)->where('student_id',$request->student_id)->first();
+            $totalScore += $answer->score;
+        }
+
+        $totalScore = $totalScore / count($examItems);
+        return response()->json(["totalScore" => $totalScore],$this->success);
+    }
+
+    public function setStudentScore(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'answer_scores'   =>  'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()],422);
+        }
+
+        foreach($request->answer_scores as $id => $score)
+        {
+            $answer = ExamAnswer::find($id);
+            $answer->update([
+                'score' => $score
+            ]);
+        }
+
+        return response()->json(['success' => 1],$this->success);
     }
 
     public function create(Request $request){

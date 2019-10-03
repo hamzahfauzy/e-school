@@ -357,10 +357,10 @@
                 var val = event.target.value
                 this.roleTeacherShow = false
                 this.roleStudentShow = false
-                if(val == process.env.MIX_EL_TEACHER_ROLE_ID)
+                if(val == window.config.MIX_EL_TEACHER_ROLE_ID)
                 {
                     this.roleTeacherShow = true
-                    fetch(process.env.MIX_IS_URL+'/api/employee', {
+                    fetch(window.config.MIX_IS_URL+'/api/employee', {
                         headers:this.headers,
                     })
                     .then(res => res.json())
@@ -369,10 +369,10 @@
                     })
                 }
 
-                if(val == process.env.MIX_EL_STUDENT_ROLE_ID)
+                if(val == window.config.MIX_EL_STUDENT_ROLE_ID)
                 {
                     this.roleStudentShow = true
-                    fetch(process.env.MIX_IS_URL+'/api/student', {
+                    fetch(window.config.MIX_IS_URL+'/api/student', {
                         headers:this.headers,
                     })
                     .then(res => res.json())

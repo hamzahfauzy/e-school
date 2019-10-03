@@ -2082,7 +2082,7 @@ __webpack_require__.r(__webpack_exports__);
       window.location = "/login";
     }
 
-    this.es_env = "local";
+    this.es_env = window.config.MIX_ES_ENV;
     this.loadApplicationPortals();
   },
   methods: {
@@ -2577,7 +2577,7 @@ __webpack_require__.r(__webpack_exports__);
       window.location = "/login";
     }
 
-    this.es_env = "local";
+    this.es_env = window.config.MIX_ES_ENV;
     this.loadMenus();
   },
   methods: {
@@ -2851,7 +2851,7 @@ __webpack_require__.r(__webpack_exports__);
       window.location = "/login";
     }
 
-    this.es_env = "local";
+    this.es_env = window.config.MIX_ES_ENV;
     this.loadRoles();
   },
   methods: {
@@ -3370,9 +3370,9 @@ __webpack_require__.r(__webpack_exports__);
       this.roleTeacherShow = false;
       this.roleStudentShow = false;
 
-      if (val == "9") {
+      if (val == window.config.MIX_EL_TEACHER_ROLE_ID) {
         this.roleTeacherShow = true;
-        fetch("http://information-system.smkn1pr.com" + '/api/employee', {
+        fetch(window.config.MIX_IS_URL + '/api/employee', {
           headers: this.headers
         }).then(function (res) {
           return res.json();
@@ -3381,9 +3381,9 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
 
-      if (val == "10") {
+      if (val == window.config.MIX_EL_STUDENT_ROLE_ID) {
         this.roleStudentShow = true;
-        fetch("http://information-system.smkn1pr.com" + '/api/student', {
+        fetch(window.config.MIX_IS_URL + '/api/student', {
           headers: this.headers
         }).then(function (res) {
           return res.json();
@@ -54025,8 +54025,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Rizky Fadillah\Desktop\Programming\e-school\login\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/e-school/login/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/e-school/login/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -1,6 +1,6 @@
 require('./bootstrap');
-
 var Vue = require('vue');
+window.Swal = require('sweetalert2')
 
 Vue.component('admin-component', require('./components/AdminComponent.vue').default);
 Vue.component('sidebar-component', require('./components/SidebarComponent.vue').default);
@@ -12,6 +12,7 @@ Vue.component('question-component', require('./components/QuestionComponent.vue'
 Vue.component('exam-component', require('./components/ExamComponent.vue').default);
 Vue.component('show-question-component', require('./components/ShowQuestionComponent.vue').default);
 Vue.component('show-exam-component', require('./components/ShowExamComponent.vue').default);
+Vue.component('show-exam-answered-component', require('./components/ShowExamAnsweredComponent.vue').default);
 Vue.component('virtual-classroom-component', require('./components/VirtualClassroomComponent.vue').default);
 
 // Student

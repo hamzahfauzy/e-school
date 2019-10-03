@@ -30,6 +30,7 @@
 											<th>Kelas</th>
 											<th>Mata Pelajaran</th>
 											<th>File</th>
+											<th>Tanggal</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -39,13 +40,14 @@
 											<td>{{assignment.classroom ? assignment.classroom.name : assignment.classroom_id}}</td>
 											<td>{{assignment.study ? assignment.study.name : assignment.study_id}}</td>
 											<td><a :href="assignment.file_url">Download</a></td>
+											<td>{{assignment.created_at}}</td>
 											<td>
-												<!-- <a href="#editannouncement" data-toggle="modal" data-target="#addAnnouncement"class="badge badge-primary" @click="findAnnouncement(announcement.id)">edit</a> -->
+												<a href="javascript:void(0)"  data-toggle="modal" data-target="#showModal" class="badge badge-primary" @click="loadAssignmentAnswers(assignment.id)">Lihat</a>
 												<a href="javascript:void(0)" @click="deleteAssignment(assignment.id)" class="badge badge-danger">Hapus</a>
 											</td>
 										</tr>
 										<tr  v-if="!assignments.length" >
-											<td colspan="5">Tidak ada data</td>
+											<td colspan="6">Tidak ada data</td>
 										</tr>
 									</tbody>
 								</table>
@@ -95,6 +97,47 @@
 					</div>
 				</div>
 
+				<div class="modal fade" id="showModal">
+					<div class="modal-dialog" >
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Jawaban Tugas</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Siswa</th>
+											<th>File</th>
+											<th>Tanggal</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(assignment,index) in assignment_answers" :key="assignment.id">
+											<td>{{index+1}}</td>
+											<td>{{assignment.student ? assignment.student.name : assignment.student_id}}</td>
+											<td><a :href="assignment.file_url">Download</a></td>
+											<td>{{assignment.created_at}}</td>
+										</tr>
+										<tr  v-if="!assignments.length" >
+											<td colspan="4">Tidak ada data</td>
+										</tr>
+									</tbody>
+								</table>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<!-- /ADD MODAL -->
 
 	        </div>
@@ -113,7 +156,9 @@ export default {
 	data(){
         return{
             assignments:{},
+            assignment_answers:{},
             data:{},
+            students:{},
             token:'',
             headers:'',
             status:false,
@@ -132,17 +177,18 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         await this.fetchUserId()
         await this.findEmployee()
+        await this.loadStudents()
         this.loadAssignments()
     },
     methods:{
 
 		// ANNOUNCEMENT
 		async fetchUserId(){
-            let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+            let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
                 method:'post',
                 headers:this.headers
             });
@@ -170,6 +216,29 @@ export default {
                 vm.deleteStatus = false
             },2500)
 	        return data
+        },
+        async loadStudents(){
+            var vm = this
+            let response = await fetch(window.config.MIX_IS_URL+'/api/student',{
+	            headers:vm.headers,
+	        })
+	        let data = await response.json()
+	        this.students = await data
+	        return data
+        },
+        loadAssignmentAnswers(id){
+        	var vm = this
+        	fetch('api/assignment/get-answers/'+id,{
+                headers:this.headers,
+            })
+            .then(res => res.json())
+            .then(res=>{
+            	res.forEach((val,index) => {
+            		var student = vm.students.find(o => o.id == val.student_id)
+            		val.student = student
+            	})
+                this.assignment_answers = res
+            })
         },
         findAssignment(id){
             fetch('api/assignment/'+id,{
@@ -208,21 +277,40 @@ export default {
             })
         },
         deleteAssignment(assignment_id){
-            fetch('api/assignment/delete',{
-                method:'delete',
-                headers:this.headers,
-                body:JSON.stringify({id:assignment_id,teacher_id:this.other_id})
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.deleteStatus = true
-                this.loadAssignments()
-            })
+        	var vm = this
+        	Swal.fire({
+			  title: 'Apakah anda yakin akan menghapus data ini?',
+			  text: "Tindakan ini tidak dapat dikembalikan!",
+			  type: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: 'Tidak',
+			  confirmButtonText: 'Ya, Hapus data ini!'
+			}).then((result) => {
+			  if (result.value) {
+			  	fetch('api/assignment/delete',{
+	                method:'delete',
+	                headers:vm.headers,
+	                body:JSON.stringify({id:assignment_id,teacher_id:vm.other_id})
+	            })
+	            .then(res=>res.json())
+	            .then(res=>{
+	                vm.deleteStatus = true
+	                vm.loadAssignments()
+	                Swal.fire(
+				      'Terhapus!',
+				      'Data berhasil dihapus.',
+				      'success'
+				    )
+	            })
+			  }
+			})
 		},
 
 		// /ANNOUNCEMENT
 		loadEmployees(){
-			fetch(process.env.MIX_IS_URL+'/api/employee',{
+			fetch(window.config.MIX_IS_URL+'/api/employee',{
                 headers:this.headers,
             })
             .then(res => res.json())
@@ -231,7 +319,7 @@ export default {
             })
 		},
 		async findEmployee(){
-			let response = await fetch(process.env.MIX_IS_URL+'/api/employee/'+this.other_id,{
+			let response = await fetch(window.config.MIX_IS_URL+'/api/employee/'+this.other_id,{
                 headers:this.headers,
             });
             let data = await response.json()

@@ -150,7 +150,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         this.key_answer = this.key_answer_id
         await this.fetchUserId()
@@ -160,7 +160,7 @@ export default {
 
 		// ANNOUNCEMENT
 		async fetchUserId(){
-            let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+            let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
                 method:'post',
                 headers:this.headers
             });
@@ -237,16 +237,35 @@ export default {
             })
         },
         deleteAnswer(answer_id){
-            fetch('/api/answer/delete',{
-                method:'delete',
-                headers:this.headers,
-                body:JSON.stringify({id:answer_id,question_id:this.question_id})
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.deleteStatus = true
-                this.loadAnswers()
-            })
+        	var vm = this
+        	Swal.fire({
+			  title: 'Apakah anda yakin akan menghapus data ini?',
+			  text: "Tindakan ini tidak dapat dikembalikan!",
+			  type: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: 'Tidak',
+			  confirmButtonText: 'Ya, Hapus data ini!'
+			}).then((result) => {
+			  if (result.value) {
+			  	fetch('/api/answer/delete',{
+	                method:'delete',
+	                headers:vm.headers,
+	                body:JSON.stringify({id:answer_id,question_id:vm.question_id})
+	            })
+	            .then(res=>res.json())
+	            .then(res=>{
+	                vm.deleteStatus = true
+	                vm.loadAnswers()
+	                Swal.fire(
+				      'Terhapus!',
+				      'Data berhasil dihapus.',
+				      'success'
+				    )
+	            })
+			  }
+			})
 		},
     }
 }

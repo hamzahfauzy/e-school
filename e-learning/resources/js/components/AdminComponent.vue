@@ -7,7 +7,7 @@
 			      <div class="col-md-12 grid-margin">
 			        <div class="d-flex justify-content-between align-items-center">
 			          <div>
-			            <h4 class="font-weight-bold mb-0">Dashboard</h4>
+			            <h4 class="font-weight-bold mb-0" @click="showAlert()">Dashboard</h4>
 			          </div>
 			          <div>
 			            <button type="button" class="btn btn-primary btn-icon-text btn-rounded">
@@ -17,7 +17,7 @@
 			        </div>
 			      </div>
 			    </div>
-			    <div class="row" v-if="this.user_status == 1">
+			    <div class="row" v-if="this.user_status == 1 && announcements.length">
 			      <div class="col-12 grid-margin stretch-card">
 			        <div class="card">
 			          <div class="card-body">
@@ -66,17 +66,17 @@ export default {
     },
     methods:{
 	    async fetchUserId(){
-	      let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+	      let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
 	        method:'post',
 	        headers:this.headers
 	      });
 	      let data = await response.json()
 	      data.roles.forEach(val => {
-	      	if(process.env.MIX_EL_STUDENT_ROLE_ID == val.id)
+	      	if(window.config.MIX_EL_STUDENT_ROLE_ID == val.id)
 	      	{
 	      		this.user_status = 1
 	      	}
-	      	else if(process.env.MIX_EL_TEACHER_ROLE_ID == val.id)
+	      	else if(window.config.MIX_EL_TEACHER_ROLE_ID == val.id)
 	      	{
 	      		this.user_status = 2
 	      	}
@@ -101,7 +101,7 @@ export default {
 	    async loadUserFromIS(){
 	    	if(this.user_status == 2)
 	    	{
-		    	let response = await fetch(process.env.MIX_IS_URL+'/api/employee/'+this.other_id,{
+		    	let response = await fetch(window.config.MIX_IS_URL+'/api/employee/'+this.other_id,{
 	                headers:this.headers,
 	            });
 	            let data = await response.json()
@@ -111,7 +111,7 @@ export default {
 
 	    	if(this.user_status == 1)
 	    	{
-		    	let response = await fetch(process.env.MIX_IS_URL+'/api/student/'+this.other_id,{
+		    	let response = await fetch(window.config.MIX_IS_URL+'/api/student/'+this.other_id,{
 	                headers:this.headers,
 	            });
 	            let data = await response.json()
@@ -120,7 +120,7 @@ export default {
 	    	}
 	    },
 	    loadEmployees(){
-			fetch(process.env.MIX_IS_URL+'/api/employee',{
+			fetch(window.config.MIX_IS_URL+'/api/employee',{
                 headers:this.headers,
             })
             .then(res => res.json())
@@ -129,7 +129,7 @@ export default {
             })
 		},
 	    async findEmployee(id){
-			let response = await fetch(process.env.MIX_IS_URL+'/api/employee/'+id,{
+			let response = await fetch(window.config.MIX_IS_URL+'/api/employee/'+id,{
                 headers:this.headers,
             });
             let data = await response.json()

@@ -39,9 +39,14 @@ class HomeController extends Controller
             return view("student.exam",['role_id' => session('role_id')]);
     }
 
-    function showExam(Exam $exam){
+    function showExamAnswers(Exam $exam){
     	if(session('role_id') == env('MIX_EL_TEACHER_ROLE_ID'))
         	return view("teacher.show-exam",['role_id' => session('role_id'),'exam' => $exam]);
+    }
+
+    function showExamAnswered(Exam $exam){
+        if(session('role_id') == env('MIX_EL_TEACHER_ROLE_ID'))
+            return view("teacher.show-exam-answered",['role_id' => session('role_id'),'exam' => $exam]);
     }
 
     function panelExam(Exam $exam){

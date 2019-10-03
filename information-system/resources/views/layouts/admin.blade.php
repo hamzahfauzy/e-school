@@ -7,7 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Information System - @yield('title')</title>
-  <script type="text/javascript">window.Laravel = {csrfToken:'{{csrf_token()}}'}
+  <script src="{{ asset('js/config.js') }}" defer></script>
+  <script type="text/javascript">
+    window.Laravel = {csrfToken:'{{csrf_token()}}'}
 
     window.getCookie = (cname) => {
         var name = cname + "=";

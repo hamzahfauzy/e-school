@@ -20,7 +20,7 @@
             </a>
           </li>
         </ul>
-    </nav>
+  </nav>
 </template>
 
 <script>
@@ -40,7 +40,7 @@ export default {
   },
   async created(){
     this.token = window.getCookie('eschool_token_app')
-    this.cloud_url = process.env.MIX_CLOUD_URL
+    this.cloud_url = window.config.MIX_CLOUD_URL
     this.headers = {
       'Authorization': 'Bearer '+this.token,
       'Content-Type':'application/json'
@@ -50,7 +50,7 @@ export default {
   },
   methods:{
     async fetchUserId(){
-      let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+      let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
         method:'post',
         headers:this.headers
       });
@@ -59,7 +59,7 @@ export default {
       return data;
     },
     loadMenus(){
-        fetch(process.env.MIX_ES_URL+'/api/role/'+this.role_id+'/menu', {
+        fetch(window.config.MIX_ES_URL+'/api/role/'+this.role_id+'/menu', {
             headers:this.headers,
         })
         .then(res => res.json())

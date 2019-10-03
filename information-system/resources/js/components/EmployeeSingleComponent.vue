@@ -11,15 +11,15 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <p class="alert alert-success" v-if="deleteStatus">delete mata pelajaran dan ruang kelas success</p>
+                        <p class="alert alert-success" v-if="deleteStatus">Hapus Mata Pelajaran dan Ruang Kelas Berhasil</p>
                         <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>Mata Pelajaran</th>
                                     <th>Kelas</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,7 +28,7 @@
                                     <td>{{study.name}}</td>
                                     <td>{{employeeClassRooms[index].name}}</td>
                                     <td>
-                                        <a href="#" class="badge badge-danger" @click="deleteStudy(study.id,employeeClassRooms[index].id)">delete</a>
+                                        <a href="#" class="badge badge-danger" @click="deleteStudy(study.id,employeeClassRooms[index].id)">Hapus</a>
                                     </td>
                                 </tr>
                                 <tr  v-if="!employeeStudies.length" >
@@ -53,7 +53,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p v-if="status" class="alert alert-success">tambah mata pelajaran dan ruang kelas sukses</p>
+                            <p v-if="status" class="alert alert-success">Tambah Mata Pelajaran dan Ruang Kelas Berhasil</p>
                             <div class="form-group">
                                 <label>Mata Pelajaran</label>
                                 <select v-model="data.study_id" class="form-control">
@@ -104,7 +104,7 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === '' ){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         this.loadEmployee()
         this.getStudies()

@@ -15,7 +15,7 @@
 									<div class="row">
 										<div class="col-sm-12 col-md-6" v-if="question.question && question.question.question_type == 'Pilihan Berganda'" v-for="(ans,i) in answer">
 											<div class="inputGroup">
-											    <input :id="'radio'+i" name="radio" type="radio" :value="ans.id" :readonly="exam_status == 1" v-model="answers[index]"/>
+											    <input :id="'radio'+i" name="radio" type="radio" :value="ans.id" :disabled="exam_status == 1" v-model="answers[index]"/>
 											    <label :for="'radio'+i">{{ans.title}}</label>
 											</div>
 										</div>
@@ -25,17 +25,32 @@
 										</div>
 									</div>
 								</div>
-								<button class="btn btn-primary" v-if="index > 0" @click="prev()"><i class="ti ti-arrow-left"></i> Soal Sebelumnya</button>
-								<button class="btn btn-success" v-if="index < items.length-1 && exam_status == 0" @click="next()"><i class="ti ti-arrow-right"></i> Jawab</button>
-								<button class="btn btn-primary" v-if="index < items.length-1 && exam_status == 1" @click="next()"><i class="ti ti-arrow-right"></i> Soal Berikutnya</button>
-								<button class="btn btn-warning" v-if="index == items.length-1 && exam_status == 0" @click="finish()">Selesai</button>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+  								  <button class="btn btn-primary" v-if="index > 0" @click="prev()"><i class="ti ti-arrow-left"></i> Soal Sebelumnya</button>
+                  </div>
+                  <div>
+    								<button class="btn btn-success" v-if="index < items.length-1 && exam_status == 0" @click="next()"><i class="ti ti-arrow-right"></i> Jawab</button>
+    								<button class="btn btn-primary" v-if="index < items.length-1 && exam_status == 1" @click="next()"><i class="ti ti-arrow-right"></i> Soal Berikutnya</button>
+    								<button class="btn btn-warning" v-if="index == items.length-1 && exam_status == 0" @click="finish()">Selesai</button>
+                  </div>
+                </div>
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-4 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								
+								<h4>Navigasi Soal</h4>
+                  <div class="navigasi-grid-container">
+                    <div class="navigasi-grid" v-for="(item,idx) in items">
+                      <center>
+                        <a href="javascript:void(0)" @click="jumpQuestion(idx)" class="btn-me" :class="idx == index ? 'active' : (isAnswered(idx) ? 'answered' : '')">
+                          {{idx+1}}
+                        </a>
+                      </center>
+                    </div>
+                  </div>
 							</div>
 						</div>
 					</div>
@@ -52,31 +67,31 @@
 <script>
 export default {
     props:{
-		role_id:0,
-		exam_id:0,
-		study_id:0,
-	},
-	data(){
-        return{
-            items:{},
-            exam:{},
-            exam_status:0,
-            answers:{},
-            answered:{},
-            answer:{},
-            questions:{},
-            data:{},
-            index:0,
-            question:{},
-            token:'',
-            headers:'',
-			employees:{},
-			user_id:0,
-			other_id:0,
-			item_id:0,
-			employee:{},
-			eS:false
-        }
+  		role_id:0,
+  		exam_id:0,
+  		study_id:0,
+  	},
+  	data(){
+      return{
+        items:{},
+        exam:{},
+        exam_status:0,
+        answers:{},
+        answered:{},
+        answer:{},
+        questions:{},
+        data:{},
+        index:0,
+        question:{},
+        token:'',
+        headers:'',
+  			employees:{},
+  			user_id:0,
+  			other_id:0,
+  			item_id:0,
+  			employee:{},
+  			eS:false
+      }
     },
     async created(){
         this.token = window.getCookie('eschool_token_app')
@@ -85,18 +100,16 @@ export default {
             'Content-Type':'application/json'
         }
         if(this.token === undefined || this.token === null || this.token === ''){
-            window.location = process.env.MIX_ES_URL+'/login'
+            window.location = window.config.MIX_ES_URL+'/login'
         }
         await this.fetchUserId()
         await this.loadItems()
         await this.loadAnswers()
-        // await this.loadQuestions()
     },
     methods:{
-
-		// ANNOUNCEMENT
-		async fetchUserId(){
-            let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+		    // ANNOUNCEMENT
+		    async fetchUserId(){
+            let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
                 method:'post',
                 headers:this.headers
             });
@@ -134,7 +147,8 @@ export default {
         async prev(){
         	var item = this.items[this.index]
         	this.answered[this.index] = {exam_item_id:item.id,student_id:this.other_id,question_type:item.question.question_type,answer:this.answers[this.index] ? this.answers[this.index] : ''}
-        	await this.sendAnswers()
+          if(!this.exam_status)
+        	 await this.sendAnswers()
         	this.index--
         	this.question = this.items[this.index]
         	this.loadAnswer()
@@ -142,10 +156,19 @@ export default {
         async next(){
         	var item = this.items[this.index]
         	this.answered[this.index] = {exam_item_id:item.id,student_id:this.other_id,question_type:item.question.question_type,answer:this.answers[this.index] ? this.answers[this.index] : ''}
-        	await this.sendAnswers()
+          if(!this.exam_status)
+        	 await this.sendAnswers()
         	this.index++
         	this.question = this.items[this.index]
         	this.loadAnswer()
+        },
+        async jumpQuestion(index){
+          this.question = this.items[index]
+          this.index = index
+          this.loadAnswer()
+        },
+        isAnswered(index){
+          return this.answers[index]
         },
         async sendAnswers(){
         	var vm = this
@@ -189,17 +212,36 @@ export default {
         	var item = this.items[this.index]
         	this.answered[this.index] = {exam_item_id:item.id,student_id:this.other_id,question_type:item.question.question_type,answer:this.answers[this.index] ? this.answers[this.index] : ''}
         	await this.sendAnswers()
-
-        	var data = {exam_id:this.exam_id,student_id:this.other_id}
-        	fetch('/api/exam/finish',{
-                method:'post',
-                headers:this.headers,
-                body:JSON.stringify(data)
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.loadItems()
-            })
+          var vm = this
+          Swal.fire({
+            title: 'Apakah anda yakin menyelesaikan kuis ini?',
+            text: "Tindakan ini tidak dapat dikembalikan!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Tidak',
+            confirmButtonText: 'Ya'
+          }).then(async result => {
+            if (result.value) {
+              var data = {exam_id:vm.exam_id,student_id:vm.other_id}
+              fetch('/api/exam/finish',{
+                  method:'post',
+                  headers:vm.headers,
+                  body:JSON.stringify(data)
+              })
+              .then(res=>res.json())
+              .then(res=>{
+                  vm.loadItems()
+                  Swal.fire(
+                    'Selesai!',
+                    'Anda telah menyelesaikan kuis ini.',
+                    'success'
+                  )
+              })
+            }
+          })
+        	
         },
         findAnswer(id){
             fetch('/api/exam_item/get/'+id,{
@@ -209,38 +251,43 @@ export default {
             .then(res=>{
                 this.data = res
             })
-        },
-        addItem(){
-        	this.data.exam_id = this.exam_id
-            fetch('/api/exam_item/create',{
-                method:'post',
-                headers:this.headers,
-                body:JSON.stringify(this.data)
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.status = true
-                this.data = {}
-                this.loadItems()
-            })
-        },
-        deleteItem(item_id){
-            fetch('/api/exam_item/delete',{
-                method:'delete',
-                headers:this.headers,
-                body:JSON.stringify({id:item_id,exam_id:this.exam_id})
-            })
-            .then(res=>res.json())
-            .then(res=>{
-                this.deleteStatus = true
-                this.loadItems()
-            })
-		},
+        }
     }
 }
 </script>
 
 <style type="text/css">
+.navigasi-grid-container {
+  width: 100%;
+}
+.navigasi-grid {
+  width: 33%;
+  float: left;
+}
+a.btn-me {
+  width: 100%;
+  height: 100%;
+  border:1px solid #eaeaea;
+  text-decoration:none;
+  padding: 10px;
+  display: inline-block;
+}
+.btn-me.active {
+  background-color: red;
+}
+.btn-me.answered {
+  background-color: #5562eb;
+}
+.btn-me.active, .btn-me.answered {
+  color: #FFF;
+}
+/*.btn-me {
+  background-color: transparent;
+  border:0px;
+  padding: 10px;
+  display: inline-block;
+  text-decoration: none;
+}*/
 .inputGroup {
   background-color: #fff;
   display: block;

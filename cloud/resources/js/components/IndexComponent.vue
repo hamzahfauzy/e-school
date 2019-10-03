@@ -149,7 +149,7 @@ export default {
   },
   async created(){
     this.token = window.getCookie('eschool_token_app')
-    this.cloud_url = process.env.MIX_CLOUD_URL
+    this.cloud_url = window.config.MIX_CLOUD_URL
     this.headers = {
       'Authorization': 'Bearer '+this.token,
       'Content-Type':'application/json'
@@ -162,7 +162,7 @@ export default {
   },
   methods:{
     async fetchUserId(){
-      let response = await fetch(process.env.MIX_ES_URL+'/api/details',{
+      let response = await fetch(window.config.MIX_ES_URL+'/api/details',{
         method:'post',
         headers:this.headers
       });
@@ -186,7 +186,7 @@ export default {
       })
     },
     loadSize(){
-      fetch(process.env.MIX_ES_URL+'/api/cloud/index',{
+      fetch(window.config.MIX_ES_URL+'/api/cloud/index',{
         headers:this.headers,
       })
       .then(res=>res.json())
@@ -208,7 +208,7 @@ export default {
       })
     },
     loadUsers(){
-            fetch(process.env.MIX_ES_URL+"/api/user",{
+            fetch(window.config.MIX_ES_URL+"/api/user",{
                 headers:this.headers
             })
             .then(res=>res.json())

@@ -1986,7 +1986,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
+      window.location = window.config.MIX_ES_URL + '/login';
     }
 
     this.loadClassRooms();
@@ -2201,7 +2201,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
+      window.location = window.config.MIX_ES_URL + '/login';
     }
 
     this.loadStudents();
@@ -2472,7 +2472,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
+      window.location = window.config.MIX_ES_URL + '/login';
     }
 
     this.loadEmployees();
@@ -2668,7 +2668,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
+      window.location = window.config.MIX_ES_URL + '/login';
     }
 
     this.loadEmployee();
@@ -2871,7 +2871,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
+      window.location = window.config.MIX_ES_URL + '/login';
     }
 
     this.loadMajors();
@@ -3137,7 +3137,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
+      window.location = window.config.MIX_ES_URL + '/login';
     }
 
     this.loadSchedules();
@@ -3428,7 +3428,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
+      window.location = window.config.MIX_ES_URL + '/login';
     }
 
     this.loadStudents();
@@ -3631,7 +3631,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     if (this.token === undefined || this.token === null || this.token === '') {
-      window.location = "http://eschool.smkn1pr.sch.id" + '/login';
+      window.location = window.config.MIX_ES_URL + '/login';
     }
 
     this.loadStudies();
@@ -21342,7 +21342,7 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.deleteStatus
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete ruang kelas success")
+                  _vm._v("Hapus Ruang Kelas Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -21370,7 +21370,7 @@ var render = function() {
                               staticClass: "badge badge-success",
                               attrs: { href: "/class_rooms/" + class_room.name }
                             },
-                            [_vm._v("view")]
+                            [_vm._v("Lihat")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -21387,7 +21387,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("edit")]
+                            [_vm._v("Edit")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -21401,7 +21401,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("delete")]
+                            [_vm._v("Hapus")]
                           )
                         ])
                       ])
@@ -21443,7 +21443,7 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _vm.status
                   ? _c("p", { staticClass: "alert alert-success" }, [
-                      _vm._v("tambah ruang kelas sukses")
+                      _vm._v("Tambah Ruang Kelas Berhasil")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
@@ -21592,7 +21592,7 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _vm.status
                   ? _c("p", { staticClass: "alert alert-success" }, [
-                      _vm._v("edit ruang kelas sukses")
+                      _vm._v("Edit Ruang Kelas Berhasil")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
@@ -21755,7 +21755,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("No")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nama")]),
         _vm._v(" "),
@@ -21763,7 +21763,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Wali Kelas")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
+        _c("th")
       ])
     ])
   },
@@ -21814,7 +21814,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("edit Ruang Kelas")]),
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Edit Ruang Kelas")]),
       _vm._v(" "),
       _c(
         "button",
@@ -21895,7 +21895,7 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.deleteStatus
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete ruang kelas success")
+                  _vm._v("Hapus Siswa Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -21966,7 +21966,7 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _vm.status
                   ? _c("p", { staticClass: "alert alert-success" }, [
-                      _vm._v("tambah siswa sukses")
+                      _vm._v("Tambah Siswa Berhasil")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
@@ -22057,11 +22057,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("No")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nama Siswa")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
+        _c("th")
       ])
     ])
   },
@@ -22138,7 +22138,7 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.deleteStatus
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete pegawai success")
+                  _vm._v("Hapus Pegawai Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -22172,7 +22172,7 @@ var render = function() {
                               staticClass: "badge badge-success",
                               attrs: { href: "/employees/" + employee.name }
                             },
-                            [_vm._v("view")]
+                            [_vm._v("Lihat")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -22189,7 +22189,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("edit")]
+                            [_vm._v("Edit")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -22203,7 +22203,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("delete")]
+                            [_vm._v("Hapus")]
                           )
                         ])
                       ])
@@ -22234,7 +22234,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("tambah pegawai sukses")
+                  _vm._v("Tambah Pegawai Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -22463,7 +22463,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("edit pegawai sukses")
+                  _vm._v("Edit Pegawai Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -22722,7 +22722,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("No")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("NIP")]),
         _vm._v(" "),
@@ -22736,7 +22736,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Status Pegawai")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
+        _c("th")
       ])
     ])
   },
@@ -22813,7 +22813,7 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.deleteStatus
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete mata pelajaran dan ruang kelas success")
+                  _vm._v("Hapus Mata Pelajaran dan Ruang Kelas Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -22849,7 +22849,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("delete")]
+                            [_vm._v("Hapus")]
                           )
                         ])
                       ])
@@ -22891,7 +22891,7 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _vm.status
                   ? _c("p", { staticClass: "alert alert-success" }, [
-                      _vm._v("tambah mata pelajaran dan ruang kelas sukses")
+                      _vm._v("Tambah Mata Pelajaran dan Ruang Kelas Berhasil")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
@@ -23035,13 +23035,13 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("No")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Mata Pelajaran")]),
         _vm._v(" "),
         _c("th", [_vm._v("Kelas")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
+        _c("th")
       ])
     ])
   },
@@ -23120,7 +23120,7 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.deleteStatus
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete jurusan success")
+                  _vm._v("Hapus Jurusan Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -23152,7 +23152,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("edit")]
+                            [_vm._v("Edit")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -23166,7 +23166,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("delete")]
+                            [_vm._v("Hapus")]
                           )
                         ])
                       ])
@@ -23197,7 +23197,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("tambah jurusan sukses")
+                  _vm._v("Tambah Jurusan Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -23361,11 +23361,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("No")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nama")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
+        _c("th")
       ])
     ])
   },
@@ -23442,7 +23442,7 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.deleteStatus
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete jadwal success")
+                  _vm._v("Hapus Jadwal Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -23494,7 +23494,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("delete")]
+                            [_vm._v("Hapus")]
                           )
                         ])
                       ])
@@ -23525,7 +23525,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("tambah jadwal sukses")
+                  _vm._v("Tambah Jadwal Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -23800,7 +23800,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("edit jadwal sukses")
+                  _vm._v("Edit Jadwal Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -24185,7 +24185,7 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.deleteStatus
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete student success")
+                  _vm._v("Hapus Siswa Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -24223,7 +24223,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("edit")]
+                            [_vm._v("Edit")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -24237,7 +24237,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("delete")]
+                            [_vm._v("Hapus")]
                           )
                         ])
                       ])
@@ -24268,7 +24268,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("tambah siswa sukses")
+                  _vm._v("Tambah Siswa Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -24445,7 +24445,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("edit siswa sukses")
+                  _vm._v("Edit Siswa Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -24739,7 +24739,7 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.deleteStatus
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("delete jurusan success")
+                  _vm._v("Hapus Mata Pelajaran Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -24771,7 +24771,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("edit")]
+                            [_vm._v("Edit")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -24785,7 +24785,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("delete")]
+                            [_vm._v("Hapus")]
                           )
                         ])
                       ])
@@ -24816,7 +24816,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("tambah mata pelajaran sukses")
+                  _vm._v("Tambah Mata Pelajaran Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -24883,7 +24883,7 @@ var render = function() {
           _c("div", { staticClass: "modal-body" }, [
             _vm.status
               ? _c("p", { staticClass: "alert alert-success" }, [
-                  _vm._v("edit mata pelajaran sukses")
+                  _vm._v("Edit Mata Pelajaran Berhasil")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -24980,11 +24980,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("No")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nama")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Aksi")])
+        _c("th")
       ])
     ])
   },
